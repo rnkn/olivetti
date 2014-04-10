@@ -115,7 +115,7 @@ Can cause display issues in console mode."
   "Olivetti provides a nice writing environment.
 
 Window margins are set to relative widths to accomodate a text
-body width in columns of `olivetti-body-width', an integer.
+body width set in `olivetti-body-width'.
 
 When `olivetti-hide-mode-line' is non-nil, the mode line is also
 hidden."
