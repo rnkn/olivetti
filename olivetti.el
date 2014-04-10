@@ -31,23 +31,67 @@
   :group 'fountain
   :group 'markdown)
 
-(defcustom olivetti-body-width 66
-  "Text body width in columns to which to adjust margin width.
-
-Does not affect file contents."
-  :type 'integer
+(defcustom olivetti-mode-hook
+  '(turn-on-visual-line-mode)
+  "Mode hook for `olivetti-mode', run after mode is turned on."
+  :type 'hook
   :group 'olivetti)
 
-(defcustom olivetti-hide-mode-line t
-  "Hide the mode line."
+(defcustom olivetti-body-width 66
+  "Text body width to which to adjust relative margin width.
+
+If an integer, set text body width to that integer in columns; if
+a floating point between 0.0 and 1.0, set text body width to
+that fraction of the total window width.
+
+An integer is best if you want text body width to remain
+constant, while a floating point is best if you want text body
+width to change with window width.
+
+The floating point can anything between 0.0 and 1.0 (exclusive),
+but it's better to use a value between about 0.33 and 0.9 for
+best effect.
+
+This option does not affect file contents."
+  :type '(choice (integer 66) (float 0.5))
+  :group 'olivetti)
+
+(defcustom olivetti-hide-tool-bar t
+  "Turn off `tool-bar-mode'."
   :type 'boolean
   :group 'olivetti)
 
-(defun olivetti-set-window-margins ()
-  "Set window-body-width to `olivetti-body-width' with relative margins."
-  (let ((margin
-         (/ (- (window-total-width) olivetti-body-width) 2)))
-    (set-window-margins (selected-window) margin margin)))
+(defcustom olivetti-hide-mode-line t
+  "Hide the mode line.
+Can cause display issues in console mode."
+  :type 'boolean
+  :group 'olivetti)
+
+(defcustom olivetti-hide-fringes t
+  "Hide fringes."
+  :type 'boolean
+  :group 'olivetti)
+
+(defcustom olivetti-delete-selection t
+  "Turn on `delete-selection-mode'."
+  :type 'boolean
+  :group 'olivetti)
+
+(defun olivetti-set-environment ()
+  "Set text body width to `olivetti-body-width' with relative margins."
+  (let* ((n olivetti-body-width)
+         (width
+          (cond ((integerp n) n)
+                ((and (floatp n)
+                      (< n 1)
+                      (> n 0))
+                 (* (window-total-width) n))
+                ((error "`olivetti-body-width' must be an integer or a floating point between 0.0 and 1.0"))))
+         (margin
+          (round (/ (- (window-total-width) width) 2))))
+    (set-window-margins (selected-window) margin margin))
+  (when olivetti-hide-fringes
+    (set-window-fringes (selected-window) 0 0 t)))
 
 ;; (easy-menu-define olivetti-mode-menu olivetti-mode-map
 ;;   "Menu for Olivetti Mode."
@@ -68,20 +112,30 @@ Does not affect file contents."
 
 ;;;###autoload
 (define-minor-mode olivetti-mode
-  ""
+  "Olivetti provides a nice writing environment.
+
+Window margins are set to relative widths to accomodate a text
+body width in columns of `olivetti-body-width', an integer.
+
+When `olivetti-hide-mode-line' is non-nil, the mode line is also
+hidden."
   :init-value nil
   :lighter " Olv"
   (if olivetti-mode
       (progn
         (setq-local scroll-conservatively 101)
+        (when olivetti-hide-tool-bar
+          (tool-bar-mode 0))
         (when olivetti-hide-mode-line
           (setq-local mode-line-format nil))
+        (when olivetti-delete-selection
+          (delete-selection-mode 1))
         (add-hook 'window-configuration-change-hook
-                  'olivetti-set-window-margins nil t)
-        (run-hook-with-args 'window-configuration-change-hook))
+                  'olivetti-set-environment nil t)
+        (run-hooks 'window-configuration-change-hook))
     (kill-local-variable 'mode-line-format)
     (remove-hook 'window-configuration-change-hook
-                 'olivetti-set-window-margins t)
+                 'olivetti-set-environment t)
     (set-window-margins nil nil)))
 
 (provide 'olivetti)
