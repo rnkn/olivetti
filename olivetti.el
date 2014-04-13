@@ -20,7 +20,7 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
 
@@ -54,6 +54,11 @@ best effect.
 
 This option does not affect file contents."
   :type '(choice (integer 66) (float 0.5))
+  :group 'olivetti)
+
+(defcustom olivetti-hide-menu-bar nil
+  "Turn off `menu-bar-mode'."
+  :type 'boolean
   :group 'olivetti)
 
 (defcustom olivetti-hide-tool-bar t
@@ -93,16 +98,22 @@ Can cause display issues in console mode."
   (when olivetti-hide-fringes
     (set-window-fringes (selected-window) 0 0 t)))
 
-;; (easy-menu-define olivetti-mode-menu olivetti-mode-map
-;;   "Menu for Olivetti Mode."
-;;   '("Olivetti"
-;;     ["Use Clean Margins" ignore]
-;;     ["Hide Mode Line" ignore
-;;      :style toggle
-;;      :selected olivetti-hide-mode-line]))
+(defvar olivetti-mode-map
+  (make-sparse-keymap)
+  "Mode map for `olivetti-mode'.")
 
-;; (defvar olivetti-mode-map nil
-;;   "Mode map for `olivetti-mode'.")
+(easy-menu-define olivetti-mode-menu olivetti-mode-map
+  "Menu for Olivetti Mode."
+  '("Olivetti"
+    ["Hide Menu Bar" ignore
+     :style toggle
+     :selected olivetti-hide-menu-bar]
+    ["Hide Tool Bar" ignore
+     :style toggle
+     :selected olivetti-hide-tool-bar]
+    ["Hide Mode Line" ignore
+     :style toggle
+     :selected olivetti-hide-mode-line]))
 
 ;;;###autoload
 (defun turn-on-olivetti-mode ()
@@ -124,6 +135,8 @@ hidden."
   (if olivetti-mode
       (progn
         (setq-local scroll-conservatively 101)
+        (when olivetti-hide-menu-bar
+          (menu-bar-mode 0))
         (when olivetti-hide-tool-bar
           (tool-bar-mode 0))
         (when olivetti-hide-mode-line
