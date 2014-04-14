@@ -31,6 +31,8 @@
   :group 'fountain
   :group 'markdown)
 
+;;; customizable variables =============================================
+
 (defcustom olivetti-mode-hook
   '(turn-on-visual-line-mode)
   "Mode hook for `olivetti-mode', run after mode is turned on."
@@ -66,9 +68,10 @@ This option does not affect file contents."
   :type 'boolean
   :group 'olivetti)
 
-(defcustom olivetti-hide-mode-line t
+(defcustom olivetti-hide-mode-line nil
   "Hide the mode line.
-Can cause display issues in console mode."
+Default is nil because this can cause display issues in console
+mode."
   :type 'boolean
   :group 'olivetti)
 
@@ -81,6 +84,21 @@ Can cause display issues in console mode."
   "Turn on `delete-selection-mode'."
   :type 'boolean
   :group 'olivetti)
+
+;;; functions ==========================================================
+
+(defun olivetti-set-mode-line (&optional arg)
+  (interactive)
+  (cond ((equal arg 'toggle)
+         (setq olivetti-hide-mode-line
+               (null olivetti-hide-mode-line))
+         (olivetti-set-mode-line))
+        ((or (equal arg 'exit)
+             (null olivetti-hide-mode-line))
+         (kill-local-variable 'mode-line-format))
+        (olivetti-hide-mode-line
+         (setq-local mode-line-format nil)))
+  (redraw-frame (selected-frame)))
 
 (defun olivetti-set-environment ()
   "Set text body width to `olivetti-body-width' with relative margins."
@@ -98,6 +116,8 @@ Can cause display issues in console mode."
   (when olivetti-hide-fringes
     (set-window-fringes (selected-window) 0 0 t)))
 
+;;; menu ===============================================================
+
 (defvar olivetti-mode-map
   (make-sparse-keymap)
   "Mode map for `olivetti-mode'.")
@@ -111,9 +131,11 @@ Can cause display issues in console mode."
     ["Hide Tool Bar" ignore
      :style toggle
      :selected olivetti-hide-tool-bar]
-    ["Hide Mode Line" ignore
+    ["Hide Mode Line" (olivetti-set-mode-line 'toggle)
      :style toggle
      :selected olivetti-hide-mode-line]))
+
+;; mode definition =====================================================
 
 ;;;###autoload
 (defun turn-on-olivetti-mode ()
@@ -134,19 +156,18 @@ hidden."
   :lighter " Olv"
   (if olivetti-mode
       (progn
+        (olivetti-set-mode-line)
         (setq-local scroll-conservatively 101)
         (when olivetti-hide-menu-bar
           (menu-bar-mode 0))
         (when olivetti-hide-tool-bar
           (tool-bar-mode 0))
-        (when olivetti-hide-mode-line
-          (setq-local mode-line-format nil))
         (when olivetti-delete-selection
           (delete-selection-mode 1))
         (add-hook 'window-configuration-change-hook
                   'olivetti-set-environment nil t)
         (run-hooks 'window-configuration-change-hook))
-    (kill-local-variable 'mode-line-format)
+    (olivetti-set-mode-line 'exit)
     (remove-hook 'window-configuration-change-hook
                  'olivetti-set-environment t)
     (set-window-margins nil nil)))
