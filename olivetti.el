@@ -58,25 +58,10 @@ This option does not affect file contents."
   :type '(choice (integer 66) (float 0.5))
   :group 'olivetti)
 
-(defcustom olivetti-hide-menu-bar nil
-  "Turn off `menu-bar-mode'."
-  :type 'boolean
-  :group 'olivetti)
-
-(defcustom olivetti-hide-tool-bar t
-  "Turn off `tool-bar-mode'."
-  :type 'boolean
-  :group 'olivetti)
-
 (defcustom olivetti-hide-mode-line nil
   "Hide the mode line.
 Default is nil because this can cause display issues in console
 mode."
-  :type 'boolean
-  :group 'olivetti)
-
-(defcustom olivetti-hide-fringes t
-  "Hide fringes."
   :type 'boolean
   :group 'olivetti)
 
@@ -112,28 +97,7 @@ mode."
                 ((error "`olivetti-body-width' must be an integer or a floating point between 0.0 and 1.0"))))
          (margin
           (round (/ (- (window-total-width) width) 2))))
-    (set-window-margins (selected-window) margin margin))
-  (when olivetti-hide-fringes
-    (set-window-fringes (selected-window) 0 0 t)))
-
-;;; menu ===============================================================
-
-(defvar olivetti-mode-map
-  (make-sparse-keymap)
-  "Mode map for `olivetti-mode'.")
-
-(easy-menu-define olivetti-mode-menu olivetti-mode-map
-  "Menu for Olivetti Mode."
-  '("Olivetti"
-    ["Hide Menu Bar" ignore
-     :style toggle
-     :selected olivetti-hide-menu-bar]
-    ["Hide Tool Bar" ignore
-     :style toggle
-     :selected olivetti-hide-tool-bar]
-    ["Hide Mode Line" (olivetti-set-mode-line 'toggle)
-     :style toggle
-     :selected olivetti-hide-mode-line]))
+    (set-window-margins (selected-window) margin margin)))
 
 ;; mode definition =====================================================
 
@@ -158,10 +122,6 @@ hidden."
       (progn
         (olivetti-set-mode-line)
         (setq-local scroll-conservatively 101)
-        (when olivetti-hide-menu-bar
-          (menu-bar-mode 0))
-        (when olivetti-hide-tool-bar
-          (tool-bar-mode 0))
         (when olivetti-delete-selection
           (delete-selection-mode 1))
         (add-hook 'window-configuration-change-hook
@@ -170,7 +130,7 @@ hidden."
     (olivetti-set-mode-line 'exit)
     (remove-hook 'window-configuration-change-hook
                  'olivetti-set-environment t)
-    (set-window-margins nil nil)))
+    (redraw-frame (selected-frame))))
 
 (provide 'olivetti)
 ;;; olivetti.el ends here
