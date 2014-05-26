@@ -27,9 +27,7 @@
 (defgroup olivetti ()
   "Minor mode for a nice writing environment"
   :prefix "olivetti-"
-  :group 'wp
-  :group 'fountain
-  :group 'markdown)
+  :group 'wp)
 
 ;;; customizable variables =============================================
 
@@ -60,8 +58,7 @@ This option does not affect file contents."
 
 (defcustom olivetti-hide-mode-line nil
   "Hide the mode line.
-Default is nil because this can cause display issues in console
-mode."
+Can cause display issues in console mode."
   :type 'boolean
   :group 'olivetti)
 
@@ -73,7 +70,11 @@ mode."
 ;;; functions ==========================================================
 
 (defun olivetti-set-mode-line (&optional arg)
-  (interactive)
+  "Set the mode line formating appropriately.
+If ARG is 'toggle, toggle the value of `olivetti-hide-mode-line',
+then rerun. If ARG is 'exit, kill `mode-line-format' then rerun.
+If ARG is nil and `olivetti-hide-mode-line' is non-nil, hide the
+mode line. Finally redraw the frame."
   (cond ((equal arg 'toggle)
          (setq olivetti-hide-mode-line
                (null olivetti-hide-mode-line))
