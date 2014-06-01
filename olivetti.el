@@ -129,9 +129,9 @@ hidden."
                   'olivetti-set-environment nil t)
         (run-hooks 'window-configuration-change-hook))
     (olivetti-set-mode-line 'exit)
+    (set-window-margins nil nil)
     (remove-hook 'window-configuration-change-hook
-                 'olivetti-set-environment t)
-    (redraw-frame (selected-frame))))
+                 'olivetti-set-environment t)))
 
 (provide 'olivetti)
 ;;; olivetti.el ends here
