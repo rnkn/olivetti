@@ -127,7 +127,7 @@ hidden."
           (delete-selection-mode 1))
         (add-hook 'window-configuration-change-hook
                   'olivetti-set-environment nil t)
-        (run-hooks 'window-configuration-change-hook))
+        (run-window-configuration-change-hook))
     (olivetti-set-mode-line 'exit)
     (set-window-margins nil nil)
     (remove-hook 'window-configuration-change-hook
