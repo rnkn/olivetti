@@ -29,7 +29,7 @@
   :prefix "olivetti-"
   :group 'wp)
 
-;;; customizable variables =============================================
+;;; Customizable Variables =====================================================
 
 (defcustom olivetti-mode-hook
   '(turn-on-visual-line-mode)
@@ -67,7 +67,7 @@ Can cause display issues in console mode."
   :type 'boolean
   :group 'olivetti)
 
-;;; functions ==========================================================
+;;; Functions ==================================================================
 
 (defun olivetti-set-mode-line (&optional arg)
   "Set the mode line formating appropriately.
