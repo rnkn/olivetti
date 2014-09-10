@@ -100,7 +100,14 @@ mode line. Finally redraw the frame."
           (round (/ (- (window-total-width) width) 2))))
     (set-window-margins (selected-window) margin margin)))
 
-;; mode definition =====================================================
+(defun olivetti-toggle-hide-modeline ()
+  "Toggle the visibility of the modeline.
+Toggles the value of `olivetti-hide-mode-line' and runs
+`olivetti-set-mode-line'."
+  (interactive)
+  (olivetti-set-mode-line 'toggle))
+
+;; Mode Definition =============================================================
 
 ;;;###autoload
 (defun turn-on-olivetti-mode ()
