@@ -62,11 +62,6 @@ Can cause display issues in console mode."
   :type 'boolean
   :group 'olivetti)
 
-(defcustom olivetti-delete-selection t
-  "Turn on `delete-selection-mode'."
-  :type 'boolean
-  :group 'olivetti)
-
 ;;; Functions ==================================================================
 
 (defun olivetti-set-mode-line (&optional arg)
@@ -128,10 +123,8 @@ hidden."
   :lighter " Olv"
   (if olivetti-mode
       (progn
-        (olivetti-set-mode-line)
-        (setq-local scroll-conservatively 101)
-        (when olivetti-delete-selection
-          (delete-selection-mode 1))
+        (if olivetti-hide-mode-line
+            (olivetti-set-mode-line))
         (add-hook 'window-configuration-change-hook
                   'olivetti-set-environment nil t)
         (run-hooks 'window-configuration-change-hook))
