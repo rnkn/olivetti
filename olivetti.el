@@ -129,11 +129,12 @@ mode line. Finally redraw the frame."
                 ((and (floatp n)
                       (< n 1)
                       (> n 0))
-                 (* (window-total-width) n))
-                ((error "`olivetti-body-width' must be an integer or a floating point between 0.0 and 1.0"))))
-         (margin
-          (round (/ (- (window-total-width) width) 2))))
-    (set-window-margins (selected-window) margin margin)))
+                 (* (window-total-width) n)))))
+    (if width
+        (let ((margin
+               (round (/ (- (window-total-width) width) 2))))
+          (set-window-margins (selected-window) margin margin))
+      (message "`olivetti-body-width' must be an integer or a float between 0 and 1"))))
 
 (defun olivetti-toggle-hide-modeline ()
   "Toggle the visibility of the modeline.
