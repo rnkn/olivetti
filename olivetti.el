@@ -168,10 +168,14 @@ hidden."
             (olivetti-set-mode-line))
         (add-hook 'window-configuration-change-hook
                   'olivetti-set-environment nil t)
-        (run-hooks 'window-configuration-change-hook))
+        (add-hook 'after-setting-font-hook
+                  'olivetti-set-environment nil t)
+        (olivetti-set-environment))
     (olivetti-set-mode-line 'exit)
     (set-window-margins nil nil)
     (remove-hook 'window-configuration-change-hook
+                 'olivetti-set-environment t)
+    (remove-hook 'after-setting-font-hook
                  'olivetti-set-environment t)))
 
 (provide 'olivetti)
