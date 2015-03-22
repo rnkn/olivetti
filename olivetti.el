@@ -93,7 +93,9 @@ but it's better to use a value between about 0.33 and 0.9 for
 best effect.
 
 This option does not affect file contents."
-  :type '(choice (integer 66) (float 0.5))
+  :type '(choice (integer 80) (float 0.5))
+  :group 'olivetti)
+(make-variable-buffer-local 'olivetti-body-width)
   :group 'olivetti)
 
 (defcustom olivetti-hide-mode-line nil
