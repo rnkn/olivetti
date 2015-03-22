@@ -77,7 +77,8 @@
   :type 'hook
   :group 'olivetti)
 
-(defcustom olivetti-body-width 66
+(defcustom olivetti-body-width
+  80
   "Text body width to which to adjust relative margin width.
 
 If an integer, set text body width to that integer in columns; if
