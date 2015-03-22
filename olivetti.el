@@ -70,12 +70,6 @@
 
 ;;; Customizable Variables =============================================
 
-(defcustom olivetti-mode-hook
-  '(turn-on-visual-line-mode)
-  "Mode hook for `olivetti-mode', run after mode is turned on."
-  :type 'hook
-  :group 'olivetti)
-
 (defcustom olivetti-body-width
   80
   "Text body width to which to adjust relative margin width.
@@ -221,6 +215,7 @@ hidden."
                   'olivetti-set-environment nil t)
         (add-hook 'after-setting-font-hook
                   'olivetti-set-environment nil t)
+        (visual-line-mode 1)
         (olivetti-set-environment))
     (olivetti-set-mode-line 'exit)
     (set-window-margins nil nil)
