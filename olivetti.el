@@ -162,18 +162,11 @@ mode line. Finally redraw the frame."
 
 (defun olivetti-set-environment ()
   "Set text body width to `olivetti-body-width' with relative margins."
-  (let* ((n olivetti-body-width)
-         (width
-          (cond ((integerp n) n)
-                ((and (floatp n)
-                      (< n 1)
-                      (> n 0))
-                 (* (window-total-width) n)))))
-    (if width
-        (let ((margin
-               (round (/ (- (window-total-width) width) 2))))
-          (set-window-margins (selected-window) margin margin))
-      (message "`olivetti-body-width' must be an integer or a float between 0 and 1"))))
+  (let* ((n (olivetti-safe-width olivetti-body-width))
+         (width (cond ((integerp n) n)
+                      ((floatp n) (* (window-total-width) n))))
+         (margin (round (/ (- (window-total-width) width) 2))))
+    (set-window-margins (selected-window) margin margin)))
 
 (defun olivetti-toggle-hide-modeline ()
   "Toggle the visibility of the modeline.
