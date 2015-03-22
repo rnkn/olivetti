@@ -182,7 +182,27 @@ Toggles the value of `olivetti-hide-mode-line' and runs
   (interactive)
   (olivetti-set-mode-line 'toggle))
 
-;; Mode Definition =============================================================
+(defun olivetti-expand (&optional arg)
+  "Incrementally increase the value of `olivetti-body-width'.
+If prefixed with ARG, incrementally decrease."
+  (interactive "P")
+  (let* ((p (if arg -1 1))
+         (n (cond ((integerp olivetti-body-width)
+                   (+ olivetti-body-width (* 2 p)))
+                  ((floatp olivetti-body-width)
+                   (+ olivetti-body-width (* 0.01 p))))))
+    (setq olivetti-body-width (olivetti-safe-width n)))
+  (olivetti-set-environment)
+  (message "Text body width set to %s" olivetti-body-width))
+
+(defun olivetti-shrink (&optional arg)
+  "incrementally decrease the value of `olivetti-body-width'.
+If prefixed with ARG, incrementally increase."
+  (interactive "P")
+  (let ((p (unless arg t)))
+    (olivetti-expand p)))
+
+;; Mode Definition =====================================================
 
 ;;;###autoload
 (defun turn-on-olivetti-mode ()
