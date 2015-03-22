@@ -121,6 +121,29 @@ mode line. Finally redraw the frame."
          (setq-local mode-line-format nil)))
   (redraw-frame (selected-frame)))
 
+(defun olivetti-safe-width (n)
+  "Parse N to a safe value for `olivetti-body-width'."
+  (let ((window-width (- (window-total-width)
+                         (% (window-total-width) 2)))
+        (min-width (+ olivetti-minimum-body-width
+                      (% olivetti-minimum-body-width 2))))
+    (cond ((integerp n)
+           (let ((width (min n window-width)))
+             (max width min-width)))
+          ((floatp n)
+           (let ((min-width
+                  (string-to-number (format "%0.2f"
+                                            (/ (float min-width)
+                                               window-width))))
+                 (width
+                  (string-to-number (format "%0.2f"
+                                            (min n 1.0)))))
+             (max width min-width)))
+          ((message "`olivetti-body-width' must be an integer or a float")
+           (setq olivetti-body-width
+                 (car (get 'olivetti-body-width 'standard-value)))))))
+
+
 (defun olivetti-set-environment ()
   "Set text body width to `olivetti-body-width' with relative margins."
   (let* ((n olivetti-body-width)
