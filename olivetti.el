@@ -151,6 +151,14 @@ mode line. Finally redraw the frame."
            (setq olivetti-body-width
                  (car (get 'olivetti-body-width 'standard-value)))))))
 
+(defun olivetti-set-width (n)
+  (interactive
+   (list (or current-prefix-arg
+             (read-number "Set text body width (integer or float): "
+                          olivetti-body-width))))
+  (setq olivetti-body-width (olivetti-safe-width n))
+  (olivetti-set-environment)
+  (message "Text body width set to %s" olivetti-body-width))
 
 (defun olivetti-set-environment ()
   "Set text body width to `olivetti-body-width' with relative margins."
