@@ -69,7 +69,7 @@
   :prefix "olivetti-"
   :group 'wp)
 
-;;; Customizable Variables =====================================================
+;;; Customizable Variables =============================================
 
 (defcustom olivetti-mode-hook
   '(turn-on-visual-line-mode)
@@ -110,7 +110,7 @@ Can cause display issues in console mode."
   :type 'boolean
   :group 'olivetti)
 
-;;; Functions ==================================================================
+;;; Functions ==========================================================
 
 (defun olivetti-set-mode-line (&optional arg)
   "Set the mode line formating appropriately.
@@ -208,7 +208,7 @@ If prefixed with ARG, incrementally increase."
   "Olivetti provides a nice writing environment.
 
 Window margins are set to relative widths to accomodate a text
-body width set in `olivetti-body-width'.
+body width set with `olivetti-body-width'.
 
 When `olivetti-hide-mode-line' is non-nil, the mode line is also
 hidden."
