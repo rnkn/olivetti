@@ -96,6 +96,11 @@ This option does not affect file contents."
   :type '(choice (integer 80) (float 0.5))
   :group 'olivetti)
 (make-variable-buffer-local 'olivetti-body-width)
+
+(defcustom olivetti-minimum-body-width
+  40
+  "Minimum width in columns that text body width may be set."
+  :type 'integer
   :group 'olivetti)
 
 (defcustom olivetti-hide-mode-line nil
