@@ -158,7 +158,9 @@ mode line. Finally redraw the frame."
   (let* ((n (olivetti-safe-width olivetti-body-width))
          (width (cond ((integerp n) n)
                       ((floatp n) (* (window-total-width) n))))
-         (margin (round (/ (- (window-total-width) width) 2))))
+         (margin (max (round (/ (- (window-total-width) width)
+                                2))
+                      0)))
     (set-window-margins (selected-window) margin margin)))
 
 (defun olivetti-toggle-hide-modeline ()
