@@ -26,6 +26,8 @@ Requirements
 ------------
 
 - Emacs 24.4
+- If you use (n)linum-mode, you must disable it for buffer with
+  olivetti-mode, or left margin will not be displayed.
 
 Installation
 ------------
