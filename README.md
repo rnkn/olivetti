@@ -40,6 +40,17 @@ Alternately, download the [latest release][] and put it in your
 [melpa-stable]: http://melpa-stable.milkbox.net "MELPA"
 [latest release]: https://github.com/rnkn/olivetti/releases/latest "Olivetti latest release"
 
+Known Bugs
+----------
+
+- `linum-mode` currently has a bug that overwrites margin settings,
+  making it incompatible with Olivetti. More information here:
+  <http://debbugs.gnu.org/cgi/bugreport.cgi?bug=20674>
+
+Please report bugs on GitHub [Issues][] page.
+
+[issues]: https://github.com/rnkn/olivetti/issues "Olivetti issues"
+
 History
 -------
 
