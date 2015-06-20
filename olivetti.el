@@ -133,6 +133,13 @@ mode line. Finally redraw the frame."
          (setq-local mode-line-format nil)))
   (redraw-frame (selected-frame)))
 
+(defun olivetti-scale-width (n)
+  (let ((face-height (or (plist-get (cadr (assoc 'default
+                                                 face-remapping-alist))
+                                    :height)
+                         1)))
+    (round (* n face-height))))
+
 (defun olivetti-safe-width (n)
   "Parse N to a safe value for `olivetti-body-width'."
   (let ((window-width (- (window-total-width)
@@ -166,7 +173,9 @@ mode line. Finally redraw the frame."
 
 (defun olivetti-set-environment ()
   "Set text body width to `olivetti-body-width' with relative margins."
-  (let* ((n (olivetti-safe-width olivetti-body-width))
+  (let* ((n (olivetti-safe-width (if (integerp olivetti-body-width)
+                                     (olivetti-scale-width olivetti-body-width)
+                                   olivetti-body-width)))
          (width (cond ((integerp n) n)
                       ((floatp n) (* (window-total-width) n))))
          (margin (max (round (/ (- (window-total-width) width)
@@ -228,6 +237,8 @@ hidden."
                   'olivetti-set-environment nil t)
         (add-hook 'after-setting-font-hook
                   'olivetti-set-environment nil t)
+        (add-hook 'text-scale-mode-hook
+                  'olivetti-set-environment nil t)
         (visual-line-mode 1)
         (olivetti-set-environment))
     (olivetti-set-mode-line 'exit)
@@ -235,6 +246,8 @@ hidden."
     (remove-hook 'window-configuration-change-hook
                  'olivetti-set-environment t)
     (remove-hook 'after-setting-font-hook
+                 'olivetti-set-environment t)
+    (remove-hook 'text-scale-mode-hook
                  'olivetti-set-environment t)))
 
 (provide 'olivetti)
