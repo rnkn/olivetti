@@ -134,6 +134,10 @@ mode line. Finally redraw the frame."
   (redraw-frame (selected-frame)))
 
 (defun olivetti-scale-width (n)
+  "Scale N in accordance with the face height.
+For compatibility with `text-scale-mode', if
+`face-remapping-alist' includes a :height property on the default
+face, scale N by that factor, otherwise scale by 1."
   (let ((face-height (or (plist-get (cadr (assoc 'default
                                                  face-remapping-alist))
                                     :height)
