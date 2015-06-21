@@ -20,6 +20,9 @@ Features
   fraction of the window width (a float between 0.0 and 1.0).
 - Interactively change body width with `olivetti-expand`,
   `olivetti-shrink` and `olivetti-set-width`.
+- If `olivetti-body-width` is an integer, the text body width will scale
+  with use of `text-scale-mode`, whereas if a fraction (float) then the
+  text body width will remain at that fraction.
 - Optionally hide the modeline for distraction-free writing.
 
 Requirements
