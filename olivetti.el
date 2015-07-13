@@ -37,7 +37,7 @@
 ;; - If `olivetti-body-width` is an integer, the text body width will scale
 ;;   with use of `text-scale-mode`, whereas if a fraction (float) then the
 ;;   text body width will remain at that fraction.
-;; - Optionally hide the modeline for distraction-free writing.
+;; - Optionally hide the mode-line for distraction-free writing.
 
 ;; Requirements
 ;; ------------
@@ -190,8 +190,8 @@ face, scale N by that factor, otherwise scale by 1."
                       0)))
     (set-window-margins (selected-window) margin margin)))
 
-(defun olivetti-toggle-hide-modeline ()
-  "Toggle the visibility of the modeline.
+(defun olivetti-toggle-hide-mode-line ()
+  "Toggle the visibility of the mode-line.
 Toggles the value of `olivetti-hide-mode-line' and runs
 `olivetti-set-mode-line'."
   (interactive)
