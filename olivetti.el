@@ -82,7 +82,7 @@
   :prefix "olivetti-"
   :group 'wp)
 
-;;; Customizable Variables =============================================
+;;; Customizable Variables =====================================================
 
 (defcustom olivetti-body-width
   80
@@ -124,7 +124,7 @@ Can cause display issues in console mode."
   "Non-nil if `visual-line-mode' is active when `olivetti-mode' is turned on.")
 (make-variable-buffer-local 'olivetti--visual-line-mode)
 
-;;; Functions ==========================================================
+;;; Functions ==================================================================
 
 (defun olivetti-set-mode-line (&optional arg)
   "Set the mode line formating appropriately.
@@ -244,7 +244,6 @@ body width set with `olivetti-body-width'.
 
 When `olivetti-hide-mode-line' is non-nil, the mode line is also
 hidden."
-  :init-value nil
   :lighter " Olv"
   (if olivetti-mode
       (progn
