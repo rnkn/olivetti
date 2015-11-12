@@ -117,6 +117,13 @@ Can cause display issues in console mode."
   :type 'boolean
   :group 'olivetti)
 
+;;; Variables ==================================================================
+
+(defvar olivetti--visual-line-mode
+  nil
+  "Non-nil if `visual-line-mode' is active when `olivetti-mode' is turned on.")
+(make-variable-buffer-local 'olivetti--visual-line-mode)
+
 ;;; Functions ==========================================================
 
 (defun olivetti-set-mode-line (&optional arg)
@@ -249,10 +256,15 @@ hidden."
                   'olivetti-set-environment nil t)
         (add-hook 'text-scale-mode-hook
                   'olivetti-set-environment nil t)
-        (visual-line-mode 1)
+        (setq olivetti--visual-line-mode visual-line-mode)
+        (unless olivetti--visual-line-mode
+          (visual-line-mode 1))
         (olivetti-set-environment))
     (olivetti-set-mode-line 'exit)
     (set-window-margins nil nil)
+    (unless olivetti--visual-line-mode
+      (visual-line-mode 0))
+    (kill-local-variable 'olivetti--visual-line-mode)
     (remove-hook 'window-configuration-change-hook
                  'olivetti-set-environment t)
     (remove-hook 'after-setting-font-hook
