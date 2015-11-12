@@ -170,6 +170,9 @@ face, scale N by that factor, otherwise scale by 1."
                  (car (get 'olivetti-body-width 'standard-value)))))))
 
 (defun olivetti-set-width (n)
+  "Set text body width to N with relative margins.
+N may be an integer specifying columns or a float specifying a
+fraction of the window width."
   (interactive
    (list (or current-prefix-arg
              (read-number "Set text body width (integer or float): "
