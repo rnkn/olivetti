@@ -114,6 +114,13 @@ This option does not affect file contents."
 (defcustom olivetti-hide-mode-line nil
   "Hide the mode line.
 Can cause display issues in console mode."
+(defcustom olivetti-recall-visual-line-mode-entry-state
+  t
+  "Recall the state of `visual-line-mode' upon exiting.
+
+When non-nil, if `visual-line-mode' is inactive upon activating
+`olivetti-mode', then `visual-line-mode' will be deactivated upon
+exiting. The reverse is not true."
   :type 'boolean
   :group 'olivetti)
 
@@ -276,6 +283,9 @@ hidden."
                  'olivetti-set-environment t)
     (remove-hook 'text-scale-mode-hook
                  'olivetti-set-environment t)))
+    (if (and olivetti-recall-visual-line-mode-entry-state
+             (null olivetti--visual-line-mode))
+        (visual-line-mode 0))
 
 (provide 'olivetti)
 ;;; olivetti.el ends here
