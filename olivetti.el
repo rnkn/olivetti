@@ -188,16 +188,23 @@ fraction of the window width."
   (message "Text body width set to %s" olivetti-body-width))
 
 (defun olivetti-set-environment ()
-  "Set text body width to `olivetti-body-width' with relative margins."
-  (let* ((n (olivetti-safe-width (if (integerp olivetti-body-width)
-                                     (olivetti-scale-width olivetti-body-width)
-                                   olivetti-body-width)))
-         (width (cond ((integerp n) n)
-                      ((floatp n) (* (window-total-width) n))))
-         (margin (max (round (/ (- (window-total-width) width)
-                                2))
-                      0)))
-    (set-window-margins (selected-window) margin margin)))
+  "Set text body width to `olivetti-body-width' with relative margins.
+Cycle through all windows displaying the current buffer, first
+finding the `olivetti-safe-width' to which to set
+`olivetti-body-width', then find the appropriate margin size
+relative to each window. Finally set the window margins, taking
+care that the maximum size is 0."
+  (dolist (window (get-buffer-window-list (current-buffer) nil t))
+    (let* ((n (olivetti-safe-width (if (integerp olivetti-body-width)
+                                       (olivetti-scale-width olivetti-body-width)
+                                     olivetti-body-width)))
+           (width (cond ((integerp n) n)
+                        ((floatp n) (* (window-total-width window)
+                                       n))))
+           (margin (max (round (/ (- (window-total-width window) width)
+                                  2))
+                        0)))
+      (set-window-margins window margin margin))))
 
 (defun olivetti-toggle-hide-mode-line ()
   "Toggle the visibility of the mode-line.
