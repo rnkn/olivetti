@@ -111,9 +111,12 @@ This option does not affect file contents."
   :type 'integer
   :group 'olivetti)
 
-(defcustom olivetti-hide-mode-line nil
-  "Hide the mode line.
-Can cause display issues in console mode."
+(defcustom olivetti-hide-mode-line
+ nil
+  "Hide the mode line."
+  :type 'boolean
+  :group 'olivetti)
+
 (defcustom olivetti-recall-visual-line-mode-entry-state
   t
   "Recall the state of `visual-line-mode' upon exiting.
@@ -137,7 +140,7 @@ exiting. The reverse is not true."
 If ARG is 'toggle, toggle the value of `olivetti-hide-mode-line',
 then rerun. If ARG is 'exit, kill `mode-line-format' then rerun.
 If ARG is nil and `olivetti-hide-mode-line' is non-nil, hide the
-mode line. Finally redraw the frame."
+mode line."
   (cond ((equal arg 'toggle)
          (setq olivetti-hide-mode-line
                (null olivetti-hide-mode-line))
@@ -146,8 +149,8 @@ mode line. Finally redraw the frame."
              (null olivetti-hide-mode-line))
          (kill-local-variable 'mode-line-format))
         (olivetti-hide-mode-line
-         (setq-local mode-line-format nil)))
-  (redraw-frame (selected-frame)))
+         (setq-local mode-line-format nil))))
+  ;; (redraw-frame (selected-frame)))
 
 (defun olivetti-scale-width (n)
   "Scale N in accordance with the face height.
