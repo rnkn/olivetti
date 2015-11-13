@@ -119,10 +119,9 @@ Can cause display issues in console mode."
 
 ;;; Variables ==================================================================
 
-(defvar olivetti--visual-line-mode
+(defvar-local olivetti--visual-line-mode
   nil
   "Non-nil if `visual-line-mode' is active when `olivetti-mode' is turned on.")
-(make-variable-buffer-local 'olivetti--visual-line-mode)
 
 ;;; Functions ==================================================================
 
