@@ -197,7 +197,7 @@ fraction of the window width."
   (olivetti-set-environment)
   (message "Text body width set to %s" olivetti-body-width))
 
-(defun olivetti-set-environment ()
+(defun olivetti-set-environment (&optional arg)
   "Set text body width to `olivetti-body-width' with relative margins.
 Cycle through all windows displaying the current buffer, first
 finding the `olivetti-safe-width' to which to set
@@ -205,16 +205,18 @@ finding the `olivetti-safe-width' to which to set
 relative to each window. Finally set the window margins, taking
 care that the maximum size is 0."
   (dolist (window (get-buffer-window-list (current-buffer) nil t))
-    (let* ((n (olivetti-safe-width (if (integerp olivetti-body-width)
-                                       (olivetti-scale-width olivetti-body-width)
-                                     olivetti-body-width)))
-           (width (cond ((integerp n) n)
-                        ((floatp n) (* (window-total-width window)
-                                       n))))
-           (margin (max (round (/ (- (window-total-width window) width)
-                                  2))
-                        0)))
-      (set-window-margins window margin margin))))
+    (if (equal arg 'exit)
+        (set-window-margins window nil nil)
+      (let* ((n (olivetti-safe-width (if (integerp olivetti-body-width)
+                                         (olivetti-scale-width olivetti-body-width)
+                                       olivetti-body-width)))
+             (width (cond ((integerp n) n)
+                          ((floatp n) (* (window-total-width window)
+                                         n))))
+             (margin (max (round (/ (- (window-total-width window) width)
+                                    2))
+                          0)))
+        (set-window-margins window margin margin)))))
 
 (defun olivetti-toggle-hide-mode-line ()
   "Toggle the visibility of the mode-line.
@@ -263,8 +265,6 @@ hidden."
   :lighter " Olv"
   (if olivetti-mode
       (progn
-        (if olivetti-hide-mode-line
-            (olivetti-set-mode-line))
         (add-hook 'window-configuration-change-hook
                   'olivetti-set-environment nil t)
         (add-hook 'after-setting-font-hook
@@ -274,21 +274,21 @@ hidden."
         (setq olivetti--visual-line-mode visual-line-mode)
         (unless olivetti--visual-line-mode
           (visual-line-mode 1))
+        (if olivetti-hide-mode-line
+            (olivetti-set-mode-line))
         (olivetti-set-environment))
-    (olivetti-set-mode-line 'exit)
-    (set-window-margins nil nil)
-    (unless olivetti--visual-line-mode
-      (visual-line-mode 0))
-    (kill-local-variable 'olivetti--visual-line-mode)
     (remove-hook 'window-configuration-change-hook
                  'olivetti-set-environment t)
     (remove-hook 'after-setting-font-hook
                  'olivetti-set-environment t)
     (remove-hook 'text-scale-mode-hook
-                 'olivetti-set-environment t)))
+                 'olivetti-set-environment t)
+    (olivetti-set-mode-line 'exit)
+    (olivetti-set-environment 'exit)
     (if (and olivetti-recall-visual-line-mode-entry-state
              (null olivetti--visual-line-mode))
         (visual-line-mode 0))
+    (kill-local-variable 'olivetti--visual-line-mode)))
 
 (provide 'olivetti)
 ;;; olivetti.el ends here
