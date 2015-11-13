@@ -137,8 +137,12 @@ exiting. The reverse is not true."
 
 (defun olivetti-set-mode-line (&optional arg)
   "Set the mode line formating appropriately.
+
 If ARG is 'toggle, toggle the value of `olivetti-hide-mode-line',
-then rerun. If ARG is 'exit, kill `mode-line-format' then rerun.
+then rerun.
+
+If ARG is 'exit, kill `mode-line-format' then rerun.
+
 If ARG is nil and `olivetti-hide-mode-line' is non-nil, hide the
 mode line."
   (cond ((equal arg 'toggle)
@@ -199,9 +203,14 @@ fraction of the window width."
 
 (defun olivetti-set-environment (&optional arg)
   "Set text body width to `olivetti-body-width' with relative margins.
-Cycle through all windows displaying the current buffer, first
-finding the `olivetti-safe-width' to which to set
-`olivetti-body-width', then find the appropriate margin size
+
+Cycle through all windows displaying current buffer and:
+
+If ARG is 'exit then cycle through all windows displaying the
+current buffer and set window margins to nil.
+
+If ARG is nil, first find the `olivetti-safe-width' to which to
+set `olivetti-body-width', then find the appropriate margin size
 relative to each window. Finally set the window margins, taking
 care that the maximum size is 0."
   (dolist (window (get-buffer-window-list (current-buffer) nil t))
