@@ -39,8 +39,8 @@ encourage installing the stable version.
 Alternately, download the [latest release][] and put it in your
 `load-path`.
 
-[melpa]: http://melpa.milkbox.net "MELPA"
-[melpa-stable]: http://melpa-stable.milkbox.net "MELPA"
+[melpa]: https://melpa.org/ "MELPA"
+[melpa-stable]: https://stable.melpa.org/ "MELPA"
 [latest release]: https://github.com/rnkn/olivetti/releases/latest "Olivetti latest release"
 
 Known Bugs
