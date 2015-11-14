@@ -271,7 +271,10 @@ body width set with `olivetti-body-width'.
 
 When `olivetti-hide-mode-line' is non-nil, the mode line is also
 hidden."
+  :init-value nil
   :lighter " Olv"
+  :keymap '(([?\C-c ?\[] . olivetti-shrink)
+            ([?\C-c ?\]] . olivetti-expand))
   (if olivetti-mode
       (progn
         (add-hook 'window-configuration-change-hook
