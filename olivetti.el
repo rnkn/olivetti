@@ -158,6 +158,7 @@ mode line."
 
 (defun olivetti-scale-width (n)
   "Scale N in accordance with the face height.
+
 For compatibility with `text-scale-mode', if
 `face-remapping-alist' includes a :height property on the default
 face, scale N by that factor, otherwise scale by 1."
@@ -191,6 +192,7 @@ face, scale N by that factor, otherwise scale by 1."
 
 (defun olivetti-set-width (n)
   "Set text body width to N with relative margins.
+
 N may be an integer specifying columns or a float specifying a
 fraction of the window width."
   (interactive
@@ -229,6 +231,7 @@ care that the maximum size is 0."
 
 (defun olivetti-toggle-hide-mode-line ()
   "Toggle the visibility of the mode-line.
+
 Toggles the value of `olivetti-hide-mode-line' and runs
 `olivetti-set-mode-line'."
   (interactive)
@@ -236,6 +239,7 @@ Toggles the value of `olivetti-hide-mode-line' and runs
 
 (defun olivetti-expand (&optional arg)
   "Incrementally increase the value of `olivetti-body-width'.
+
 If prefixed with ARG, incrementally decrease."
   (interactive "P")
   (let* ((p (if arg -1 1))
@@ -249,12 +253,13 @@ If prefixed with ARG, incrementally decrease."
 
 (defun olivetti-shrink (&optional arg)
   "incrementally decrease the value of `olivetti-body-width'.
+
 If prefixed with ARG, incrementally increase."
   (interactive "P")
   (let ((p (unless arg t)))
     (olivetti-expand p)))
 
-;; Mode Definition =====================================================
+;;; Mode Definition ============================================================
 
 ;;;###autoload
 (defun turn-on-olivetti-mode ()
