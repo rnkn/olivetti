@@ -32,11 +32,15 @@
 ;;   to keep the text comfortably in the middle of the window.
 ;; - Text body width can be the number of characters (an integer) or a
 ;;   fraction of the window width (a float between 0.0 and 1.0).
-;; - Interactively change body width with `olivetti-expand`,
-;;   `olivetti-shrink` and `olivetti-set-width`.
+;; - Interactively change body width with:
+;;   `olivetti-shrink` C-c [
+;;   `olivetti-expand` C-c ]
+;;   and `olivetti-set-width`.
 ;; - If `olivetti-body-width` is an integer, the text body width will scale
 ;;   with use of `text-scale-mode`, whereas if a fraction (float) then the
 ;;   text body width will remain at that fraction.
+;; - Optionally remember the state of `visual-line-mode` on entry and
+;;   recall its state on exit.
 ;; - Optionally hide the mode-line for distraction-free writing.
 
 ;; Requirements
