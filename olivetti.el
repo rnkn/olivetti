@@ -1,6 +1,6 @@
 ;;; olivetti.el --- Minor mode for a nice writing environment
 
-;; Copyright (C) 2014 Paul Rankin
+;; Copyright (c) 2014-2016 Paul Rankin
 
 ;; Author: Paul Rankin <hello@paulwrankin.com>
 ;; Keywords: wp
