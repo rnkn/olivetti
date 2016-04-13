@@ -253,7 +253,11 @@ If prefixed with ARG, incrementally decrease."
                    (+ olivetti-body-width (* 0.01 p))))))
     (setq olivetti-body-width (olivetti-safe-width n)))
   (olivetti-set-environment)
-  (message "Text body width set to %s" olivetti-body-width))
+  (message "Text body width set to %s" olivetti-body-width)
+  (set-temporary-overlay-map
+   (let ((map (make-sparse-keymap)))
+     (define-key map "]" 'olivetti-expand)
+     (define-key map "[" 'olivetti-shrink) map)))
 
 (defun olivetti-shrink (&optional arg)
   "incrementally decrease the value of `olivetti-body-width'.
