@@ -19,8 +19,8 @@ Features
 - Text body width can be the number of characters (an integer) or a
   fraction of the window width (a float between 0.0 and 1.0).
 - Interactively change body width with:  
-  `olivetti-shrink` <kbd>C-c [</kbd>  
-  `olivetti-expand` <kbd>C-c ]</kbd>  
+  `olivetti-shrink` <kbd>C-c [</kbd> <kbd>[</kbd> <kbd>[</kbd> ...  
+  `olivetti-expand` <kbd>C-c ]</kbd> <kbd>]</kbd> <kbd>]</kbd> ...  
   and `olivetti-set-width`.
 - If `olivetti-body-width` is an integer, the text body width will scale
   with use of `text-scale-mode`, whereas if a fraction (float) then the
