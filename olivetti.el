@@ -1,4 +1,4 @@
-;;; olivetti.el --- Minor mode for a nice writing environment
+;;; olivetti.el --- Minor mode for a nice writing environment -*- lexical-binding: t; -*-
 
 ;; Copyright (c) 2014-2016 Paul Rankin
 
