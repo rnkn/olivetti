@@ -254,7 +254,7 @@ If prefixed with ARG, incrementally decrease."
     (setq olivetti-body-width (olivetti-safe-width n)))
   (olivetti-set-environment)
   (message "Text body width set to %s" olivetti-body-width)
-  (set-temporary-overlay-map
+  (set-transient-map
    (let ((map (make-sparse-keymap)))
      (define-key map "]" 'olivetti-expand)
      (define-key map "[" 'olivetti-shrink) map)))
