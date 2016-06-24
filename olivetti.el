@@ -260,7 +260,7 @@ If prefixed with ARG, incrementally decrease."
      (define-key map "[" 'olivetti-shrink) map)))
 
 (defun olivetti-shrink (&optional arg)
-  "incrementally decrease the value of `olivetti-body-width'.
+  "Incrementally decrease the value of `olivetti-body-width'.
 
 If prefixed with ARG, incrementally increase."
   (interactive "P")
