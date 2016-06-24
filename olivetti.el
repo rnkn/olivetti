@@ -1,4 +1,4 @@
-;;; olivetti.el --- Minor mode for a nice writing environment
+;;; olivetti.el --- Minor mode for a nice writing environment -*- lexical-binding: t; -*-
 
 ;; Copyright (c) 2014-2016 Paul Rankin
 
@@ -254,13 +254,13 @@ If prefixed with ARG, incrementally decrease."
     (setq olivetti-body-width (olivetti-safe-width n)))
   (olivetti-set-environment)
   (message "Text body width set to %s" olivetti-body-width)
-  (set-temporary-overlay-map
+  (set-transient-map
    (let ((map (make-sparse-keymap)))
      (define-key map "]" 'olivetti-expand)
      (define-key map "[" 'olivetti-shrink) map)))
 
 (defun olivetti-shrink (&optional arg)
-  "incrementally decrease the value of `olivetti-body-width'.
+  "Incrementally decrease the value of `olivetti-body-width'.
 
 If prefixed with ARG, incrementally increase."
   (interactive "P")
