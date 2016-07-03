@@ -281,6 +281,14 @@ If prefixed with ARG, incrementally increase."
   (interactive)
   (olivetti-mode 1))
 
+(defvar olivetti-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-c [") #'olivetti-shrink)
+    (define-key map (kbd "C-c ]") #'olivetti-expand)
+    (define-key map (kbd "C-c \\") #'olivetti-set-width)
+    map)
+  "Mode map for `olivetti-mode'.")
+
 ;;;###autoload
 (define-minor-mode olivetti-mode
   "Olivetti provides a nice writing environment.
@@ -291,8 +299,6 @@ body width set with `olivetti-body-width'.
 When `olivetti-hide-mode-line' is non-nil, the mode line is also
 hidden."
   :init-value nil
-  :keymap '(([?\C-c ?\[] . olivetti-shrink)
-            ([?\C-c ?\]] . olivetti-expand))
   :lighter olivetti-lighter
   (if olivetti-mode
       (progn
