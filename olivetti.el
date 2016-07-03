@@ -291,11 +291,11 @@ hidden."
   (if olivetti-mode
       (progn
         (add-hook 'window-configuration-change-hook
-                  'olivetti-set-environment nil t)
+                  #'olivetti-set-environment nil t)
         (add-hook 'after-setting-font-hook
-                  'olivetti-set-environment nil t)
+                  #'olivetti-set-environment nil t)
         (add-hook 'text-scale-mode-hook
-                  'olivetti-set-environment nil t)
+                  #'olivetti-set-environment nil t)
         (setq olivetti--visual-line-mode visual-line-mode)
         (unless olivetti--visual-line-mode
           (visual-line-mode 1))
@@ -303,15 +303,15 @@ hidden."
             (olivetti-set-mode-line))
         (olivetti-set-environment))
     (remove-hook 'window-configuration-change-hook
-                 'olivetti-set-environment t)
+                 #'olivetti-set-environment t)
     (remove-hook 'after-setting-font-hook
-                 'olivetti-set-environment t)
+                 #'olivetti-set-environment t)
     (remove-hook 'text-scale-mode-hook
-                 'olivetti-set-environment t)
+                 #'olivetti-set-environment t)
     (olivetti-set-mode-line 'exit)
     (olivetti-set-environment 'exit)
     (if (and olivetti-recall-visual-line-mode-entry-state
-             (null olivetti--visual-line-mode))
+             (not olivetti--visual-line-mode))
         (visual-line-mode 0))
     (kill-local-variable 'olivetti--visual-line-mode)))
 
