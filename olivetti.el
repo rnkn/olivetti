@@ -121,6 +121,12 @@ This option does not affect file contents."
   :type 'boolean
   :group 'olivetti)
 
+(defcustom olivetti-lighter
+  " Olv"
+  "Mode-line indicator for `olivetti-mode'."
+  :type '(choice (const :tag "No lighter" "") string)
+  :group 'olivetti)
+
 (defcustom olivetti-recall-visual-line-mode-entry-state
   t
   "Recall the state of `visual-line-mode' upon exiting.
@@ -285,9 +291,9 @@ body width set with `olivetti-body-width'.
 When `olivetti-hide-mode-line' is non-nil, the mode line is also
 hidden."
   :init-value nil
-  :lighter " Olv"
   :keymap '(([?\C-c ?\[] . olivetti-shrink)
             ([?\C-c ?\]] . olivetti-expand))
+  :lighter olivetti-lighter
   (if olivetti-mode
       (progn
         (add-hook 'window-configuration-change-hook
