@@ -79,6 +79,7 @@
 
 ;; [releases]: https://github.com/rnkn/olivetti/releases "Olivetti releases"
 
+
 ;;; Code:
 
 (defgroup olivetti ()
@@ -86,7 +87,15 @@
   :prefix "olivetti-"
   :group 'wp)
 
-;;; Customizable Variables =====================================================
+
+;;; Variables
+
+(defvar-local olivetti--visual-line-mode
+  nil
+  "Non-nil if `visual-line-mode' is active when `olivetti-mode' is turned on.")
+
+
+;;; Options
 
 (defcustom olivetti-body-width
   80
@@ -137,13 +146,8 @@ exiting. The reverse is not true."
   :type 'boolean
   :group 'olivetti)
 
-;;; Variables ==================================================================
-
-(defvar-local olivetti--visual-line-mode
-  nil
-  "Non-nil if `visual-line-mode' is active when `olivetti-mode' is turned on.")
-
-;;; Functions ==================================================================
+
+;;; Functions
 
 (defun olivetti-set-mode-line (&optional arg)
   "Set the mode line formating appropriately.
@@ -273,7 +277,8 @@ If prefixed with ARG, incrementally increase."
   (let ((p (unless arg t)))
     (olivetti-expand p)))
 
-;;; Mode Definition ============================================================
+
+;;; Mode Definition
 
 ;;;###autoload
 (defun turn-on-olivetti-mode ()
@@ -327,5 +332,8 @@ hidden."
         (visual-line-mode 0))
     (kill-local-variable 'olivetti--visual-line-mode)))
 
+
+
 (provide 'olivetti)
+
 ;;; olivetti.el ends here
