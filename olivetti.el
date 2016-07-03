@@ -192,7 +192,7 @@ face, scale N by that factor, otherwise scale by 1."
              (max width min-width)))
           ((message "`olivetti-body-width' must be an integer or a float")
            (setq olivetti-body-width
-                 (car (get 'olivetti-body-width 'standard-value)))))))
+                 (eval (car (get 'olivetti-body-width 'standard-value))))))))
 
 (defun olivetti-set-width (n)
   "Set text body width to N with relative margins.
