@@ -21,7 +21,7 @@ Features
 - Interactively change body width with:  
   `olivetti-shrink` <kbd>C-c [</kbd> <kbd>[</kbd> <kbd>[</kbd> ...  
   `olivetti-expand` <kbd>C-c ]</kbd> <kbd>]</kbd> <kbd>]</kbd> ...  
-  and `olivetti-set-width`.
+  `olivetti-set-width` <kbd>C-c \\</kbd>
 - If `olivetti-body-width` is an integer, the text body width will scale
   with use of `text-scale-mode`, whereas if a fraction (float) then the
   text body width will remain at that fraction.
