@@ -278,6 +278,37 @@ If prefixed with ARG, incrementally increase."
     (olivetti-expand p)))
 
 
+;;; Patch Emacs Bugs
+
+(defcustom olivetti-patch-emacs-bugs
+  t
+  "Attempt to patch known bugs in Emacs."
+  :type 'boolean
+  :group 'olivetti)
+
+(defun split-window-right-force (&optional size)
+  "Filter arguments to `split-window-right' to force split.
+
+If optional argument SIZE is ommitted or nil, split window
+exactly in half.
+
+Workaround for known Emacs bug in `window-min-size'.
+See <http://debbugs.gnu.org/24193>."
+  (if (car size) size (list (/ (window-total-width) 2))))
+
+(defun olivetti-patch-emacs-bugs ()
+  "Attempt to patch known bugs in Emacs.
+
+Adds advice to `split-window-right' to workaround changes in
+`window-min-size' that return erronously large minimum window
+width when using large margins.
+See <http://debbugs.gnu.org/24193>."
+  (unless (or (advice-member-p 'split-window-right-force 'split-window-right)
+              (< (string-to-number emacs-version) 25))
+      (advice-add 'split-window-right :filter-args
+                  'split-window-right-force)))
+
+
 ;;; Mode Definition
 
 ;;;###autoload
@@ -318,6 +349,8 @@ hidden."
           (visual-line-mode 1))
         (if olivetti-hide-mode-line
             (olivetti-set-mode-line))
+        (if olivetti-patch-emacs-bugs
+            (olivetti-patch-emacs-bugs))
         (olivetti-set-environment))
     (remove-hook 'window-configuration-change-hook
                  #'olivetti-set-environment t)
