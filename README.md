@@ -56,7 +56,15 @@ Known Bugs
 
 - `linum-mode` currently has a bug that overwrites margin settings,
   making it incompatible with Olivetti. More information here:
-  <http://debbugs.gnu.org/cgi/bugreport.cgi?bug=20674>
+  <http://debbugs.gnu.org/20674>.
+- Emacs 25.1 introduced changes to `window-min-width` that return
+  erroneously large minimum window widths when using large window
+  margins, causing `split-window-right` to fail with a misleading
+  error message. This necessitates Olivetti patching `split-window-right`
+  to always split the window in half (in line with its documentation
+  string). This is designed as a temporary workaround until the Emacs
+  maintainers fix the problems with `window-min-width`.
+  See <http://debbugs.gnu.org/24193>.
 
 Please report bugs on GitHub [Issues][] page.
 
