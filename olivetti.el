@@ -67,14 +67,6 @@
 ;; - `linum-mode` currently has a bug that overwrites margin settings,
 ;;   making it incompatible with Olivetti. More information here:
 ;;   <http://debbugs.gnu.org/20674>.
-;; - Emacs 25.1 introduced changes to `window-min-width` that return
-;;   erroneously large minimum window widths when using large window
-;;   margins, causing `split-window-right` to fail with a misleading
-;;   error message. This necessitates Olivetti patching `split-window-right`
-;;   to always split the window in half (in line with its documentation
-;;   string). This is designed as a temporary workaround until the Emacs
-;;   maintainers fix the problems with `window-min-width`.
-;;   See <http://debbugs.gnu.org/24193>.
 
 ;; Please report bugs on GitHub [Issues][] page.
 
@@ -190,10 +182,10 @@ face, scale N by that factor, otherwise scale by 1."
                          1)))
     (round (* n face-height))))
 
-(defun olivetti-safe-width (n)
-  "Parse N to a safe value for `olivetti-body-width'."
-  (let ((window-width (- (window-total-width)
-                         (% (window-total-width) 2)))
+(defun olivetti-safe-width (n window)
+  "Parse N to a safe value for `olivetti-body-width' for WINDOW."
+  (let ((window-width (- (window-total-width window)
+                         (% (window-total-width window) 2)))
         (min-width (+ olivetti-minimum-body-width
                       (% olivetti-minimum-body-width 2))))
     (cond ((integerp n)
@@ -235,19 +227,26 @@ If ARG is 'exit set window margins to nil.
 If ARG is nil, first find the `olivetti-safe-width' to which to
 set `olivetti-body-width', then find the appropriate margin size
 relative to each window. Finally set the window margins, taking
-care that the maximum size is 0."
+care that the maximum size is 0.
+
+Also set the window parameter 'min-margins to half of the margin
+current width."
   (dolist (window (get-buffer-window-list (current-buffer) nil t))
     (if (equal arg 'exit)
         (set-window-margins window nil nil)
       (let* ((n (olivetti-safe-width (if (integerp olivetti-body-width)
                                          (olivetti-scale-width olivetti-body-width)
-                                       olivetti-body-width)))
+                                       olivetti-body-width)
+                                     window))
              (width (cond ((integerp n) n)
                           ((floatp n) (* (window-total-width window)
                                          n))))
              (margin (max (round (/ (- (window-total-width window) width)
                                     2))
-                          0)))
+                          0))
+             (min-margin (floor (/ (float margin)
+                                   2))))
+        (set-window-parameter window 'min-margins (cons min-margin min-margin))
         (set-window-margins window margin margin)))))
 
 (defun olivetti-toggle-hide-mode-line ()
@@ -268,7 +267,7 @@ If prefixed with ARG, incrementally decrease."
                    (+ olivetti-body-width (* 2 p)))
                   ((floatp olivetti-body-width)
                    (+ olivetti-body-width (* 0.01 p))))))
-    (setq olivetti-body-width (olivetti-safe-width n)))
+    (setq olivetti-body-width (olivetti-safe-width n (selected-window))))
   (olivetti-set-environment)
   (message "Text body width set to %s" olivetti-body-width)
   (set-transient-map
@@ -283,38 +282,6 @@ If prefixed with ARG, incrementally increase."
   (interactive "P")
   (let ((p (unless arg t)))
     (olivetti-expand p)))
-
-
-;;; Patch Emacs Bugs
-
-(defcustom olivetti-patch-emacs-bugs
-  t
-  "Attempt to patch known bugs in Emacs."
-  :type 'boolean
-  :group 'olivetti)
-
-(defun split-window-right-force (&optional size)
-  "Filter arguments to `split-window-right' to force splitting window.
-
-If optional argument SIZE is ommitted or nil, both windows get
-the same width.
-
-Workaround for known Emacs bug in `window-min-size'.
-See <http://debbugs.gnu.org/24193>."
-  (if (car size) size (list (/ (window-total-width) 2))))
-
-(defun olivetti-patch-emacs-bugs ()
-  "Attempt to patch known bugs in Emacs.
-
-Adds advice to `split-window-right' to workaround changes in
-`window-min-size' that return erronously large minimum window
-width when using large margins.
-See <http://debbugs.gnu.org/24193>."
-  (unless (or (advice-member-p 'split-window-right-force 'split-window-right)
-              (version< emacs-version "25"))
-    (advice-add 'split-window-right :filter-args
-                'split-window-right-force)
-    (message "olivetti: Function `split-window-right' has been patched")))
 
 
 ;;; Mode Definition
