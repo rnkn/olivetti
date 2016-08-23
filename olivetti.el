@@ -159,16 +159,15 @@ If ARG is 'exit, kill `mode-line-format' then rerun.
 
 If ARG is nil and `olivetti-hide-mode-line' is non-nil, hide the
 mode line."
-  (cond ((equal arg 'toggle)
+  (cond ((eq arg 'toggle)
          (setq olivetti-hide-mode-line
-               (null olivetti-hide-mode-line))
+               (not olivetti-hide-mode-line))
          (olivetti-set-mode-line))
-        ((or (equal arg 'exit)
-             (null olivetti-hide-mode-line))
+        ((or (eq arg 'exit)
+             (not olivetti-hide-mode-line))
          (kill-local-variable 'mode-line-format))
         (olivetti-hide-mode-line
          (setq-local mode-line-format nil))))
-  ;; (redraw-frame (selected-frame)))
 
 (defun olivetti-scale-width (n)
   "Scale N in accordance with the face height.
@@ -176,8 +175,8 @@ mode line."
 For compatibility with `text-scale-mode', if
 `face-remapping-alist' includes a :height property on the default
 face, scale N by that factor, otherwise scale by 1."
-  (let ((face-height (or (plist-get (cadr (assoc 'default
-                                                 face-remapping-alist))
+  (let ((face-height (or (plist-get (cadr (assq 'default
+                                                face-remapping-alist))
                                     :height)
                          1)))
     (round (* n face-height))))
@@ -232,7 +231,7 @@ care that the maximum size is 0.
 Also set the window parameter 'min-margins to half of the margin
 current width."
   (dolist (window (get-buffer-window-list (current-buffer) nil t))
-    (if (equal arg 'exit)
+    (if (eq arg 'exit)
         (set-window-margins window nil nil)
       (let* ((n (olivetti-safe-width (if (integerp olivetti-body-width)
                                          (olivetti-scale-width olivetti-body-width)
@@ -241,7 +240,8 @@ current width."
              (width (cond ((integerp n) n)
                           ((floatp n) (* (window-total-width window)
                                          n))))
-             (margin (max (round (/ (- (window-total-width window) width)
+             (margin (max (round (/ (- (window-total-width window)
+                                       width)
                                     2))
                           0))
              (min-margin (floor (/ (float margin)
@@ -313,26 +313,22 @@ hidden."
   :lighter olivetti-lighter
   (if olivetti-mode
       (progn
-        (add-hook 'window-configuration-change-hook
-                  #'olivetti-set-environment nil t)
-        (add-hook 'after-setting-font-hook
-                  #'olivetti-set-environment nil t)
-        (add-hook 'text-scale-mode-hook
-                  #'olivetti-set-environment nil t)
+        (dolist (hook '(window-configuration-change-hook
+                        after-setting-font-hook
+                        text-scale-mode-hook))
+          (add-hook hook 'olivetti-set-environment t t))
+        (add-hook 'change-major-mode-hook
+                  '(lambda nil (olivetti-set-environment 'exit)) nil t)
         (setq olivetti--visual-line-mode visual-line-mode)
         (unless olivetti--visual-line-mode
           (visual-line-mode 1))
         (if olivetti-hide-mode-line
             (olivetti-set-mode-line))
-        (if olivetti-patch-emacs-bugs
-            (olivetti-patch-emacs-bugs))
         (olivetti-set-environment))
-    (remove-hook 'window-configuration-change-hook
-                 #'olivetti-set-environment t)
-    (remove-hook 'after-setting-font-hook
-                 #'olivetti-set-environment t)
-    (remove-hook 'text-scale-mode-hook
-                 #'olivetti-set-environment t)
+    (dolist (hook '(window-configuration-change-hook
+                    after-setting-font-hook
+                    text-scale-mode-hook))
+      (remove-hook hook 'olivetti-set-environment t))
     (olivetti-set-mode-line 'exit)
     (olivetti-set-environment 'exit)
     (if (and olivetti-recall-visual-line-mode-entry-state
