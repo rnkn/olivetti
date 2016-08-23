@@ -188,8 +188,7 @@ face, scale N by that factor, otherwise scale by 1."
         (min-width (+ olivetti-minimum-body-width
                       (% olivetti-minimum-body-width 2))))
     (cond ((integerp n)
-           (let ((width (min n window-width)))
-             (max width min-width)))
+           (max (min n window-width) min-width))
           ((floatp n)
            (let ((min-width
                   (string-to-number (format "%0.2f"
