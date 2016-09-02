@@ -300,28 +300,6 @@ If prefixed with ARG, incrementally increase."
     (olivetti-expand p)))
 
 
-;;; 25.1 Workaround
-
-(defun split-window-right-force (&optional size)
-  "Filter arguments to `split-window-right' to force splitting window.
-
-If optional argument SIZE is ommitted or nil, both windows get
-the same width."
-  (if (car size) size (list (/ (window-total-width) 2))))
-
-(defun olivetti-patch-split-window (&optional remove)
-  "Adds advice to `split-window-right' to workaround `window-min-size'.
-
-If REMOVE is non-nil, remove this advice."
-  (if remove
-      (advice-remove 'split-window-right 'split-window-right-force)
-    (unless (or (advice-member-p 'split-window-right-force 'split-window-right)
-                (version< emacs-version "25"))
-      (advice-add 'split-window-right :filter-args
-                  'split-window-right-force)
-      (message "olivetti: Function `split-window-right' has been patched"))))
-
-
 ;;; Mode Definition
 
 ;;;###autoload
