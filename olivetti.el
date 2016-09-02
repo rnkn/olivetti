@@ -147,73 +147,7 @@ exiting. The reverse is not true."
   :group 'olivetti)
 
 
-;;; Functions
-
-(defun olivetti-set-mode-line (&optional arg)
-  "Set the mode line formating appropriately.
-
-If ARG is 'toggle, toggle the value of `olivetti-hide-mode-line',
-then rerun.
-
-If ARG is 'exit, kill `mode-line-format' then rerun.
-
-If ARG is nil and `olivetti-hide-mode-line' is non-nil, hide the
-mode line."
-  (cond ((eq arg 'toggle)
-         (setq olivetti-hide-mode-line
-               (not olivetti-hide-mode-line))
-         (olivetti-set-mode-line))
-        ((or (eq arg 'exit)
-             (not olivetti-hide-mode-line))
-         (kill-local-variable 'mode-line-format))
-        (olivetti-hide-mode-line
-         (setq-local mode-line-format nil))))
-
-(defun olivetti-scale-width (n)
-  "Scale N in accordance with the face height.
-
-For compatibility with `text-scale-mode', if
-`face-remapping-alist' includes a :height property on the default
-face, scale N by that factor, otherwise scale by 1."
-  (let ((face-height (or (plist-get (cadr (assq 'default
-                                                face-remapping-alist))
-                                    :height)
-                         1)))
-    (round (* n face-height))))
-
-(defun olivetti-safe-width (n window)
-  "Parse N to a safe value for `olivetti-body-width' for WINDOW."
-  (let ((window-width (- (window-total-width window)
-                         (% (window-total-width window) 2)))
-        (min-width (+ olivetti-minimum-body-width
-                      (% olivetti-minimum-body-width 2))))
-    (cond ((integerp n)
-           (max (min n window-width) min-width))
-          ((floatp n)
-           (let ((min-width
-                  (string-to-number (format "%0.2f"
-                                            (/ (float min-width)
-                                               window-width))))
-                 (width
-                  (string-to-number (format "%0.2f"
-                                            (min n 1.0)))))
-             (max width min-width)))
-          ((user-error "`olivetti-body-width' must be an integer or a float")
-           (setq olivetti-body-width
-                 (eval (car (get 'olivetti-body-width 'standard-value))))))))
-
-(defun olivetti-set-width (n)
-  "Set text body width to N with relative margins.
-
-N may be an integer specifying columns or a float specifying a
-fraction of the window width."
-  (interactive
-   (list (or current-prefix-arg
-             (read-number "Set text body width (integer or float): "
-                          olivetti-body-width))))
-  (setq olivetti-body-width n)
-  (olivetti-set-environment)
-  (message "Text body width set to %s" olivetti-body-width))
+;;; Set Environment
 
 (defun olivetti-set-environment ()
   "Set text body width to `olivetti-body-width' with relative margins.
@@ -265,6 +199,29 @@ If `olivetti-mode' is non-nil, call `olivetti-set-environment'."
   (split-window-sensibly window)
   (if olivetti-mode (olivetti-set-environment)))
 
+
+;;; Set Mode-Line
+
+(defun olivetti-set-mode-line (&optional arg)
+  "Set the mode line formating appropriately.
+
+If ARG is 'toggle, toggle the value of `olivetti-hide-mode-line',
+then rerun.
+
+If ARG is 'exit, kill `mode-line-format' then rerun.
+
+If ARG is nil and `olivetti-hide-mode-line' is non-nil, hide the
+mode line."
+  (cond ((eq arg 'toggle)
+         (setq olivetti-hide-mode-line
+               (not olivetti-hide-mode-line))
+         (olivetti-set-mode-line))
+        ((or (eq arg 'exit)
+             (not olivetti-hide-mode-line))
+         (kill-local-variable 'mode-line-format))
+        (olivetti-hide-mode-line
+         (setq-local mode-line-format nil))))
+
 (defun olivetti-toggle-hide-mode-line ()
   "Toggle the visibility of the mode-line.
 
@@ -272,6 +229,58 @@ Toggles the value of `olivetti-hide-mode-line' and runs
 `olivetti-set-mode-line'."
   (interactive)
   (olivetti-set-mode-line 'toggle))
+
+
+;;; Calculate Width
+
+(defun olivetti-scale-width (n)
+  "Scale N in accordance with the face height.
+
+For compatibility with `text-scale-mode', if
+`face-remapping-alist' includes a :height property on the default
+face, scale N by that factor, otherwise scale by 1."
+  (let ((face-height (or (plist-get (cadr (assq 'default
+                                                face-remapping-alist))
+                                    :height)
+                         1)))
+    (round (* n face-height))))
+
+(defun olivetti-safe-width (n window)
+  "Parse N to a safe value for `olivetti-body-width' for WINDOW."
+  (let ((window-width (- (window-total-width window)
+                         (% (window-total-width window) 2)))
+        (min-width (+ olivetti-minimum-body-width
+                      (% olivetti-minimum-body-width 2))))
+    (cond ((integerp n)
+           (max (min n window-width) min-width))
+          ((floatp n)
+           (let ((min-width
+                  (string-to-number (format "%0.2f"
+                                            (/ (float min-width)
+                                               window-width))))
+                 (width
+                  (string-to-number (format "%0.2f"
+                                            (min n 1.0)))))
+             (max width min-width)))
+          ((user-error "`olivetti-body-width' must be an integer or a float")
+           (setq olivetti-body-width
+                 (eval (car (get 'olivetti-body-width 'standard-value))))))))
+
+
+;;; Width Interaction
+
+(defun olivetti-set-width (n)
+  "Set text body width to N with relative margins.
+
+N may be an integer specifying columns or a float specifying a
+fraction of the window width."
+  (interactive
+   (list (or current-prefix-arg
+             (read-number "Set text body width (integer or float): "
+                          olivetti-body-width))))
+  (setq olivetti-body-width n)
+  (olivetti-set-environment)
+  (message "Text body width set to %s" olivetti-body-width))
 
 (defun olivetti-expand (&optional arg)
   "Incrementally increase the value of `olivetti-body-width'.
