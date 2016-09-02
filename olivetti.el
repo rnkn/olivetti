@@ -170,7 +170,8 @@ care that the maximum size is 0."
                                   2))
                         0)))
       (set-window-parameter window 'split-window 'olivetti-split-window)
-      (set-window-margins window margin margin))))
+      (set-window-margins window margin margin))
+    (if olivetti-hide-mode-line (olivetti-set-mode-line))))
 
 (defun olivetti-reset-environment ()
   "Remove Olivetti's parameters and margins.
@@ -344,11 +345,10 @@ hidden."
           (add-hook hook 'olivetti-set-environment t t))
         (add-hook 'change-major-mode-hook
                   'olivetti-reset-environment nil t)
-        (setq-local split-window-preferred-function
-              'olivetti-split-window-sensibly)
+        ;; (setq-local split-window-preferred-function
+        ;;       'olivetti-split-window-sensibly)
         (setq olivetti--visual-line-mode visual-line-mode)
         (unless olivetti--visual-line-mode (visual-line-mode 1))
-        (if olivetti-hide-mode-line (olivetti-set-mode-line))
         (olivetti-set-environment))
     (dolist (hook '(window-configuration-change-hook
                     after-setting-font-hook
