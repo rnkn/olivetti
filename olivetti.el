@@ -198,7 +198,7 @@ face, scale N by that factor, otherwise scale by 1."
                   (string-to-number (format "%0.2f"
                                             (min n 1.0)))))
              (max width min-width)))
-          ((message "`olivetti-body-width' must be an integer or a float")
+          ((user-error "`olivetti-body-width' must be an integer or a float")
            (setq olivetti-body-width
                  (eval (car (get 'olivetti-body-width 'standard-value))))))))
 
