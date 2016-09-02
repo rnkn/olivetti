@@ -225,10 +225,7 @@ If ARG is 'exit set window margins to nil.
 If ARG is nil, first find the `olivetti-safe-width' to which to
 set `olivetti-body-width', then find the appropriate margin size
 relative to each window. Finally set the window margins, taking
-care that the maximum size is 0.
-
-Also set the window parameter 'min-margins to half of the margin
-current width."
+care that the maximum size is 0."
   (dolist (window (get-buffer-window-list (current-buffer) nil t))
     (if (eq arg 'exit)
         (set-window-margins window nil nil)
@@ -242,10 +239,7 @@ current width."
              (margin (max (round (/ (- (window-total-width window)
                                        width)
                                     2))
-                          0))
-             (min-margin (floor (/ (float margin)
-                                   2))))
-        (set-window-parameter window 'min-margins (cons min-margin min-margin))
+                          0)))
         (set-window-margins window margin margin)))))
 
 (defun olivetti-toggle-hide-mode-line ()
@@ -281,6 +275,28 @@ If prefixed with ARG, incrementally increase."
   (interactive "P")
   (let ((p (unless arg t)))
     (olivetti-expand p)))
+
+
+;;; 25.1 Workaround
+
+(defun split-window-right-force (&optional size)
+  "Filter arguments to `split-window-right' to force splitting window.
+
+If optional argument SIZE is ommitted or nil, both windows get
+the same width."
+  (if (car size) size (list (/ (window-total-width) 2))))
+
+(defun olivetti-patch-split-window (&optional remove)
+  "Adds advice to `split-window-right' to workaround `window-min-size'.
+
+If REMOVE is non-nil, remove this advice."
+  (if remove
+      (advice-remove 'split-window-right 'split-window-right-force)
+    (unless (or (advice-member-p 'split-window-right-force 'split-window-right)
+                (version< emacs-version "25"))
+      (advice-add 'split-window-right :filter-args
+                  'split-window-right-force)
+      (message "olivetti: Function `split-window-right' has been patched"))))
 
 
 ;;; Mode Definition
@@ -323,11 +339,13 @@ hidden."
           (visual-line-mode 1))
         (if olivetti-hide-mode-line
             (olivetti-set-mode-line))
+        (olivetti-patch-split-window)
         (olivetti-set-environment))
     (dolist (hook '(window-configuration-change-hook
                     after-setting-font-hook
                     text-scale-mode-hook))
       (remove-hook hook 'olivetti-set-environment t))
+    (olivetti-patch-split-window 'remove)
     (olivetti-set-mode-line 'exit)
     (olivetti-set-environment 'exit)
     (if (and olivetti-recall-visual-line-mode-entry-state
