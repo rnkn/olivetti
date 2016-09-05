@@ -181,7 +181,7 @@ window parameter `split-window' to nil. Then reset the window
 margins to nil."
   (dolist (window (get-buffer-window-list nil nil t))
     (set-window-parameter window 'split-window nil)
-    (set-window-margins window nil nil)))
+    (set-window-margins window nil)))
 
 (defun olivetti-split-window (&optional window size side pixelwise)
   "Safely split the window by first resetting the environment.
@@ -191,14 +191,12 @@ First call `olivetti-reset-environment' then try
 
 If `olivetti-mode' is non-nil, call `olivetti-set-environment'."
   (olivetti-reset-environment)
-  (split-window window size side pixelwise)
-  (if olivetti-mode (olivetti-set-environment)))
+  (split-window window size side pixelwise))
 
 (defun olivetti-split-window-sensibly (&optional window)
   "Like `olivetti-split-window' but calls `split-window-sensibly'."
   (olivetti-reset-environment)
-  (split-window-sensibly window)
-  (if olivetti-mode (olivetti-set-environment)))
+  (split-window-sensibly window))
 
 
 ;;; Set Mode-Line
@@ -345,8 +343,8 @@ hidden."
           (add-hook hook 'olivetti-set-environment t t))
         (add-hook 'change-major-mode-hook
                   'olivetti-reset-environment nil t)
-        ;; (setq-local split-window-preferred-function
-        ;;       'olivetti-split-window-sensibly)
+        (setq-local split-window-preferred-function
+              'olivetti-split-window-sensibly)
         (setq olivetti--visual-line-mode visual-line-mode)
         (unless olivetti--visual-line-mode (visual-line-mode 1))
         (olivetti-set-environment))
