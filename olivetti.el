@@ -152,7 +152,7 @@ exiting. The reverse is not true."
 (defun olivetti-set-environment ()
   "Set text body width to `olivetti-body-width' with relative margins.
 
-Cycle through all windows displaying current buffer and, first,
+Cycle through all windows displaying current buffer and first
 find the `olivetti-safe-width' to which to set
 `olivetti-body-width', then find the appropriate margin size
 relative to each window. Finally set the window margins, taking
@@ -173,29 +173,28 @@ care that the maximum size is 0."
       (set-window-margins window margin margin))
     (if olivetti-hide-mode-line (olivetti-set-mode-line))))
 
-(defun olivetti-reset-environment ()
-  "Remove Olivetti's parameters and margins.
+(defun olivetti-reset-all-windows ()
+  "Remove Olivetti's parameters and margins from all windows.
 
-Cycle through all windows displaying current buffer and reset
-window parameter `split-window' to nil. Then reset the window
-margins to nil."
+Cycle through all windows displaying current buffer and call
+`olivetti-reset-window'."
   (dolist (window (get-buffer-window-list nil nil t))
-    (set-window-parameter window 'split-window nil)
-    (set-window-margins window nil)))
+    (olivetti-reset-window window)))
+
+(defun olivetti-reset-window (window)
+  "Remove Olivetti's parameters and margins from WINDOW."
+  (set-window-parameter window 'split-window nil)
+  (set-window-margins window nil))
 
 (defun olivetti-split-window (&optional window size side pixelwise)
-  "Safely split the window by first resetting the environment.
-
-First call `olivetti-reset-environment' then try
-`split-window'.
-
+  "Call `split-window' after resetting WINDOW.
 If `olivetti-mode' is non-nil, call `olivetti-set-environment'."
-  (olivetti-reset-environment)
+  (olivetti-reset-window window)
   (split-window window size side pixelwise))
 
 (defun olivetti-split-window-sensibly (&optional window)
   "Like `olivetti-split-window' but calls `split-window-sensibly'."
-  (olivetti-reset-environment)
+  (olivetti-reset-window window)
   (split-window-sensibly window))
 
 
@@ -342,7 +341,7 @@ hidden."
                         text-scale-mode-hook))
           (add-hook hook 'olivetti-set-environment t t))
         (add-hook 'change-major-mode-hook
-                  'olivetti-reset-environment nil t)
+                  'olivetti-reset-all-windows nil t)
         (setq-local split-window-preferred-function
               'olivetti-split-window-sensibly)
         (setq olivetti--visual-line-mode visual-line-mode)
@@ -352,8 +351,8 @@ hidden."
                     after-setting-font-hook
                     text-scale-mode-hook))
       (remove-hook hook 'olivetti-set-environment t))
+    (olivetti-reset-all-windows)
     (olivetti-set-mode-line 'exit)
-    (olivetti-reset-environment)
     (if (and olivetti-recall-visual-line-mode-entry-state
              (not olivetti--visual-line-mode))
         (visual-line-mode 0))
