@@ -183,7 +183,8 @@ Cycle through all windows displaying current buffer and call
 
 (defun olivetti-reset-window (window)
   "Remove Olivetti's parameters and margins from WINDOW."
-  (set-window-parameter window 'split-window nil)
+  (if (eq (window-parameter window 'split-window) 'olivetti-split-window)
+      (set-window-parameter window 'split-window nil))
   (set-window-margins window nil))
 
 (defun olivetti-split-window (&optional window size side pixelwise)
