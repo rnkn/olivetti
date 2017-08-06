@@ -188,8 +188,7 @@ Cycle through all windows displaying current buffer and call
   (set-window-margins window nil))
 
 (defun olivetti-split-window (&optional window size side pixelwise)
-  "Call `split-window' after resetting WINDOW.
-If `olivetti-mode' is non-nil, call `olivetti-set-environment'."
+  "Call `split-window' after resetting WINDOW."
   (olivetti-reset-window window)
   (split-window window size side pixelwise))
 
