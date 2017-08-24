@@ -20,9 +20,6 @@
 
 ;;; Commentary:
 
-;; Olivetti
-;; ========
-
 ;; Olivetti is a simple Emacs minor mode for a nice writing environment.
 
 ;; Features
