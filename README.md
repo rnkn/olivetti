@@ -69,3 +69,13 @@ History
 See [Releases].
 
 [releases]: https://github.com/rnkn/olivetti/releases "Olivetti releases"
+
+Hints
+-----
+
+To always use a different width for a specific file, set a [File Variable]
+specifying `olivetti-body-width`:
+
+    M-x add-file-local-variable RET olivetti-body-width RET 66 RET
+
+[file variable]: https://www.gnu.org/software/emacs/manual/html_node/emacs/File-Variables.html "File Variables"
