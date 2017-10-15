@@ -1,6 +1,6 @@
-[![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
-[![MELPA Stable](http://stable.melpa.org/packages/olivetti-badge.svg)](http://stable.melpa.org/#/olivetti)
-[![MELPA](http://melpa.org/packages/olivetti-badge.svg)](http://melpa.org/#/olivetti)
+[![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](https://www.gnu.org/licenses/gpl-3.0.txt)
+[![MELPA Stable](https://stable.melpa.org/packages/olivetti-badge.svg)](https://stable.melpa.org/#/olivetti)
+[![MELPA](https://melpa.org/packages/olivetti-badge.svg)](https://melpa.org/#/olivetti)
 
 Olivetti is a simple Emacs minor mode for a nice writing environment.
 
@@ -57,7 +57,7 @@ Known Bugs
   <https://debbugs.gnu.org/28844>.
 - `linum-mode` currently has a bug that overwrites margin settings,
   making it incompatible with Olivetti. More information here:
-  <http://debbugs.gnu.org/20674>.
+  <https://debbugs.gnu.org/20674>.
 
 Please report bugs on GitHub [Issues] page.
 
