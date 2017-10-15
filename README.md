@@ -51,6 +51,10 @@ Alternately, download the [latest release] and put it in your
 Known Bugs
 ----------
 
+- `display-line-numbers-mode` (included in Emacs 26.1) has a poor implementation
+  that makes it difficult/ugly to work with the text body width or margins.
+  Discussion at <https://debbugs.gnu.org/28248> and
+  <https://debbugs.gnu.org/28844>.
 - `linum-mode` currently has a bug that overwrites margin settings,
   making it incompatible with Olivetti. More information here:
   <http://debbugs.gnu.org/20674>.
