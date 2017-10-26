@@ -1,6 +1,6 @@
 ;;; olivetti.el --- Minor mode for a nice writing environment -*- lexical-binding: t; -*-
 
-;; Copyright (c) 2014-2016 Paul Rankin
+;; Copyright (c) 2014-2017 Paul Rankin
 
 ;; Author: Paul Rankin <hello@paulwrankin.com>
 ;; Keywords: wp
