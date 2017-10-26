@@ -3,7 +3,7 @@
 [![MELPA](https://melpa.org/packages/olivetti-badge.svg)](https://melpa.org/#/olivetti)
 
 Olivetti is a simple Emacs minor mode for a nice writing environment.
-Like the famous typewriter, Olivetti mode let's you focus on writing
+Like the famous typewriter, Olivetti mode lets you focus on writing
 rather than on the interface.
 
 ![screenshot](https://github.com/rnkn/olivetti/raw/master/screenshots/01.png)
