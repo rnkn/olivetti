@@ -26,6 +26,8 @@
 ;;; Commentary:
 
 ;; Olivetti is a simple Emacs minor mode for a nice writing environment.
+;; Like the famous typewriter, Olivetti mode let's you focus on writing
+;; rather than on the interface.
 
 ;; Features
 ;; --------
