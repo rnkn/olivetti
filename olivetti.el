@@ -1,9 +1,14 @@
 ;;; olivetti.el --- Minor mode for a nice writing environment -*- lexical-binding: t; -*-
 
-;; Copyright (c) 2014-2016 Paul Rankin
+;; Copyright (c) 2014-2017 Paul Rankin
 
 ;; Author: Paul Rankin <hello@paulwrankin.com>
 ;; Keywords: wp
+;; Version: 1.5.8
+;; Package-Requires: ((emacs "24.4"))
+;; URL: https://github.com/rnkn/olivetti
+
+;; This file is not part of GNU Emacs.
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -126,7 +131,7 @@ This option does not affect file contents."
   :group 'olivetti)
 
 (defcustom olivetti-hide-mode-line
- nil
+  nil
   "Hide the mode line."
   :type 'boolean
   :group 'olivetti)
@@ -345,7 +350,7 @@ hidden."
         (add-hook 'change-major-mode-hook
                   'olivetti-reset-all-windows nil t)
         (setq-local split-window-preferred-function
-              'olivetti-split-window-sensibly)
+                    'olivetti-split-window-sensibly)
         (setq olivetti--visual-line-mode visual-line-mode)
         (unless olivetti--visual-line-mode (visual-line-mode 1))
         (olivetti-set-environment))
