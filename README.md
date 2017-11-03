@@ -30,6 +30,15 @@ Features
   recall its state on exit.
 - Optionally hide the mode-line for distraction-free writing.
 
+Olivetti keeps everything it does buffer-local, so you can write prose in one
+buffer and code in another, side-by-side in the same frame. Or, by hiding the
+mode-line and using a single window in a fullscreen frame, Olivetti provides a
+nice distraction-free environment. For those looking for a hardcore
+distraction-free writing mode with a much larger scope, I recommend
+[writeroom-mode].
+
+[writeroom-mode]: https://github.com/joostkremers/writeroom-mode "Writeroom Mode"
+
 Requirements
 ------------
 
