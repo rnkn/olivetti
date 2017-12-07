@@ -168,10 +168,16 @@ care that the maximum size is 0."
                                        (olivetti-scale-width olivetti-body-width)
                                      olivetti-body-width)
                                    window))
+           (fringes (window-fringes window))
+           (window-width (- (window-total-width window)
+                            (+ (/ (car fringes)
+                                  (float (frame-char-width)))
+                               (/ (cadr fringes)
+                                  (float (frame-char-width))))))
            (width (cond ((integerp n) n)
-                        ((floatp n) (* (window-total-width window)
+                        ((floatp n) (* window-width
                                        n))))
-           (margin (max (round (/ (- (window-total-width window)
+           (margin (max (round (/ (- window-width
                                      width)
                                   2))
                         0)))
