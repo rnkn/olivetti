@@ -1,1 +1,0 @@
-- [ ] implement single-sided option (for wrapped text)
