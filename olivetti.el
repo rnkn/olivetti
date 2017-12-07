@@ -163,7 +163,7 @@ find the `olivetti-safe-width' to which to set
 `olivetti-body-width', then find the appropriate margin size
 relative to each window. Finally set the window margins, taking
 care that the maximum size is 0."
-  (dolist (window (get-buffer-window-list nil nil (or frame t)))
+  (dolist (window (get-buffer-window-list nil nil t))
     (let* ((n (olivetti-safe-width (if (integerp olivetti-body-width)
                                        (olivetti-scale-width olivetti-body-width)
                                      olivetti-body-width)
