@@ -60,10 +60,11 @@ Alternately, download the [latest release] and put it in your
 Known Bugs
 ----------
 
-- `display-line-numbers-mode` (included in Emacs 26.1) has a poor implementation
-  that causes problems with modes that work with the text body width or margins.
+- `display-line-numbers-mode` (included in Emacs 26.1) has a terrible
+  implementation that causes problems with many modes that work with display.
   Discussion at <https://debbugs.gnu.org/28248> and
-  <https://debbugs.gnu.org/28844>. Use `linum-mode` instead.
+  <https://debbugs.gnu.org/28844> and <http://debbugs.gnu.org/29597>. Use
+  `linum-mode` instead.
 - `linum-mode` in Emacs versions earlier than 26.1 has a bug that overwrites
   margin settings, making it incompatible with modes that work with margins.
   More information here: <https://debbugs.gnu.org/20674>.

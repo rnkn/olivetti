@@ -45,6 +45,15 @@
 ;;   recall its state on exit.
 ;; - Optionally hide the mode-line for distraction-free writing.
 
+;; Olivetti keeps everything it does buffer-local, so you can write prose in one
+;; buffer and code in another, side-by-side in the same frame. Or, by hiding the
+;; mode-line and using a single window in a fullscreen frame, Olivetti provides a
+;; nice distraction-free environment. For those looking for a hardcore
+;; distraction-free writing mode with a much larger scope, I recommend
+;; [writeroom-mode].
+
+;; [writeroom-mode]: https://github.com/joostkremers/writeroom-mode "Writeroom Mode"
+
 ;; Requirements
 ;; ------------
 
@@ -66,10 +75,11 @@
 ;; Known Bugs
 ;; ----------
 
-;; - `display-line-numbers-mode` (included in Emacs 26.1) has a poor implementation
-;;   that causes problems with modes that work with the text body width or margins.
+;; - `display-line-numbers-mode` (included in Emacs 26.1) has a terrible
+;;   implementation that causes problems with many modes that work with display.
 ;;   Discussion at <https://debbugs.gnu.org/28248> and
-;;   <https://debbugs.gnu.org/28844>. Use `linum-mode` instead.
+;;   <https://debbugs.gnu.org/28844> and <http://debbugs.gnu.org/29597>. Use
+;;   `linum-mode` instead.
 ;; - `linum-mode` in Emacs versions earlier than 26.1 has a bug that overwrites
 ;;   margin settings, making it incompatible with modes that work with margins.
 ;;   More information here: <https://debbugs.gnu.org/20674>.
@@ -84,6 +94,16 @@
 ;; See [Releases].
 
 ;; [releases]: https://github.com/rnkn/olivetti/releases "Olivetti releases"
+
+;; Hints
+;; -----
+
+;; To always use a different width for a specific file, set a [File Variable]
+;; specifying `olivetti-body-width`:
+
+;;     M-x add-file-local-variable RET olivetti-body-width RET 66 RET
+
+;; [file variable]: https://www.gnu.org/software/emacs/manual/html_node/emacs/File-Variables.html "File Variables"
 
 
 ;;; Code:
