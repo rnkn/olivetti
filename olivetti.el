@@ -276,26 +276,23 @@ face, scale N by that factor, otherwise scale by 1."
                          1)))
     (round (* n face-height))))
 
-(defun olivetti-safe-width (n window)
-  "Parse N to a safe value for `olivetti-body-width' for WINDOW."
-  (let ((window-width (- (window-total-width window)
-                         (% (window-total-width window) 2)))
+(defun olivetti-safe-width (width window)
+  "Parse WIDTH to a safe value for `olivetti-body-width' for WINDOW."
+  (let ((window-width (window-total-width window 'floor))
+        (fringes (window-fringes window))
         (min-width (+ olivetti-minimum-body-width
                       (% olivetti-minimum-body-width 2))))
-    (cond ((integerp n)
-           (max (min n window-width) min-width))
-          ((floatp n)
-           (let ((min-width
-                  (string-to-number (format "%0.2f"
-                                            (/ (float min-width)
-                                               window-width))))
-                 (width
-                  (string-to-number (format "%0.2f"
-                                            (min n 1.0)))))
-             (max width min-width)))
+    (setq window-width
+          (- window-width
+             (/ (+ (car fringes) (cadr fringes))
+                (frame-char-width (window-frame window)))
+             (% window-width 2)))
+    (cond ((integerp width)
+           (max (min width (floor window-width)) min-width))
+          ((floatp width)
+           (max (min width 1.0) (/ min-width window-width)))
           ((user-error "`olivetti-body-width' must be an integer or a float")
-           (setq olivetti-body-width
-                 (eval (car (get 'olivetti-body-width 'standard-value))))))))
+           (floor (window-width))))))
 
 
 ;;; Width Interaction
