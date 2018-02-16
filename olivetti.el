@@ -283,8 +283,8 @@ face, scale N by that factor, otherwise scale by 1."
                       (% olivetti-minimum-body-width 2))))
     (setq window-width
           (- window-width
-             (/ (+ (car fringes) (cadr fringes))
-                (frame-char-width (window-frame window)))
+             (/ (* (max (car fringes) (cadr fringes)) 2)
+                (float (frame-char-width (window-frame window))))
              (% window-width 2)))
     (cond ((integerp width)
            (max (min width (floor window-width)) min-width))
