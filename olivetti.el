@@ -270,11 +270,10 @@ Toggles the value of `olivetti-hide-mode-line' and runs
 For compatibility with `text-scale-mode', if
 `face-remapping-alist' includes a :height property on the default
 face, scale N by that factor, otherwise scale by 1."
-  (let ((face-height (or (plist-get (cadr (assq 'default
-                                                face-remapping-alist))
-                                    :height)
-                         1)))
-    (round (* n face-height))))
+  (* n (or (plist-get (cadr (assq 'default
+                                  face-remapping-alist))
+                      :height)
+           1)))
 
 (defun olivetti-safe-width (width window)
   "Parse WIDTH to a safe value for `olivetti-body-width' for WINDOW."
