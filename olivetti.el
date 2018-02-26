@@ -239,7 +239,14 @@ then rerun.
 If ARG is 'exit, kill `mode-line-format' then rerun.
 
 If ARG is nil and `olivetti-hide-mode-line' is non-nil, hide the
-mode line."
+mode line.
+
+To explicitly set the mode line in Lisp code, do something like
+the following:
+
+    (let ((olivetti-hide-mode-line t))
+      (olivetti-set-mode-line))
+"
   (cond ((eq arg 'toggle)
          (setq olivetti-hide-mode-line
                (not olivetti-hide-mode-line))
@@ -254,7 +261,10 @@ mode line."
   "Toggle the visibility of the mode-line.
 
 Toggles the value of `olivetti-hide-mode-line' and runs
-`olivetti-set-mode-line'."
+`olivetti-set-mode-line'.
+
+n.b. This command is probably not what you want in Lisp code. See
+instead `olivetti-set-mode-line'."
   (interactive)
   (olivetti-set-mode-line 'toggle))
 
