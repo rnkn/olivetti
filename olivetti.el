@@ -283,8 +283,10 @@ face, scale N by that factor, otherwise scale by 1."
            1)))
 
 (defun olivetti-safe-width (width window)
-  "Parse WIDTH to a safe value for `olivetti-body-width' for WINDOW."
-  (let ((window-width (window-total-width window 'floor))
+  "Parse WIDTH to a safe value for `olivetti-body-width' for WINDOW.
+
+May return a float with many digits of precision."
+  (let ((window-width (window-total-width window))
         (fringes (window-fringes window))
         (min-width (+ olivetti-minimum-body-width
                       (% olivetti-minimum-body-width 2))))
