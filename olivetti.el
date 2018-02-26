@@ -296,11 +296,11 @@ May return a float with many digits of precision."
                 (float (frame-char-width (window-frame window))))
              (% window-width 2)))
     (cond ((integerp width)
-           (max (min width (floor window-width)) min-width))
+           (max min-width (min width (floor window-width))))
           ((floatp width)
-           (max (min width 1.0) (/ min-width window-width)))
+           (max (/ min-width window-width) (min width 1.0)))
           ((user-error "`olivetti-body-width' must be an integer or a float")
-           (floor (window-width))))))
+           (eval (car (get 'olivetti-body-width 'standard-value)))))))
 
 
 ;;; Width Interaction
