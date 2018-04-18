@@ -1,4 +1,6 @@
-[![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](https://www.gnu.org/licenses/gpl-3.0.txt)
+Olivetti
+========
+
 [![MELPA Stable](https://stable.melpa.org/packages/olivetti-badge.svg)](https://stable.melpa.org/#/olivetti)
 [![MELPA](https://melpa.org/packages/olivetti-badge.svg)](https://melpa.org/#/olivetti)
 
