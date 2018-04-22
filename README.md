@@ -8,7 +8,7 @@ Olivetti is a simple Emacs minor mode for a nice writing environment.
 
 ![screenshot](https://github.com/rnkn/olivetti/raw/master/screenshots/01.png)
 
-Pictured: *Big Fish* by John August using using text body width of 66
+Pictured: *Big Fish* by John August using text body width of 66
 (top, also using [Fountain Mode]), lorem ipsum text using text body
 width of 80 (bottom)
 
