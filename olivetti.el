@@ -167,6 +167,13 @@ exiting. The reverse is not true."
   :type 'boolean
   :group 'olivetti)
 
+(defcustom olivetti-enable-fringes
+  t
+  "Enable fringes while using `olivetti-mode'"
+  :type 'boolean
+  :group 'olivetti)
+(make-variable-buffer-local 'olivetti-enable-fringes)
+
 
 ;;; Set Environment
 
@@ -188,12 +195,20 @@ care that the maximum size is 0."
              (setq width (olivetti-scale-width width)))
             ((floatp width)
              (setq width (* window-width width))))
-      (setq left-fringe (/ (car fringes) (float (frame-char-width frame)))
-            right-fringe (/ (cadr fringes) (float (frame-char-width frame))))
+      (when (and (not olivetti-enable-fringes) (not (window-parameter window 'olivetti-original-fringes)))
+        (set-window-parameter window 'olivetti-original-fringes fringes))
+      (setq left-fringe (if olivetti-enable-fringes
+                            (/ (car fringes) (float (frame-char-width frame)))
+                          0)
+            right-fringe (if olivetti-enable-fringes
+                             (/ (cadr fringes) (float (frame-char-width frame)))
+                           0))
       (setq margin-total (max (/ (- window-width width) 2) 0)
             left-margin (max (round (- margin-total left-fringe)) 0)
             right-margin (max (round (- margin-total right-fringe)) 0))
       (set-window-parameter window 'split-window 'olivetti-split-window)
+      (when (and (not olivetti-enable-fringes) (window-live-p window))
+        (set-window-fringes window 0 0))
       (set-window-margins window left-margin right-margin))
     (if olivetti-hide-mode-line (olivetti-set-mode-line))))
 
@@ -209,6 +224,9 @@ Cycle through all windows displaying current buffer and call
   "Remove Olivetti's parameters and margins from WINDOW."
   (if (eq (window-parameter window 'split-window) 'olivetti-split-window)
       (set-window-parameter window 'split-window nil))
+  (let ((fringes (window-parameter window 'olivetti-original-fringes)))
+    (when (and fringes (window-live-p window))
+      (set-window-fringes window (car fringes) (cadr fringes) (caddr fringes))))
   (set-window-margins window nil))
 
 (defun olivetti-split-window (&optional window size side pixelwise)
