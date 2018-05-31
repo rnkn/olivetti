@@ -106,7 +106,7 @@
 (defgroup olivetti ()
   "Minor mode for a nice writing environment"
   :prefix "olivetti-"
-  :group 'wp)
+  :group 'text)
 
 
 ;;; Variables
