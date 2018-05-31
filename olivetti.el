@@ -119,7 +119,7 @@
 ;;; Options
 
 (defcustom olivetti-body-width
-  80
+  70
   "Text body width to which to adjust relative margin width.
 
 If an integer, set text body width to that integer in columns; if
@@ -135,7 +135,7 @@ but it's better to use a value between about 0.33 and 0.9 for
 best effect.
 
 This option does not affect file contents."
-  :type '(choice (integer 80) (float 0.5))
+  :type '(choice (integer 70) (float 0.5))
   :safe 'numberp
   :group 'olivetti)
 (make-variable-buffer-local 'olivetti-body-width)
