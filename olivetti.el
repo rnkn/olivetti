@@ -3,8 +3,8 @@
 ;; Copyright (c) 2014-2017 Paul Rankin
 
 ;; Author: Paul Rankin <hello@paulwrankin.com>
-;; Keywords: wp
-;; Version: 1.5.9
+;; Keywords: wp, text
+;; Version: 1.6.1
 ;; Package-Requires: ((emacs "24.4"))
 ;; URL: https://github.com/rnkn/olivetti
 
