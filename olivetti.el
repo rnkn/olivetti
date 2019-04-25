@@ -43,14 +43,11 @@
 ;;   text body width will remain at that fraction.
 ;; - Optionally remember the state of `visual-line-mode` on entry and
 ;;   recall its state on exit.
-;; - Optionally hide the mode-line for distraction-free writing.
 
 ;; Olivetti keeps everything it does buffer-local, so you can write prose in one
-;; buffer and code in another, side-by-side in the same frame. Or, by hiding the
-;; mode-line and using a single window in a fullscreen frame, Olivetti provides a
-;; nice distraction-free environment. For those looking for a hardcore
-;; distraction-free writing mode with a much larger scope, I recommend
-;; [writeroom-mode].
+;; buffer and code in another, side-by-side in the same frame. For those looking
+;; for a hardcore distraction-free writing mode with a much larger scope, I
+;; recommend [writeroom-mode][].
 
 ;; [writeroom-mode]: https://github.com/joostkremers/writeroom-mode "Writeroom Mode"
 
@@ -147,13 +144,6 @@ This option does not affect file contents."
   :safe 'integerp
   :group 'olivetti)
 
-(defcustom olivetti-hide-mode-line
-  nil
-  "Hide the mode line."
-  :type 'boolean
-  :safe 'booleanp
-  :group 'olivetti)
-
 (defcustom olivetti-lighter
   " Olv"
   "Mode-line indicator for `olivetti-mode'."
@@ -199,8 +189,7 @@ care that the maximum size is 0."
             left-margin (max (round (- margin-total left-fringe)) 0)
             right-margin (max (round (- margin-total right-fringe)) 0))
       (set-window-parameter window 'split-window 'olivetti-split-window)
-      (set-window-margins window left-margin right-margin))
-    (when olivetti-hide-mode-line (olivetti-set-mode-line))))
+      (set-window-margins window left-margin right-margin))))
 
 (defun olivetti-reset-all-windows ()
   "Remove Olivetti's parameters and margins from all windows.
@@ -225,47 +214,6 @@ Cycle through all windows displaying current buffer and call
   "Like `olivetti-split-window' but calls `split-window-sensibly'."
   (olivetti-reset-window window)
   (split-window-sensibly window))
-
-
-;;; Set Mode-Line
-
-(defun olivetti-set-mode-line (&optional arg)
-  "Set the mode line formating appropriately.
-
-If ARG is 'toggle, toggle the value of `olivetti-hide-mode-line',
-then rerun.
-
-If ARG is 'exit, kill `mode-line-format' then rerun.
-
-If ARG is nil and `olivetti-hide-mode-line' is non-nil, hide the
-mode line.
-
-To explicitly set the mode line in Lisp code, do something like
-the following:
-
-    (let ((olivetti-hide-mode-line t))
-      (olivetti-set-mode-line))
-"
-  (cond ((eq arg 'toggle)
-         (setq olivetti-hide-mode-line
-               (not olivetti-hide-mode-line))
-         (olivetti-set-mode-line))
-        ((or (eq arg 'exit)
-             (not olivetti-hide-mode-line))
-         (kill-local-variable 'mode-line-format))
-        (olivetti-hide-mode-line
-         (setq-local mode-line-format nil))))
-
-(defun olivetti-toggle-hide-mode-line ()
-  "Toggle the visibility of the mode-line.
-
-Toggles the value of `olivetti-hide-mode-line' and runs
-`olivetti-set-mode-line'.
-
-n.b. This command is probably not what you want in Lisp code. See
-instead `olivetti-set-mode-line'."
-  (interactive)
-  (olivetti-set-mode-line 'toggle))
 
 
 ;;; Calculate Width
@@ -366,10 +314,7 @@ If prefixed with ARG, incrementally increase."
   "Olivetti provides a nice writing environment.
 
 Window margins are set to relative widths to accomodate a text
-body width set with `olivetti-body-width'.
-
-When `olivetti-hide-mode-line' is non-nil, the mode line is also
-hidden."
+body width set with `olivetti-body-width'."
   :init-value nil
   :lighter olivetti-lighter
   (if olivetti-mode
@@ -390,7 +335,6 @@ hidden."
                     window-size-change-functions))
       (remove-hook hook 'olivetti-set-environment t))
     (olivetti-reset-all-windows)
-    (olivetti-set-mode-line 'exit)
     (when (and olivetti-recall-visual-line-mode-entry-state
                (not olivetti--visual-line-mode))
       (visual-line-mode 0))
