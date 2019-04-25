@@ -167,7 +167,7 @@ exiting. The reverse is not true."
 
 ;;; Set Environment
 
-(defun olivetti-set-environment (&optional frame)
+(defun olivetti-set-margins (&optional frame)
   "Set text body width to `olivetti-body-width' with relative margins.
 
 Cycle through all windows displaying current buffer and first
@@ -267,7 +267,7 @@ fraction of the window width."
              (read-number "Set text body width (integer or float): "
                           olivetti-body-width))))
   (setq olivetti-body-width n)
-  (olivetti-set-environment)
+  (olivetti-set-margins)
   (message "Text body width set to %s" olivetti-body-width))
 
 (defun olivetti-expand (&optional arg)
@@ -281,7 +281,7 @@ If prefixed with ARG, incrementally decrease."
                   ((floatp olivetti-body-width)
                    (+ olivetti-body-width (* 0.01 p))))))
     (setq olivetti-body-width (olivetti-safe-width n (selected-window))))
-  (olivetti-set-environment)
+  (olivetti-set-margins)
   (message "Text body width set to %s" olivetti-body-width)
   (set-transient-map
    (let ((map (make-sparse-keymap)))
@@ -322,17 +322,17 @@ body width set with `olivetti-body-width'."
       (progn
         (dolist (hook '(post-command-hook
                         window-size-change-functions))
-          (add-hook hook 'olivetti-set-environment t t))
+          (add-hook hook 'olivetti-set-margins t t))
         (add-hook 'change-major-mode-hook
                   'olivetti-reset-all-windows nil t)
         (setq-local split-window-preferred-function
                     'olivetti-split-window-sensibly)
         (setq olivetti--visual-line-mode visual-line-mode)
         (unless olivetti--visual-line-mode (visual-line-mode 1))
-        (olivetti-set-environment))
+        (olivetti-set-margins))
     (dolist (hook '(post-command-hook
                     window-size-change-functions))
-      (remove-hook hook 'olivetti-set-environment t))
+      (remove-hook hook 'olivetti-set-margins t))
     (olivetti-reset-all-windows)
     (when (and olivetti-recall-visual-line-mode-entry-state
                (not olivetti--visual-line-mode))
