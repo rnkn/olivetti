@@ -5,7 +5,7 @@
 ;; Author: Paul Rankin <hello@paulwrankin.com>
 ;; Keywords: wp, text
 ;; Version: 1.6.1
-;; Package-Requires: ((emacs "24.4"))
+;; Package-Requires: ((emacs "24.5"))
 ;; URL: https://github.com/rnkn/olivetti
 
 ;; This file is not part of GNU Emacs.
@@ -57,7 +57,7 @@
 ;; Requirements
 ;; ------------
 
-;; - Emacs 24.4
+;; - Emacs 24.5
 
 ;; Installation
 ;; ------------
