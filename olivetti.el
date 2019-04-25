@@ -232,7 +232,6 @@ if it is an integer, and otherwise scale by 1."
      ((floatp height) (* n height))
      (t n))))
 
-
 (defun olivetti-safe-width (width window)
   "Parse WIDTH to a safe value for `olivetti-body-width' for WINDOW.
 
@@ -320,7 +319,6 @@ body width set with `olivetti-body-width'."
   (if olivetti-mode
       (progn
         (dolist (hook '(post-command-hook
-                        window-configuration-change-hook
                         window-size-change-functions))
           (add-hook hook 'olivetti-set-environment t t))
         (add-hook 'change-major-mode-hook
@@ -331,7 +329,6 @@ body width set with `olivetti-body-width'."
         (unless olivetti--visual-line-mode (visual-line-mode 1))
         (olivetti-set-environment))
     (dolist (hook '(post-command-hook
-                    window-configuration-change-hook
                     window-size-change-functions))
       (remove-hook hook 'olivetti-set-environment t))
     (olivetti-reset-all-windows)
