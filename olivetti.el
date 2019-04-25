@@ -350,12 +350,6 @@ If prefixed with ARG, incrementally increase."
 
 ;;; Mode Definition
 
-;;;###autoload
-(defun turn-on-olivetti-mode ()
-  "Turn on `olivetti-mode' unconditionally."
-  (interactive)
-  (olivetti-mode 1))
-
 (defvar olivetti-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c [") #'olivetti-shrink)
@@ -363,6 +357,9 @@ If prefixed with ARG, incrementally increase."
     (define-key map (kbd "C-c \\") #'olivetti-set-width)
     map)
   "Mode map for `olivetti-mode'.")
+
+(define-obsolete-function-alias 'turn-on-olivetti-mode
+  'olivetti-mode "1.6.2")
 
 ;;;###autoload
 (define-minor-mode olivetti-mode
