@@ -72,6 +72,8 @@
 ;; Known Bugs
 ;; ----------
 
+;; - Emacs 27.x currently has a bug in `window.c` that will cause errors in
+;;   redisplay by passing a window instead of a frame as argument.
 ;; - `linum-mode` in Emacs versions earlier than 26.1 has a bug that overwrites
 ;;   margin settings, making it incompatible with modes that work with margins.
 ;;   More information here: <https://debbugs.gnu.org/20674>.

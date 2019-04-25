@@ -30,21 +30,18 @@ Features
   text body width will remain at that fraction.
 - Optionally remember the state of `visual-line-mode` on entry and
   recall its state on exit.
-- Optionally hide the mode-line for distraction-free writing.
 
 Olivetti keeps everything it does buffer-local, so you can write prose in one
-buffer and code in another, side-by-side in the same frame. Or, by hiding the
-mode-line and using a single window in a fullscreen frame, Olivetti provides a
-nice distraction-free environment. For those looking for a hardcore
-distraction-free writing mode with a much larger scope, I recommend
-[writeroom-mode].
+buffer and code in another, side-by-side in the same frame. For those looking
+for a hardcore distraction-free writing mode with a much larger scope, I
+recommend [writeroom-mode][].
 
 [writeroom-mode]: https://github.com/joostkremers/writeroom-mode "Writeroom Mode"
 
 Requirements
 ------------
 
-- Emacs 24.4
+- Emacs 24.5
 
 Installation
 ------------
@@ -62,6 +59,8 @@ Alternately, download the [latest release] and put it in your
 Known Bugs
 ----------
 
+- Emacs 27.x currently has a bug in `window.c` that will cause errors in
+  redisplay by passing a window instead of a frame as argument.
 - `linum-mode` in Emacs versions earlier than 26.1 has a bug that overwrites
   margin settings, making it incompatible with modes that work with margins.
   More information here: <https://debbugs.gnu.org/20674>.
