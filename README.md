@@ -1,9 +1,6 @@
 Olivetti
 ========
 
-[![MELPA Stable](https://stable.melpa.org/packages/olivetti-badge.svg)](https://stable.melpa.org/#/olivetti)
-[![MELPA](https://melpa.org/packages/olivetti-badge.svg)](https://melpa.org/#/olivetti)
-
 Olivetti is a simple Emacs minor mode for a nice writing environment.
 
 ![screenshot](https://github.com/rnkn/olivetti/raw/master/screenshots/01.png)
@@ -46,35 +43,17 @@ Requirements
 Installation
 ------------
 
-Olivetti is available through [MELPA] and [MELPA-stable]. I
-encourage installing the stable version.
+Olivetti is now part of GNU ELPA and can be installed with `M-x package-install
+RET olivetti RET`.
 
-Alternately, download the [latest release] and put it in your
-`load-path`.
+Bugs
+----
 
-[melpa]: https://melpa.org/ "MELPA"
-[melpa-stable]: https://stable.melpa.org/ "MELPA Stable"
-[latest release]: https://github.com/rnkn/olivetti/releases/latest "Olivetti latest release"
-
-Known Bugs
-----------
-
-- Emacs 27.x currently has a bug in `window.c` that will cause errors in
+- Emacs 27.x has a compatibility change in `window.c` that will cause errors in
   redisplay by passing a window instead of a frame as argument.
-- `linum-mode` in Emacs versions earlier than 26.1 has a bug that overwrites
-  margin settings, making it incompatible with modes that work with margins.
-  More information here: <https://debbugs.gnu.org/20674>.
 
-Please report bugs on GitHub [Issues] page.
-
-[issues]: https://github.com/rnkn/olivetti/issues "Olivetti issues"
-
-History
--------
-
-See [Releases].
-
-[releases]: https://github.com/rnkn/olivetti/releases "Olivetti releases"
+To report bugs, please use `M-x report-emacs-bug RET` or send an email to
+<bug-gnu-emacs@gnu.org>
 
 Hints
 -----
