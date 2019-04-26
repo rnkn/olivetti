@@ -146,6 +146,9 @@ exiting. The reverse is not true."
 
 ;;; Set Environment
 
+;; FIXME: A change to `window-size-change-functions' in 27.x breaks this
+;; function, which expects either no argument, or a frame (as per 26.1), but now
+;; may receive a window.
 (defun olivetti-set-margins (&optional frame)
   "Set text body width to `olivetti-body-width' with relative margins.
 
