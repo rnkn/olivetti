@@ -114,23 +114,20 @@ best effect.
 
 This option does not affect file contents."
   :type '(choice (integer 70) (float 0.5))
-  :safe 'numberp
-  :group 'olivetti)
+  :safe 'numberp)
 (make-variable-buffer-local 'olivetti-body-width)
 
 (defcustom olivetti-minimum-body-width
   40
   "Minimum width in columns that text body width may be set."
   :type 'integer
-  :safe 'integerp
-  :group 'olivetti)
+  :safe 'integerp)
 
 (defcustom olivetti-lighter
   " Olv"
   "Mode-line indicator for `olivetti-mode'."
   :type '(choice (const :tag "No lighter" "") string)
-  :safe 'stringp
-  :group 'olivetti)
+  :safe 'stringp)
 
 (defcustom olivetti-recall-visual-line-mode-entry-state
   t
@@ -140,8 +137,7 @@ When non-nil, if `visual-line-mode' is inactive upon activating
 `olivetti-mode', then `visual-line-mode' will be deactivated upon
 exiting. The reverse is not true."
   :type 'boolean
-  :safe 'booleanp
-  :group 'olivetti)
+  :safe 'booleanp)
 
 
 ;;; Set Environment
