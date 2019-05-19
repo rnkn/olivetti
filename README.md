@@ -49,11 +49,8 @@ RET olivetti RET`.
 Bugs
 ----
 
-- Emacs 27.x has a compatibility change in `window.c` that will cause errors in
-  redisplay by passing a window instead of a frame as argument.
-
 To report bugs, please use `M-x report-emacs-bug RET` or send an email to
-<bug-gnu-emacs@gnu.org>
+<bug-gnu-emacs@gnu.org>. Please include "olivetti" in the subject.
 
 Hints
 -----
