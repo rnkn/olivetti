@@ -259,7 +259,7 @@ fraction of the window width."
              (read-number "Set text body width (integer or float): "
                           olivetti-body-width))))
   (setq olivetti-body-width n)
-  (olivetti-set-margins)
+  (olivetti-set-all-margins)
   (message "Text body width set to %s" olivetti-body-width))
 
 (defun olivetti-expand (&optional arg)
@@ -273,7 +273,7 @@ If prefixed with ARG, incrementally decrease."
                   ((floatp olivetti-body-width)
                    (+ olivetti-body-width (* 0.01 p))))))
     (setq olivetti-body-width (olivetti-safe-width n (selected-window))))
-  (olivetti-set-margins)
+  (olivetti-set-all-margins)
   (message "Text body width set to %s" olivetti-body-width)
   (set-transient-map
    (let ((map (make-sparse-keymap)))
