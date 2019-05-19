@@ -4,7 +4,7 @@
 
 ;; Author: Paul Rankin <hello@paulwrankin.com>
 ;; Keywords: wp, text
-;; Version: 1.7.0
+;; Version: 1.7.1
 ;; Package-Requires: ((emacs "24.5"))
 
 ;; This file is part of GNU Emacs.
