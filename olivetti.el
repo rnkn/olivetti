@@ -312,10 +312,17 @@ body width set with `olivetti-body-width'."
   :lighter olivetti-lighter
   (if olivetti-mode
       (progn
-        (add-hook 'window-size-change-functions
-                  #'olivetti-set-margins t t)
-        (add-hook 'window-configuration-change-hook
-                  'olivetti-set-all-margins t t)
+        (cond ((<= emacs-major-version 24)
+               (add-hook 'window-configuration-change-hook
+                         #'olivetti-set-all-margins t t))
+              ((<= emacs-major-version 26)
+               (add-hook 'window-configuration-change-hook
+                         #'olivetti-set-all-margins t t)
+               (add-hook 'window-size-change-functions
+                         #'olivetti-set-margins t t))
+              ((<= 27 emacs-major-version)
+               (add-hook 'window-size-change-functions
+                         #'olivetti-set-margins t t)))
         (add-hook 'change-major-mode-hook
                   #'olivetti-reset-all-windows nil t)
         (setq-local split-window-preferred-function
