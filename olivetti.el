@@ -39,8 +39,8 @@
 ;; - Text body width can be the number of characters (an integer) or a fraction
 ;;   of the window width (a float between 0.0 and 1.0).
 ;; - Interactively change body width with:
-;;   olivetti-shrink C-c [ [ [ ...
-;;   olivetti-expand C-c ] ] ] ...
+;;   olivetti-shrink C-c { { { ...
+;;   olivetti-expand C-c } } } ...
 ;;   olivetti-set-width C-c \
 ;; - If olivetti-body-width is an integer, the text body width will scale with
 ;;   use of text-scale-mode, whereas if a fraction (float) then the text body
@@ -275,8 +275,8 @@ If prefixed with ARG, incrementally decrease."
   (message "Text body width set to %s" olivetti-body-width)
   (set-transient-map
    (let ((map (make-sparse-keymap)))
-     (define-key map "]" 'olivetti-expand)
-     (define-key map "[" 'olivetti-shrink) map)))
+     (define-key map "}" 'olivetti-expand)
+     (define-key map "{" 'olivetti-shrink) map)))
 
 (defun olivetti-shrink (&optional arg)
   "Incrementally decrease the value of `olivetti-body-width'.
@@ -291,8 +291,8 @@ If prefixed with ARG, incrementally increase."
 
 (defvar olivetti-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c [") #'olivetti-shrink)
-    (define-key map (kbd "C-c ]") #'olivetti-expand)
+    (define-key map (kbd "C-c }") #'olivetti-expand)
+    (define-key map (kbd "C-c {") #'olivetti-shrink)
     (define-key map (kbd "C-c \\") #'olivetti-set-width)
     map)
   "Mode map for `olivetti-mode'.")
