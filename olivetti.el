@@ -1,12 +1,13 @@
 ;;; olivetti.el --- Minor mode for a nice writing environment -*- lexical-binding: t; -*-
 
-;; Copyright (c) 2014-2019  Free Software Foundation, Inc.
+;; Copyright (c) 2014-2019 Free Software Foundation, Inc.
+;; Copyright (c) 2019 Paul W. Rankin
 
 ;; Author: Paul W. Rankin <pwr@sdf.org>
-;; Maintainer: Paul W. Rankin <pwr@sdf.org>
 ;; Keywords: wp, text
 ;; Version: 1.7.1
 ;; Package-Requires: ((emacs "24.5"))
+;; URL: https://gthub.com/rnkn/olivetti
 
 ;; This file is part of GNU Emacs.
 
@@ -193,12 +194,14 @@ Cycle through all windows displaying current buffer and call
   (set-window-margins window nil))
 
 (defun olivetti-split-window (&optional window size side pixelwise)
-  "Call `split-window' after resetting WINDOW."
+  "Call `split-window' after resetting WINDOW.
+Pass SIZE, SIDE and PIXELWISE unchanged."
   (olivetti-reset-window window)
   (split-window window size side pixelwise))
 
 (defun olivetti-split-window-sensibly (&optional window)
-  "Like `olivetti-split-window' but calls `split-window-sensibly'."
+  "Like `olivetti-split-window' but calls `split-window-sensibly'.
+Pass WINDOW unchanged."
   (olivetti-reset-window window)
   (split-window-sensibly window))
 
