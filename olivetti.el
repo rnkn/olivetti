@@ -59,21 +59,39 @@
 
 ;; ## Installation ##
 
-;; Olivetti is now part of GNU ELPA and can be installed with:
-;; M-x package-install RET olivetti RET
+;; The latest stable release of Olivetti is available via [MELPA-stable]
+;; and can be installed with:
+
+;;     M-x package-install RET olivetti RET
+
+;; Alternately, download the [latest release], move this file into your
+;; load-path and add to your .emacs/init.el file:
+
+;;     (require 'olivetti)
+
+;; If you prefer the latest but perhaps unstable version, install via
+;; [MELPA], or clone the repository into your load-path and require as
+;; above:
+
+;;     git clone https://github.com/rnkn/olivetti.git
+
+;; [melpa]: https://melpa.org/#/olivetti "MELPA"
+;; [melpa-stable]: https://stable.melpa.org/#/olivetti "MELPA-stable"
+;; [latest release]: https://github.com/rnkn/olivetti/releases/latest "Olivetti latest release"
 
 ;; ## Contributing ##
 
-;; To report bugs, please use M-x report-emacs-bug RET or send an email to
-;; <bug-gnu-emacs@gnu.org>. Please include "olivetti" in the subject.
+;; Please report bugs and request features at
+;; <https://github.com/rnkn/fountain-mode/issues>
 
 ;; ## Hints ##
 
-;; To always use a different width for a specific file, set a File Variable:
-;; M-x add-file-local-variable RET olivetti-body-width RET 66 RET
+;; To always use a different width for a specific file, set a File
+;; Variable:
+
+;;     M-x add-file-local-variable RET olivetti-body-width RET 66 RET
 
 ;; See (info "(emacs) File Variables").
-
 
 ;;; Code:
 
