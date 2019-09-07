@@ -22,7 +22,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -38,9 +38,9 @@
 ;;   keep the text comfortably in the middle of the window.
 ;; - Text body width can be the number of characters (an integer) or a fraction
 ;;   of the window width (a float between 0.0 and 1.0).
-;; - Interactively change body width with:  
-;;   olivetti-shrink C-c { { { ...  
-;;   olivetti-expand C-c } } } ...  
+;; - Interactively change body width with:
+;;   olivetti-shrink C-c { { { ...
+;;   olivetti-expand C-c } } } ...
 ;;   olivetti-set-width C-c \
 ;; - If olivetti-body-width is an integer, the text body width will scale with
 ;;   use of text-scale-mode, whereas if a fraction (float) then the text body
@@ -219,7 +219,7 @@ Pass SIZE, SIDE and PIXELWISE unchanged."
   (split-window window size side pixelwise))
 
 (defun olivetti-split-window-sensibly (&optional window)
-  "Like `olivetti-split-window' but calls `split-window-sensibly'.
+  "Like `olivetti-split-window' but call `split-window-sensibly'.
 Pass WINDOW unchanged."
   (olivetti-reset-window window)
   (split-window-sensibly window))
@@ -294,8 +294,8 @@ If prefixed with ARG, incrementally decrease."
   (message "Text body width set to %s" olivetti-body-width)
   (set-transient-map
    (let ((map (make-sparse-keymap)))
-     (define-key map "}" 'olivetti-expand)
-     (define-key map "{" 'olivetti-shrink) map)))
+     (define-key map "}" #'olivetti-expand)
+     (define-key map "{" #'olivetti-shrink) map)))
 
 (defun olivetti-shrink (&optional arg)
   "Incrementally decrease the value of `olivetti-body-width'.
