@@ -38,9 +38,9 @@
 ;;   keep the text comfortably in the middle of the window.
 ;; - Text body width can be the number of characters (an integer) or a fraction
 ;;   of the window width (a float between 0.0 and 1.0).
-;; - Interactively change body width with:
-;;   olivetti-shrink C-c { { { ...
-;;   olivetti-expand C-c } } } ...
+;; - Interactively change body width with:  
+;;   olivetti-shrink C-c { { { ...  
+;;   olivetti-expand C-c } } } ...  
 ;;   olivetti-set-width C-c \
 ;; - If olivetti-body-width is an integer, the text body width will scale with
 ;;   use of text-scale-mode, whereas if a fraction (float) then the text body
@@ -92,6 +92,7 @@
 ;;     M-x add-file-local-variable RET olivetti-body-width RET 66 RET
 
 ;; See (info "(emacs) File Variables").
+
 
 ;;; Code:
 
