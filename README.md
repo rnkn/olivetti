@@ -53,8 +53,8 @@ above:
 
 ## Contributing ##
 
-Please report bugs and request features at
-<https://github.com/rnkn/fountain-mode/issues>
+Please report bugs and request features at:
+https://github.com/rnkn/olivetti/issues
 
 ## Hints ##
 
@@ -63,4 +63,4 @@ Variable:
 
     M-x add-file-local-variable RET olivetti-body-width RET 66 RET
 
-See (info "(emacs) File Variables").
+See (info "(emacs) File Variables")
