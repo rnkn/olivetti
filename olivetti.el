@@ -3,7 +3,7 @@
 ;; Copyright (c) 2014-2019 Free Software Foundation, Inc.
 ;; Copyright (c) 2019 Paul W. Rankin
 
-;; Author: Paul W. Rankin <pwr@sdf.org>
+;; Author: Paul W. Rankin <code@paulwrankin.com>
 ;; Keywords: wp, text
 ;; Version: 1.8.1
 ;; Package-Requires: ((emacs "24.5"))
