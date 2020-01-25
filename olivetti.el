@@ -5,7 +5,7 @@
 
 ;; Author: Paul W. Rankin <code@paulwrankin.com>
 ;; Keywords: wp, text
-;; Version: 1.8.1
+;; Version: 1.8.2
 ;; Package-Requires: ((emacs "24.5"))
 ;; URL: https://gthub.com/rnkn/olivetti
 
@@ -110,6 +110,12 @@
 
 
 ;;; Options
+
+(defcustom olivetti-mode-hook
+  nil
+  "Hook for `olivetti-mode', run after the mode is activated."
+  :type 'hook
+  :safe 'hook)
 
 (defcustom olivetti-body-width
   70
