@@ -283,6 +283,8 @@ fraction of the window width."
   (olivetti-set-all-margins)
   (message "Text body width set to %s" olivetti-body-width))
 
+(eval-when-compile (require 'seq))
+
 (defun olivetti-expand (&optional arg)
   "Incrementally increase the value of `olivetti-body-width'.
 
@@ -297,8 +299,10 @@ If prefixed with ARG, incrementally decrease."
   (olivetti-set-all-margins)
   (message "Text body width set to %s" olivetti-body-width)
   (unless overriding-terminal-local-map
-    (set-transient-map
-     (cdr (assq (elt (this-single-command-keys) 0) olivetti-mode-map)) t)))
+    (let ((keys (seq-subseq (this-single-command-keys) 0 -1))
+          (map (cdr olivetti-mode-map)))
+      (seq-do (lambda (k) (setq map (assq k map))) keys)
+      (set-transient-map (cdr map) t))))
 
 (defun olivetti-shrink (&optional arg)
   "Incrementally decrease the value of `olivetti-body-width'.
