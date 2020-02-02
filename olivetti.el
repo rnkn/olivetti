@@ -5,7 +5,7 @@
 
 ;; Author: Paul W. Rankin <code@paulwrankin.com>
 ;; Keywords: wp, text
-;; Version: 1.8.2
+;; Version: 1.9.0
 ;; Package-Requires: ((emacs "25.3"))
 ;; URL: https://gthub.com/rnkn/olivetti
 
@@ -285,8 +285,6 @@ fraction of the window width."
   (olivetti-set-all-margins)
   (message "Text body width set to %s" olivetti-body-width))
 
-(eval-when-compile (require 'seq))
-
 (defun olivetti-expand (&optional arg)
   "Incrementally increase the value of `olivetti-body-width'.
 
@@ -300,11 +298,9 @@ If prefixed with ARG, incrementally decrease."
     (setq olivetti-body-width (olivetti-safe-width n (selected-window))))
   (olivetti-set-all-margins)
   (message "Text body width set to %s" olivetti-body-width)
-  (set-transient-map
-   (let ((key (seq-subseq (this-single-command-keys) -1))
-         (map (make-sparse-keymap)))
-     (define-key map key this-command)
-     map)))
+  (unless overriding-terminal-local-map
+    (set-transient-map
+     (cdr (assq (elt (this-single-command-keys) 0) olivetti-mode-map)) t)))
 
 (defun olivetti-shrink (&optional arg)
   "Incrementally decrease the value of `olivetti-body-width'.
