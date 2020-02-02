@@ -27,7 +27,7 @@ recommend writeroom-mode: https://github.com/joostkremers/writeroom-mode.
 
 ## Requirements ##
 
-- Emacs 24.5
+- Emacs 25.3
 
 ## Installation ##
 
