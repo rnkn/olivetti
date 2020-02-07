@@ -268,6 +268,17 @@ May return a float with many digits of precision."
            (eval (car (get 'olivetti-body-width 'standard-value)) t)))))
 
 
+;;; Keymap
+
+(defvar olivetti-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-c }") #'olivetti-expand)
+    (define-key map (kbd "C-c {") #'olivetti-shrink)
+    (define-key map (kbd "C-c \\") #'olivetti-set-width)
+    map)
+  "Mode map for `olivetti-mode'.")
+
+
 ;;; Width Interaction
 
 (defun olivetti-set-width (n)
@@ -283,7 +294,7 @@ fraction of the window width."
   (olivetti-set-all-margins)
   (message "Text body width set to %s" olivetti-body-width))
 
-(eval-when-compile (require 'seq))
+(require 'seq)
 
 (defun olivetti-expand (&optional arg)
   "Incrementally increase the value of `olivetti-body-width'.
@@ -314,14 +325,6 @@ If prefixed with ARG, incrementally increase."
 
 
 ;;; Mode Definition
-
-(defvar olivetti-mode-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c }") #'olivetti-expand)
-    (define-key map (kbd "C-c {") #'olivetti-shrink)
-    (define-key map (kbd "C-c \\") #'olivetti-set-width)
-    map)
-  "Mode map for `olivetti-mode'.")
 
 (define-obsolete-function-alias 'turn-on-olivetti-mode
   #'olivetti-mode "1.7.0")
