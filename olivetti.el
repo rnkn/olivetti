@@ -5,7 +5,7 @@
 
 ;; Author: Paul W. Rankin <code@paulwrankin.com>
 ;; Keywords: wp, text
-;; Version: 1.9.0
+;; Version: 1.9.1
 ;; Package-Requires: ((emacs "25.3"))
 ;; URL: https://gthub.com/rnkn/olivetti
 
