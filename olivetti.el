@@ -314,7 +314,7 @@ If prefixed with ARG, incrementally decrease."
     (let ((keys (seq-subseq (this-single-command-keys) 0 -1))
           (map (cdr olivetti-mode-map)))
       (seq-do (lambda (k) (setq map (assq k map))) keys)
-      (set-transient-map (cdr map) t))))
+      (when (consp map) (set-transient-map (cdr map) t)))))
 
 (defun olivetti-shrink (&optional arg)
   "Incrementally decrease the value of `olivetti-body-width'.
