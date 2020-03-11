@@ -6,7 +6,7 @@
 
 ;; Author: William Rankin <code@william.bydasein.com>
 ;; Keywords: wp, text
-;; Version: 1.9.2
+;; Version: 1.9.3
 ;; Package-Requires: ((emacs "24.5"))
 ;; URL: https://gthub.com/rnkn/olivetti
 
@@ -37,9 +37,9 @@
 ;;   keep the text comfortably in the middle of the window.
 ;; - Text body width can be the number of characters (an integer) or a fraction
 ;;   of the window width (a float between 0.0 and 1.0).
-;; - Interactively change body width with:  
-;;   olivetti-shrink C-c { { { ...  
-;;   olivetti-expand C-c } } } ...  
+;; - Interactively change body width with:
+;;   olivetti-shrink C-c { { { ...
+;;   olivetti-expand C-c } } } ...
 ;;   olivetti-set-width C-c \
 ;; - If olivetti-body-width is an integer, the text body width will scale with
 ;;   use of text-scale-mode, whereas if a fraction (float) then the text body
@@ -372,3 +372,10 @@ body width set with `olivetti-body-width'."
 (provide 'olivetti)
 
 ;;; olivetti.el ends here
+
+;; Local Variables:
+;; coding: utf-8
+;; fill-column: 80
+;; require-final-newline: t
+;; sentence-end-double-space: nil
+;; End:
