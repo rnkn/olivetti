@@ -338,6 +338,8 @@ body width set with `olivetti-body-width'."
   :lighter olivetti-lighter
   (if olivetti-mode
       (progn
+        (add-hook 'text-scale-mode-hook
+                  #'olivetti-set-margins t t)
         (cond ((<= emacs-major-version 24)
                (add-hook 'window-configuration-change-hook
                          #'olivetti-set-all-margins t t))
@@ -356,6 +358,8 @@ body width set with `olivetti-body-width'."
         (setq olivetti--visual-line-mode visual-line-mode)
         (unless olivetti--visual-line-mode (visual-line-mode 1))
         (olivetti-set-all-margins))
+    (remove-hook 'text-scale-mode-hook
+                 #'olivetti-set-margins t)
     (remove-hook 'window-configuration-change-hook
                  #'olivetti-set-all-margins t)
     (remove-hook 'window-size-change-functions
