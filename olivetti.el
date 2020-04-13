@@ -160,91 +160,7 @@ exiting. The reverse is not true."
   :safe 'booleanp)
 
 
-;;; Set Environment
-
-(defun olivetti-set-all-margins ()
-  "Balance window margins in all windows displaying current buffer.
-
-Cycle through all windows in all frames displaying the current
-buffer, and call `olivetti-set-margins'."
-  (dolist (window (get-buffer-window-list nil nil t))
-    (olivetti-set-margins window)))
-
-(defun olivetti-set-margins (&optional frame-or-window)
-  "Balance window margins displaying current buffer.
-
-If FRAME-OR-WINDOW is a frame, cycle through windows displaying
-current buffer in that frame, otherwise only work on the selected
-window.
-
-First find the `olivetti-safe-width' to which to set
-`olivetti-body-width', then find the appropriate margin size
-relative to each window. Finally set the window margins, taking
-care that the maximum size is 0."
-  (if (framep frame-or-window)
-      (dolist (window (get-buffer-window-list nil nil frame-or-window))
-        (olivetti-set-margins window))
-    ;; FRAME-OR-WINDOW passed below *must* be a window
-    (olivetti-reset-window frame-or-window)
-    (let ((width (olivetti-safe-width olivetti-body-width frame-or-window))
-          (frame (window-frame frame-or-window))
-          (window-width (window-total-width frame-or-window))
-          (fringes (window-fringes frame-or-window))
-          left-fringe right-fringe margin-total left-margin right-margin)
-      (cond ((integerp width)
-             (setq width (olivetti-scale-width width)))
-            ((floatp width)
-             (setq width (* window-width width))))
-      (setq left-fringe (/ (car fringes) (float (frame-char-width frame)))
-            right-fringe (/ (cadr fringes) (float (frame-char-width frame))))
-      (setq margin-total (max (/ (- window-width width) 2) 0)
-            left-margin (max (round (- margin-total left-fringe)) 0)
-            right-margin (max (round (- margin-total right-fringe)) 0))
-      (set-window-parameter frame-or-window 'split-window 'olivetti-split-window)
-      (set-window-margins frame-or-window left-margin right-margin))))
-
-(defun olivetti-reset-all-windows ()
-  "Remove Olivetti's parameters and margins from all windows.
-
-Cycle through all windows displaying current buffer and call
-`olivetti-reset-window'."
-  (dolist (window (get-buffer-window-list nil nil t))
-    (olivetti-reset-window window)))
-
-(defun olivetti-reset-window (window)
-  "Remove Olivetti's parameters and margins from WINDOW."
-  (when (eq (window-parameter window 'split-window) 'olivetti-split-window)
-    (set-window-parameter window 'split-window nil))
-  (set-window-margins window nil))
-
-(defun olivetti-split-window (&optional window size side pixelwise)
-  "Call `split-window' after resetting WINDOW.
-Pass SIZE, SIDE and PIXELWISE unchanged."
-  (olivetti-reset-window window)
-  (split-window window size side pixelwise))
-
-(defun olivetti-split-window-sensibly (&optional window)
-  "Like `olivetti-split-window' but call `split-window-sensibly'.
-Pass WINDOW unchanged."
-  (olivetti-reset-window window)
-  (split-window-sensibly window))
-
-
-;;; Calculate Width
-
-(defun olivetti-scale-width (n)
-  "Scale N in accordance with the face height.
-
-For compatibility with `text-scale-mode', if
-`face-remapping-alist' includes a :height property on the default
-face, scale N by that factor if it is a fraction, by (height/100)
-if it is an integer, and otherwise scale by 1."
-  (let
-      ((height (plist-get (cadr (assq 'default face-remapping-alist)) :height)))
-    (cond
-     ((integerp height) (* n (/ height 100.0)))
-     ((floatp height) (* n height))
-     (t n))))
+;;; Set Windows
 
 (defun olivetti-safe-width (width window)
   "Parse WIDTH to a safe value for `olivetti-body-width' for WINDOW.
@@ -263,21 +179,88 @@ May return a float with many digits of precision."
            (max min-width (min width (floor window-width))))
           ((floatp width)
            (max (/ min-width window-width) (min width 1.0)))
-          ((user-error "`olivetti-body-width' must be an integer or a float")
-           ;; FIXME: This code is unreachable since we signal an error before
-           ;; getting here!?
-           (eval (car (get 'olivetti-body-width 'standard-value)) t)))))
+          (t
+           (message "`olivetti-body-width' must be an integer or a float")
+           (eval (car (get 'olivetti-body-width 'standard-value)))))))
 
-
-;;; Keymap
+(defun olivetti-scale-width (n)
+  "Scale N in accordance with the face height.
 
-(defvar olivetti-mode-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c }") #'olivetti-expand)
-    (define-key map (kbd "C-c {") #'olivetti-shrink)
-    (define-key map (kbd "C-c \\") #'olivetti-set-width)
-    map)
-  "Mode map for `olivetti-mode'.")
+For compatibility with `text-scale-mode', if
+`face-remapping-alist' includes a :height property on the default
+face, scale N by that factor if it is a fraction, by (height/100)
+if it is an integer, and otherwise scale by 1 (i.e. return N)."
+  (let
+      ((height (plist-get (cadr (assq 'default face-remapping-alist)) :height)))
+    (cond
+     ((integerp height) (* n (/ height 100.0)))
+     ((floatp height) (* n height))
+     (t (* n 1)))))
+
+(defun olivetti-reset-window (window)
+  "Remove Olivetti's parameters and margins from WINDOW."
+  (when (eq (window-parameter window 'split-window) 'olivetti-split-window)
+    (set-window-parameter window 'split-window nil))
+  (set-window-margins window nil)
+  (set-window-parameter window 'min-margins nil))
+
+(defun olivetti-reset-all-windows ()
+  "Call `olivetti-reset-windows' on all windows in current frame."
+  (mapc #'olivetti-reset-window (window-list nil 'no-minibuf)))
+
+(defun olivetti-split-window (&optional window size side pixelwise)
+  "Call `split-window' after resetting WINDOW.
+Pass SIZE, SIDE and PIXELWISE unchanged."
+  (olivetti-reset-all-windows)
+  (split-window window size side pixelwise))
+
+(defun olivetti-split-window-sensibly (&optional window)
+  "Like `olivetti-split-window' but call `split-window-sensibly'.
+Pass WINDOW unchanged."
+  (olivetti-reset-all-windows)
+  (split-window-sensibly window))
+
+(defun olivetti-set-margins (frame-or-window)
+  "Balance window margins displaying current buffer.
+
+If FRAME-OR-WINDOW is a frame, cycle through windows displaying
+current buffer in that frame, otherwise only work on the selected
+window.
+
+First find the `olivetti-safe-width' to which to set
+`olivetti-body-width', then find the appropriate margin size
+relative to each window. Finally set the window margins, taking
+care that the maximum size is 0."
+  (if (framep frame-or-window)
+      (mapc #'olivetti-set-margins (get-buffer-window-list nil nil frame-or-window))
+    ;; FRAME-OR-WINDOW passed below *must* be a window
+    (with-selected-window frame-or-window
+      (when olivetti-mode
+        ;; (olivetti-reset-window frame-or-window)
+        (let ((width (olivetti-safe-width olivetti-body-width frame-or-window))
+              (frame (window-frame frame-or-window))
+              (window-width (window-total-width frame-or-window))
+              (fringes (window-fringes frame-or-window))
+              left-fringe right-fringe margin-total left-margin right-margin)
+          (cond ((integerp width)
+                 (setq width (olivetti-scale-width width)))
+                ((floatp width)
+                 (setq width (* window-width width))))
+          (setq left-fringe (/ (car fringes) (float (frame-char-width frame)))
+                right-fringe (/ (cadr fringes) (float (frame-char-width frame))))
+          (setq margin-total (max (/ (- window-width width) 2) 0)
+                left-margin (max (round (- margin-total left-fringe)) 0)
+                right-margin (max (round (- margin-total right-fringe)) 0))
+          (set-window-margins frame-or-window left-margin right-margin))
+        (set-window-parameter frame-or-window 'split-window 'olivetti-split-window)
+        (set-window-parameter frame-or-window 'min-margins (cons 0 0))))))
+
+(defun olivetti-set-all-margins ()
+  "Balance window margins in all windows displaying current buffer.
+
+Cycle through all windows in all visible frames displaying the
+current buffer, and call `olivetti-set-margins'."
+  (mapc #'olivetti-set-margins (get-buffer-window-list nil nil 'visible)))
 
 
 ;;; Width Interaction
@@ -321,6 +304,16 @@ If prefixed with ARG, incrementally increase."
   (interactive "P")
   (let ((p (unless arg t)))
     (olivetti-expand p)))
+
+
+;;; Keymap
+
+(defvar olivetti-mode-map (make-sparse-keymap)
+  "Mode map for `olivetti-mode'.")
+
+(define-key olivetti-mode-map (kbd "C-c }") #'olivetti-expand)
+(define-key olivetti-mode-map (kbd "C-c {") #'olivetti-shrink)
+(define-key olivetti-mode-map (kbd "C-c \\") #'olivetti-set-width)
 
 
 ;;; Mode Definition
