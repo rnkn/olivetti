@@ -220,10 +220,10 @@ Pass WINDOW unchanged."
   (olivetti-reset-all-windows)
   (split-window-sensibly window))
 
-(defun olivetti-set-margins (frame-or-window)
+(defun olivetti-set-window (window-or-frame)
   "Balance window margins displaying current buffer.
 
-If FRAME-OR-WINDOW is a frame, cycle through windows displaying
+If WINDOW-OR-FRAME is a frame, cycle through windows displaying
 current buffer in that frame, otherwise only work on the selected
 window.
 
@@ -231,16 +231,16 @@ First find the `olivetti-safe-width' to which to set
 `olivetti-body-width', then find the appropriate margin size
 relative to each window. Finally set the window margins, taking
 care that the maximum size is 0."
-  (if (framep frame-or-window)
-      (mapc #'olivetti-set-margins (get-buffer-window-list nil nil frame-or-window))
-    ;; FRAME-OR-WINDOW passed below *must* be a window
-    (with-selected-window frame-or-window
+  (if (framep window-or-frame)
+      (mapc #'olivetti-set-window (get-buffer-window-list nil nil window-or-frame))
+    ;; WINDOW-OR-FRAME passed below *must* be a window
+    (with-selected-window window-or-frame
       (when olivetti-mode
-        ;; (olivetti-reset-window frame-or-window)
-        (let ((width (olivetti-safe-width olivetti-body-width frame-or-window))
-              (frame (window-frame frame-or-window))
-              (window-width (window-total-width frame-or-window))
-              (fringes (window-fringes frame-or-window))
+        ;; (olivetti-reset-window window-or-frame)
+        (let ((width (olivetti-safe-width olivetti-body-width window-or-frame))
+              (frame (window-frame window-or-frame))
+              (window-width (window-total-width window-or-frame))
+              (fringes (window-fringes window-or-frame))
               left-fringe right-fringe margin-total left-margin right-margin)
           (cond ((integerp width)
                  (setq width (olivetti-scale-width width)))
@@ -251,16 +251,16 @@ care that the maximum size is 0."
           (setq margin-total (max (/ (- window-width width) 2) 0)
                 left-margin (max (round (- margin-total left-fringe)) 0)
                 right-margin (max (round (- margin-total right-fringe)) 0))
-          (set-window-margins frame-or-window left-margin right-margin))
-        (set-window-parameter frame-or-window 'split-window 'olivetti-split-window)
-        (set-window-parameter frame-or-window 'min-margins (cons 0 0))))))
+          (set-window-margins window-or-frame left-margin right-margin))
+        (set-window-parameter window-or-frame 'split-window 'olivetti-split-window)
+        (set-window-parameter window-or-frame 'min-margins (cons 0 0))))))
 
-(defun olivetti-set-all-margins ()
+(defun olivetti-set-buffer-windows ()
   "Balance window margins in all windows displaying current buffer.
 
 Cycle through all windows in all visible frames displaying the
-current buffer, and call `olivetti-set-margins'."
-  (mapc #'olivetti-set-margins (get-buffer-window-list nil nil 'visible)))
+current buffer, and call `olivetti-set-window'."
+  (mapc #'olivetti-set-window (get-buffer-window-list nil nil 'visible)))
 
 
 ;;; Width Interaction
@@ -275,7 +275,7 @@ fraction of the window width."
              (read-number "Set text body width (integer or float): "
                           olivetti-body-width))))
   (setq olivetti-body-width n)
-  (olivetti-set-all-margins)
+  (olivetti-set-buffer-windows)
   (message "Text body width set to %s" olivetti-body-width))
 
 (defun olivetti-expand (&optional arg)
@@ -289,7 +289,7 @@ If prefixed with ARG, incrementally decrease."
                   ((floatp olivetti-body-width)
                    (+ olivetti-body-width (* 0.01 p))))))
     (setq olivetti-body-width (olivetti-safe-width n (selected-window))))
-  (olivetti-set-all-margins)
+  (olivetti-set-buffer-windows)
   (message "Text body width set to %s" olivetti-body-width)
   (unless overriding-terminal-local-map
     (let ((keys (substring (this-single-command-keys) 0 -1))
@@ -331,32 +331,32 @@ body width set with `olivetti-body-width'."
   :lighter olivetti-lighter
   (if olivetti-mode
       (progn
-        (add-hook 'text-scale-mode-hook
-                  #'olivetti-set-margins t t)
         (cond ((<= emacs-major-version 24)
                (add-hook 'window-configuration-change-hook
-                         #'olivetti-set-all-margins t t))
+                         #'olivetti-set-buffer-windows t t))
               ((<= emacs-major-version 26)
                (add-hook 'window-configuration-change-hook
-                         #'olivetti-set-all-margins t t)
+                         #'olivetti-set-buffer-windows t t)
                (add-hook 'window-size-change-functions
-                         #'olivetti-set-margins t t))
+                         #'olivetti-set-window t t))
               ((<= 27 emacs-major-version)
                (add-hook 'window-size-change-functions
-                         #'olivetti-set-margins t t)))
+                         #'olivetti-set-window t t)))
         (add-hook 'change-major-mode-hook
                   #'olivetti-reset-all-windows nil t)
+        (add-hook 'text-scale-mode-hook
+                  #'olivetti-set-buffer-windows t t)
         (setq-local split-window-preferred-function
                     #'olivetti-split-window-sensibly)
         (setq olivetti--visual-line-mode visual-line-mode)
         (unless olivetti--visual-line-mode (visual-line-mode 1))
-        (olivetti-set-all-margins))
-    (remove-hook 'text-scale-mode-hook
-                 #'olivetti-set-margins t)
+        (olivetti-set-buffer-windows))
     (remove-hook 'window-configuration-change-hook
-                 #'olivetti-set-all-margins t)
+                 #'olivetti-set-buffer-windows t)
     (remove-hook 'window-size-change-functions
-                 #'olivetti-set-margins t)
+                 #'olivetti-set-window t)
+    (remove-hook 'text-scale-mode-hook
+                 #'olivetti-set-window t)
     (olivetti-reset-all-windows)
     (when (and olivetti-recall-visual-line-mode-entry-state
                (not olivetti--visual-line-mode))
