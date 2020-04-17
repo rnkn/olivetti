@@ -1,10 +1,6 @@
 ---
 name: Bug report
 about: For problems with Olivetti
-title: ''
-labels: ''
-assignees: ''
-
 ---
 
 Please read first and then delete:
