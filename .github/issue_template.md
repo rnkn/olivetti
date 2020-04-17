@@ -5,7 +5,10 @@ about: For problems with Olivetti
 
 Please read first and then delete:
 
-Please attempt to reproduce the issue with `emacs -Q` then `M-x load-file RET [path to olivetti.el] RET`. Do not load your configuration file.
+For feature requests, feel free to delete and disregard this; for bugs:
+
+Please attempt to reproduce with `emacs -Q` then `M-x load-file RET
+[path to olivetti.el] RET`. Do not load your configuration file.
 
 Include:
 - your operating system
