@@ -103,6 +103,11 @@
 
 ;;; Variables
 
+(eval-when-compile
+  (require 'lisp-mnt)
+  (defconst olivetti-version
+    (lm-version load-file-name)))
+
 (defvar-local olivetti--visual-line-mode
   nil
   "Non-nil if `visual-line-mode' is active when `olivetti-mode' is turned on.")
