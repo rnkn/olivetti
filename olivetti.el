@@ -314,12 +314,13 @@ If prefixed with ARG, incrementally increase."
 
 ;;; Keymap
 
-(defvar olivetti-mode-map (make-sparse-keymap)
+(defvar olivetti-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-c }") #'olivetti-expand)
+    (define-key map (kbd "C-c {") #'olivetti-shrink)
+    (define-key map (kbd "C-c \\") #'olivetti-set-width)
+    map)
   "Mode map for `olivetti-mode'.")
-
-(define-key olivetti-mode-map (kbd "C-c }") #'olivetti-expand)
-(define-key olivetti-mode-map (kbd "C-c {") #'olivetti-shrink)
-(define-key olivetti-mode-map (kbd "C-c \\") #'olivetti-set-width)
 
 
 ;;; Mode Definition
