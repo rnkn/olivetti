@@ -119,8 +119,7 @@
   nil
   "Hook for `olivetti-mode', run after the mode is activated."
   :type 'hook
-  :safe 'hook
-  :options '(olivetti-turn-on-visual-line-mode))
+  :safe 'hook)
 
 (defcustom olivetti-body-width
   70
@@ -154,6 +153,12 @@ This option does not affect file contents."
   "Mode-line indicator for `olivetti-mode'."
   :type '(choice (const :tag "No lighter" "") string)
   :safe 'stringp)
+
+(defcustom olivetti-enable-visual-line-mode
+  nil
+  "When non-nil, `visual-line-mode' is enabled with `olivetti-mode'."
+  :type 'boolean
+  :safe 'booleanp)
 
 (defcustom olivetti-recall-visual-line-mode-entry-state
   t
@@ -324,12 +329,6 @@ If prefixed with ARG, incrementally increase."
   "Mode map for `olivetti-mode'.")
 
 
-;;; Visual line mode
-
-(defun olivetti-turn-on-visual-line-mode ()
-  (unless olivetti--visual-line-mode (visual-line-mode 1)))
-
-
 ;;; Mode Definition
 
 (define-obsolete-function-alias 'turn-on-olivetti-mode
@@ -363,6 +362,9 @@ body width set with `olivetti-body-width'."
         (setq-local split-window-preferred-function
                     #'olivetti-split-window-sensibly)
         (setq olivetti--visual-line-mode visual-line-mode)
+        (when (and olivetti-enable-visual-line-mode
+                   (not olivetti--visual-line-mode))
+          (visual-line-mode 1))
         (olivetti-set-buffer-windows))
     (remove-hook 'window-configuration-change-hook
                  #'olivetti-set-buffer-windows t)
@@ -371,7 +373,8 @@ body width set with `olivetti-body-width'."
     (remove-hook 'text-scale-mode-hook
                  #'olivetti-set-window t)
     (olivetti-reset-all-windows)
-    (when (and olivetti-recall-visual-line-mode-entry-state
+    (when (and olivetti-enable-visual-line-mode
+               olivetti-recall-visual-line-mode-entry-state
                (not olivetti--visual-line-mode))
       (visual-line-mode 0))
     (kill-local-variable 'split-window-preferred-function)
