@@ -119,7 +119,8 @@
   nil
   "Hook for `olivetti-mode', run after the mode is activated."
   :type 'hook
-  :safe 'hook)
+  :safe 'hook
+  :options '(olivetti-turn-on-visual-line-mode))
 
 (defcustom olivetti-body-width
   70
@@ -323,6 +324,12 @@ If prefixed with ARG, incrementally increase."
   "Mode map for `olivetti-mode'.")
 
 
+;;; Visual line mode
+
+(defun olivetti-turn-on-visual-line-mode ()
+  (unless olivetti--visual-line-mode (visual-line-mode 1)))
+
+
 ;;; Mode Definition
 
 (define-obsolete-function-alias 'turn-on-olivetti-mode
@@ -356,7 +363,6 @@ body width set with `olivetti-body-width'."
         (setq-local split-window-preferred-function
                     #'olivetti-split-window-sensibly)
         (setq olivetti--visual-line-mode visual-line-mode)
-        (unless olivetti--visual-line-mode (visual-line-mode 1))
         (olivetti-set-buffer-windows))
     (remove-hook 'window-configuration-change-hook
                  #'olivetti-set-buffer-windows t)
