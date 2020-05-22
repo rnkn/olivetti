@@ -155,7 +155,7 @@ This option does not affect file contents."
   :safe 'stringp)
 
 (defcustom olivetti-enable-visual-line-mode
-  nil
+  t
   "When non-nil, `visual-line-mode' is enabled with `olivetti-mode'."
   :type 'boolean
   :safe 'booleanp)
