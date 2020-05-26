@@ -4,7 +4,7 @@
 ;; Copyright (c) 2019       Free Software Foundation, Inc.
 ;; Copyright (c) 2019-2020  Paul Wiliam Rankin
 
-;; Author: William Rankin <code@william.bydasein.com>
+;; Author: William Rankin <william@bydasein.com>
 ;; Keywords: wp, text
 ;; Version: 1.10.0-beta
 ;; Package-Requires: ((emacs "24.5"))
@@ -154,13 +154,19 @@ This option does not affect file contents."
   :type '(choice (const :tag "No lighter" "") string)
   :safe 'stringp)
 
+(defcustom olivetti-enable-visual-line-mode
+  t
+  "When non-nil, `visual-line-mode' is enabled with `olivetti-mode'."
+  :type 'boolean
+  :safe 'booleanp)
+
 (defcustom olivetti-recall-visual-line-mode-entry-state
   t
   "Recall the state of `visual-line-mode' upon exiting.
 
-When non-nil, if `visual-line-mode' is inactive upon activating
-`olivetti-mode', then `visual-line-mode' will be deactivated upon
-exiting. The reverse is not true."
+When non-nil, remember if `visual-line-mode' was enabled or not
+upon activating `olivetti-mode' and restore that state upon
+exiting."
   :type 'boolean
   :safe 'booleanp)
 
@@ -356,7 +362,9 @@ body width set with `olivetti-body-width'."
         (setq-local split-window-preferred-function
                     #'olivetti-split-window-sensibly)
         (setq olivetti--visual-line-mode visual-line-mode)
-        (unless olivetti--visual-line-mode (visual-line-mode 1))
+        (when (and olivetti-enable-visual-line-mode
+                   (not olivetti--visual-line-mode))
+          (visual-line-mode 1))
         (olivetti-set-buffer-windows))
     (remove-hook 'window-configuration-change-hook
                  #'olivetti-set-buffer-windows t)
@@ -365,9 +373,8 @@ body width set with `olivetti-body-width'."
     (remove-hook 'text-scale-mode-hook
                  #'olivetti-set-window t)
     (olivetti-reset-all-windows)
-    (when (and olivetti-recall-visual-line-mode-entry-state
-               (not olivetti--visual-line-mode))
-      (visual-line-mode 0))
+    (when olivetti-recall-visual-line-mode-entry-state
+      (visual-line-mode (if olivetti--visual-line-mode 1 0)))
     (kill-local-variable 'split-window-preferred-function)
     (kill-local-variable 'olivetti--visual-line-mode)))
 
