@@ -325,6 +325,12 @@ If prefixed with ARG, incrementally increase."
     (define-key map (kbd "C-c }") #'olivetti-expand)
     (define-key map (kbd "C-c {") #'olivetti-shrink)
     (define-key map (kbd "C-c \\") #'olivetti-set-width)
+    ;; This code is taken from https://github.com/joostkremers/visual-fill-column
+    (when (bound-and-true-p mouse-wheel-mode)
+      (define-key map (vector 'left-margin mouse-wheel-down-event) 'mwheel-scroll)
+      (define-key map (vector 'left-margin mouse-wheel-up-event) 'mwheel-scroll)
+      (define-key map (vector 'right-margin mouse-wheel-down-event) 'mwheel-scroll)
+      (define-key map (vector 'right-margin mouse-wheel-up-event) 'mwheel-scroll))
     map)
   "Mode map for `olivetti-mode'.")
 
