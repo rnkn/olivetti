@@ -121,7 +121,15 @@
 
 (defvar-local olivetti--visual-line-mode
   nil
-  "Non-nil if `visual-line-mode' is active when `olivetti-mode' is turned on.")
+  "Value of `visual-line-mode' when when `olivetti-mode' is enabled.")
+
+(defvar-local olivetti--min-margins
+  '(0 . 0)
+  "Cons cell of minimum width in columns for left and right margins.
+
+The `min-margins' window parameter is set to this value, which is
+only used when splitting windows and has no effect on interactive
+operation.")
 
 
 ;;; Options
@@ -223,8 +231,8 @@ if it is an integer, and otherwise scale by 1 (i.e. return N)."
   "Remove Olivetti's parameters and margins from WINDOW."
   (when (eq (window-parameter window 'split-window) 'olivetti-split-window)
     (set-window-parameter window 'split-window nil))
-  (set-window-margins window nil)
-  (set-window-parameter window 'min-margins nil))
+  (set-window-parameter window 'min-margins nil)
+  (set-window-margins window nil))
 
 (defun olivetti-reset-all-windows ()
   "Call `olivetti-reset-windows' on all windows in current frame."
@@ -258,7 +266,6 @@ care that the maximum size is 0."
     ;; WINDOW-OR-FRAME passed below *must* be a window
     (with-selected-window window-or-frame
       (when olivetti-mode
-        ;; (olivetti-reset-window window-or-frame)
         (let ((width (olivetti-safe-width olivetti-body-width window-or-frame))
               (frame (window-frame window-or-frame))
               (window-width (window-total-width window-or-frame))
@@ -275,7 +282,9 @@ care that the maximum size is 0."
                 right-margin (max (round (- margin-total right-fringe)) 0))
           (set-window-margins window-or-frame left-margin right-margin))
         (set-window-parameter window-or-frame 'split-window 'olivetti-split-window)
-        (set-window-parameter window-or-frame 'min-margins (cons 0 0))))))
+        (set-window-parameter window-or-frame 'min-margins
+                              (cons (max (car olivetti--min-margins) 0)
+                                    (max (cdr olivetti--min-margins) 0)))))))
 
 (defun olivetti-set-buffer-windows ()
   "Balance window margins in all windows displaying current buffer.
@@ -382,6 +391,7 @@ body width set with `olivetti-body-width'."
         (when (and olivetti-enable-visual-line-mode
                    (not olivetti--visual-line-mode))
           (visual-line-mode 1))
+        (setq olivetti--min-margins (window-parameter nil 'min-margins))
         (olivetti-set-buffer-windows))
     (remove-hook 'window-configuration-change-hook
                  #'olivetti-set-buffer-windows t)
@@ -392,8 +402,9 @@ body width set with `olivetti-body-width'."
     (olivetti-reset-all-windows)
     (when olivetti-recall-visual-line-mode-entry-state
       (visual-line-mode (if olivetti--visual-line-mode 1 0)))
-    (kill-local-variable 'split-window-preferred-function)
-    (kill-local-variable 'olivetti--visual-line-mode)))
+    (mapc #'kill-local-variable '(split-window-preferred-function
+                                  olivetti--visual-line-mode
+                                  olivetti--min-margins))))
 
 
 
