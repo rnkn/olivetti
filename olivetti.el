@@ -391,7 +391,6 @@ body width set with `olivetti-body-width'."
         (when (and olivetti-enable-visual-line-mode
                    (not olivetti--visual-line-mode))
           (visual-line-mode 1))
-        (setq olivetti--min-margins (window-parameter nil 'min-margins))
         (olivetti-set-buffer-windows))
     (remove-hook 'window-configuration-change-hook
                  #'olivetti-set-buffer-windows t)
