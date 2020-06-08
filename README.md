@@ -31,19 +31,30 @@ recommend writeroom-mode: https://github.com/joostkremers/writeroom-mode.
 
 ## Installation ##
 
-The latest stable release of Olivetti is available via [MELPA-stable][]
-and can be installed with:
+The latest stable release of Olivetti is available via
+[MELPA-stable][]. First, add MELPA-stable to your package archives:
 
-    M-x package-install RET olivetti RET
+    M-x customize-option RET package-archives RET
+    
+Insert an entry named `melpa-stable` with the URL `https://stable.melpa.org/packages/`.
 
-Alternately, download the [latest release][], move this file into your
-load-path and add to your .emacs/init.el file:
+You can then find the latest stable version of `olivetti` in the
+list returned by:
+
+    M-x list-packages RET
+
+If you prefer the latest but perhaps unstable version, do the above
+using [MELPA][].
+
+## Advanced Installation ##
+
+Download the [latest release][], move this file into your load-path and
+add to your `init.el` file:
 
     (require 'olivetti)
 
-If you prefer the latest but perhaps unstable version, install via
-[MELPA][], or clone the repository into your load-path and require as
-above:
+If you wish to contribute to or alter Olivetti's code, clone the
+repository into your load-path and require as above:
 
     git clone https://github.com/rnkn/olivetti.git
 
