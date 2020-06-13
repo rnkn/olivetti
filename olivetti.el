@@ -8,7 +8,7 @@
 ;; Keywords: wp, text
 ;; Version: 1.11.0-beta
 ;; Package-Requires: ((emacs "24.5"))
-;; URL: https://gthub.com/rnkn/olivetti
+;; URL: https://github.com/rnkn/olivetti
 
 ;; This file is not part of GNU Emacs.
 
