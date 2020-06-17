@@ -220,12 +220,10 @@ For compatibility with `text-scale-mode', if
 `face-remapping-alist' includes a :height property on the default
 face, scale N by that factor if it is a fraction, by (height/100)
 if it is an integer, and otherwise scale by 1 (i.e. return N)."
-  (let
-      ((height (plist-get (cadr (assq 'default face-remapping-alist)) :height)))
-    (cond
-     ((integerp height) (* n (/ height 100.0)))
-     ((floatp height) (* n height))
-     (t (* n 1)))))
+  (let ((height (plist-get (cadr (assq 'default face-remapping-alist)) :height)))
+    (cond ((integerp height) (* n (/ height 100.0)))
+          ((floatp height)   (* n height))
+          (t                 (* n 1)))))
 
 (defun olivetti-reset-window (window)
   "Remove Olivetti's parameters and margins from WINDOW."
@@ -266,19 +264,19 @@ care that the maximum size is 0."
     ;; WINDOW-OR-FRAME passed below *must* be a window
     (with-selected-window window-or-frame
       (when olivetti-mode
-        (let ((width (olivetti-safe-width olivetti-body-width window-or-frame))
-              (frame (window-frame window-or-frame))
+        (let ((frame        (window-frame window-or-frame))
+              (body-width   (olivetti-safe-width olivetti-body-width window-or-frame))
               (window-width (window-total-width window-or-frame))
-              (fringes (window-fringes window-or-frame))
+              (fringes      (window-fringes window-or-frame))
               left-fringe right-fringe margin-total left-margin right-margin)
-          (cond ((integerp width)
-                 (setq width (olivetti-scale-width width)))
-                ((floatp width)
-                 (setq width (* window-width width))))
-          (setq left-fringe (/ (car fringes) (float (frame-char-width frame)))
+          (cond ((integerp body-width)
+                 (setq body-width (olivetti-scale-width body-width)))
+                ((floatp body-width)
+                 (setq body-width (* window-width body-width))))
+          (setq left-fringe  (/ (car fringes)  (float (frame-char-width frame)))
                 right-fringe (/ (cadr fringes) (float (frame-char-width frame))))
-          (setq margin-total (max (/ (- window-width width) 2) 0)
-                left-margin (max (round (- margin-total left-fringe)) 0)
+          (setq margin-total (max (/     (- window-width body-width) 2) 0)
+                left-margin  (max (round (- margin-total left-fringe))  0)
                 right-margin (max (round (- margin-total right-fringe)) 0))
           (set-window-margins window-or-frame left-margin right-margin))
         (set-window-parameter window-or-frame 'split-window 'olivetti-split-window)
