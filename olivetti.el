@@ -134,10 +134,11 @@ operation.")
 
 ;;; Options
 
-(defcustom olivetti-mode-hook
-  nil
+(defcustom olivetti-mode-on-hook
+  '(visual-line-mode)
   "Hook for `olivetti-mode', run after the mode is activated."
   :type 'hook
+  :options '(visual-line-mode)
   :safe 'hook)
 
 (defcustom olivetti-body-width
@@ -173,11 +174,22 @@ This option does not affect file contents."
   :type '(choice (const :tag "No lighter" "") string)
   :safe 'stringp)
 
+(make-obsolete-variable 'olivetti-enable-visual-line-mode
+                        'olivetti-mode-on-hook "1.11.0" 'set)
+
 (defcustom olivetti-enable-visual-line-mode
   t
-  "When non-nil, `visual-line-mode' is enabled with `olivetti-mode'."
+  "When non-nil, `visual-line-mode' is enabled with `olivetti-mode'.
+
+This option is obsolete; use `olivetti-mode-on-hook' instead.
+Setting this option automatically adds or removes
+`visual-line-mode' to that hook."
   :type 'boolean
-  :safe 'booleanp)
+  :set (lambda (symbol value)
+         (set-default symbol value)
+         (if value
+             (add-hook 'olivetti-mode-on-hook 'visual-line-mode)
+           (remove-hook 'olivetti-mode-on-hook 'visual-line-mode))))
 
 (defcustom olivetti-recall-visual-line-mode-entry-state
   t
@@ -386,9 +398,6 @@ body width set with `olivetti-body-width'."
         (setq-local split-window-preferred-function
                     #'olivetti-split-window-sensibly)
         (setq olivetti--visual-line-mode visual-line-mode)
-        (when (and olivetti-enable-visual-line-mode
-                   (not olivetti--visual-line-mode))
-          (visual-line-mode 1))
         (olivetti-set-buffer-windows))
     (remove-hook 'window-configuration-change-hook
                  #'olivetti-set-buffer-windows t)
