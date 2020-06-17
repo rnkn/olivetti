@@ -2,7 +2,7 @@
 
 A simple Emacs minor mode for a nice writing environment.
 
-![olivetti screenshot](https://user-images.githubusercontent.com/1256849/78750498-b3bf7f80-79b3-11ea-9c3f-6ab075e73758.png)
+![olivetti screenshot](https://user-images.githubusercontent.com/1256849/84850582-6dfdf200-b09b-11ea-83d4-5d9cf92455eb.png)
 
 ## Features ##
 
