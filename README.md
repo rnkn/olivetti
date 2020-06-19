@@ -1,5 +1,8 @@
 # Olivetti #
 
+[![MELPA Stable](https://stable.melpa.org/packages/olivetti-badge.svg)](https://stable.melpa.org/#/olivetti)
+[![MELPA](https://melpa.org/packages/olivetti-badge.svg)](https://melpa.org/#/olivetti)
+
 A simple Emacs minor mode for a nice writing environment.
 
 ![olivetti screenshot](https://user-images.githubusercontent.com/1256849/84850582-6dfdf200-b09b-11ea-83d4-5d9cf92455eb.png)
