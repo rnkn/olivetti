@@ -342,6 +342,7 @@ If prefixed with ARG, incrementally increase."
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c }") #'olivetti-expand)
     (define-key map (kbd "C-c {") #'olivetti-shrink)
+    (define-key map (kbd "C-c |") #'olivetti-set-width)
     (define-key map (kbd "C-c \\") #'olivetti-set-width)
     ;; This code is taken from https://github.com/joostkremers/visual-fill-column
     (when (bound-and-true-p mouse-wheel-mode)
