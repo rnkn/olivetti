@@ -275,6 +275,7 @@ care that the maximum size is 0."
       (mapc #'olivetti-set-window (get-buffer-window-list nil nil window-or-frame))
     ;; WINDOW-OR-FRAME passed below *must* be a window
     (with-selected-window window-or-frame
+      (olivetti-reset-window window-or-frame)
       (when olivetti-mode
         (let ((frame        (window-frame window-or-frame))
               (body-width   (olivetti-safe-width olivetti-body-width window-or-frame))
@@ -406,7 +407,7 @@ body width set with `olivetti-body-width'."
                  #'olivetti-set-window t)
     (remove-hook 'text-scale-mode-hook
                  #'olivetti-set-window t)
-    (olivetti-reset-all-windows)
+    (olivetti-set-buffer-windows)
     (when olivetti-recall-visual-line-mode-entry-state
       (visual-line-mode (if olivetti--visual-line-mode 1 0)))
     (mapc #'kill-local-variable '(split-window-preferred-function
