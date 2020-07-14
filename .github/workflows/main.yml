@@ -5,13 +5,17 @@ on:
     paths-ignore:
       - "**.md"
   pull_request:
+    paths-ignore:
+      - "**.md"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         emacs_version:
+          - 24.4
           - 24.5
           - 25.1
           - 25.2
@@ -20,10 +24,17 @@ jobs:
           - 26.2
           - 26.3
           - snapshot
+        emacs_check:
+          - package-lint
+          - byte-compile
     steps:
-    - uses: purcell/setup-emacs@v2.0
-      with:
-        version: ${{ matrix.emacs_version }}
-    - uses: actions/checkout@v2
-    - name: Run tests
-      run: make
+      - uses: purcell/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs_version }}
+      - uses: actions/checkout@v2
+      - name: Run checks
+        uses: leotaku/elisp-check@master
+        with:
+          file: "*.el"
+          ignore_warnings: true
+          check: ${{ matrix.emacs_check }}
