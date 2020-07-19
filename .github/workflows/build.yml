@@ -24,17 +24,20 @@ jobs:
           - 26.2
           - 26.3
           - snapshot
-        emacs_check:
-          - package-lint
-          - byte-compile
     steps:
       - uses: purcell/setup-emacs@master
         with:
           version: ${{ matrix.emacs_version }}
       - uses: actions/checkout@master
-      - name: Run checks
+      - name: Run package-lint
         uses: leotaku/elisp-check@master
         with:
           file: "olivetti.el"
           ignore_warnings: true
-          check: ${{ matrix.emacs_check }}
+          check: package-lint
+      - name: Run byte-compile
+        uses: leotaku/elisp-check@master
+        with:
+          file: "olivetti.el"
+          ignore_warnings: true
+          check: byte-compile
