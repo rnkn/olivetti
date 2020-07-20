@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - "olivetti.el"
+      - "**/build.yml"
   pull_request:
     paths:
       - "olivetti.el"
+      - "**/build.yml"
 
 jobs:
   build:
