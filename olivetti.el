@@ -338,7 +338,8 @@ If prefixed with ARG, incrementally decrease."
           (map (cdr olivetti-mode-map)))
       (when (< 0 (length prefix-keys))
         (mapc (lambda (k) (setq map (assq k map))) prefix-keys)
-        (when (consp map) (set-transient-map (cdr map) t))))))
+        (setq map (cdr-safe map))
+        (when (keymapp map) (set-transient-map map t))))))
 
 (defun olivetti-shrink (&optional arg)
   "Incrementally decrease the value of `olivetti-body-width'.
