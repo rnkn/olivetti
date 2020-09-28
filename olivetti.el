@@ -27,11 +27,13 @@
 
 ;;; Commentary:
 
-;; # Olivetti #
+;; Olivetti
+;; ========
 
 ;; A simple Emacs minor mode for a nice writing environment.
 
-;; ## Features ##
+;; Features
+;; --------
 
 ;; - Set a desired text body width to automatically resize window margins to
 ;;   keep the text comfortably in the middle of the window.
@@ -52,18 +54,24 @@
 ;; for a hardcore distraction-free writing mode with a much larger scope, I
 ;; recommend writeroom-mode: https://github.com/joostkremers/writeroom-mode.
 
-;; ## Requirements ##
+
+;; Requirements
+;; ------------
 
 ;; - Emacs 24.5
+;; - seq 2.20 (part of Emacs 25.1+)
 
-;; ## Installation ##
+
+;; Installation
+;; ------------
 
 ;; The latest stable release of Olivetti is available via
-;; [MELPA-stable]. First, add MELPA-stable to your package archives:
+;; [MELPA-stable][1]. First, add MELPA-stable to your package archives:
 
 ;;     M-x customize-option RET package-archives RET
 
-;; Insert an entry named melpa-stable with the URL https://stable.melpa.org/packages/.
+;; Insert an entry named melpa-stable with URL:
+;; https://stable.melpa.org/packages/
 
 ;; You can then find the latest stable version of olivetti in the
 ;; list returned by:
@@ -71,12 +79,14 @@
 ;;     M-x list-packages RET
 
 ;; If you prefer the latest but perhaps unstable version, do the above
-;; using [MELPA].
+;; using [MELPA][2].
 
-;; ## Advanced Installation ##
 
-;; Download the [latest release], move this file into your load-path and
-;; add to your init.el file:
+;; Advanced Installation
+;; ---------------------
+
+;; Download the latest tagged release, move this file into your load-path
+;; and add to your init.el file:
 
 ;;     (require 'olivetti)
 
@@ -85,16 +95,18 @@
 
 ;;     git clone https://github.com/rnkn/olivetti.git
 
-;; [melpa]: https://melpa.org/#/olivetti "MELPA"
-;; [melpa-stable]: https://stable.melpa.org/#/olivetti "MELPA-stable"
-;; [latest release]: https://github.com/rnkn/olivetti/releases/latest "Olivetti latest release"
 
-;; ## Contributing ##
+;; Bugs and Feature Requests
+;; -------------------------
 
-;; Please report bugs and request features at:
-;; https://github.com/rnkn/olivetti/issues
+;; Send me an email (address in the package header). For bugs, please
+;; ensure you can reproduce with:
 
-;; ## Hints ##
+;;     $ emacs -Q -l olivetti.el
+
+
+;; Hints
+;; -----
 
 ;; To always use a different width for a specific file, set a File
 ;; Variable:
@@ -102,6 +114,10 @@
 ;;     M-x add-file-local-variable RET olivetti-body-width RET 66 RET
 
 ;; See (info "(emacs) File Variables")
+
+
+;; [1]: https://stable.melpa.org/#/olivetti
+;; [2]: https://melpa.org/#/olivetti
 
 
 ;;; Code:
