@@ -1,0 +1,218 @@
+* Version 1.11.2
+
+- Make set-transient-map a little more safe
+- History is now tracked in a fancy NEWS file
+
+* Version 1.11.1
+
+- Fix issue when deactivating olivetti in single window with multiple
+  windows with olivetti active in frame (#50)
+
+This release is not affiliated with CloudFlare DNS :)
+
+* Version 1.11.0
+
+- Use olivetti-mode-on-hook to enable visual-line-mode rather than
+  olivetti-enable-visual-line-mode. This option is marked obsolete and
+  has a setter function to add/remove visual-line-mode to the hook.
+- Implement scrolling when pointer is in margin [1]
+- Added undocumented C-c | binding shadowing C-\'
+- Refactor code for clarity.
+
+[1] code taken from https://github.com/joostkremers/visual-fill-column
+
+* Version 1.10.0
+
+- Use tradition coding style for mode map to allow for user override
+  (#44)
+- Add olivetti-enable-visual-line-mode user option (defaults to true) to
+  make visual lines optional (#46)
+
+* Version 1.9.5
+
+- Fix an issue where calling some commands after olivetti-expand would
+  break the transient keymap (#36)
+
+* Version 1.9.4
+
+- Run olivetti-set-margins when changing text-scale (#37)
+
+* Version 1.9.3
+
+- Add file-local variables (only affects hacking the package itself)
+
+* Version 1.9.2
+
+- Fixes an edge case where rebinding olivetti-expand would break
+  everything
+- Removes seq requirement and thus can run on Emacs 24.5 again
+
+* Version 1.9.1
+
+- Fix compilation warnings
+
+* Version 1.9.0
+
+- Allow custom key binding on olivetti-(expand|shrink)
+- Add olivetti-mode-hook as user option
+- olivetti now requires Emacs 25.3
+
+* Version 1.8.1
+
+Documentation fixes
+
+* Version 1.8.0
+
+- Change key bindings to match Emacs builtin commands for
+  shrinking/exapanding window:
+
+    olivetti-shrink C-c {
+    olivetti-expand C-c }
+
+- Update copyright to reflect move away from GNU ELPA
+
+* Version 1.7.1
+
+- Fix for when olivetti-scale-width incorrectly assumes face height is
+  always a fraction
+- Change olivetti-set-environment ->
+
+    olivetti-set-margins
+    olivetti-set-all-margins
+
+- Remove redundant turn-on-olivetti-mode (just call olivetti-mode)
+- Explicitly require Emacs 24.5
+- Remove olivetti-hide-mode-line -- out of scope
+
+* Version 1.6.1
+
+- Change top-level customization group wp -> text
+- Change default body width to 70
+- Style refactoring
+
+* Version 1.6.0
+
+- Use both post-command-hook and window-configuration-change-hook
+- Added safe custom variable properties (to ease use of file local
+  variable for olivetti-body-width)
+- Improved dealing with fringes
+- Improvements to finding safe body width value and setting environment
+
+* Version 1.5.9
+
+- Fixed an issue where environment would not be set on all frames
+- Now take into account size of window fringes #20
+
+* Version 1.5.8
+
+- Adds workaround for pointless stupid changes in Emacs 26.1.
+
+* Version 1.5.7
+
+- Only reset window parameter split-window if it's already
+  olivetti-split-window
+
+* Version 1.5.6
+
+- Fixed an issue when calling whitespace-toggle-options attempts to
+  split window causing max-specpdl-size to be exceeded
+
+* Version 1.5.5
+
+- Fixed multiple problems with splitting windows, but it should all work
+  now
+
+* Version 1.5.3
+
+Olivetti now works nicely with the improved window splitting functions
+in Emacs 25.1 without resorting to patching functions or using kludge
+window parameters.
+
+Also
+
+- Windows will split vertically when it is sensible to do so (previously
+  windows would always split horizontally).
+- Hiding the mode line is now compatible with global-eldoc-mode.
+
+* Version 1.5.2
+
+- Use the newly introduce min-margins window parameter introduced in
+  Emacs 25.1 to avoid Emacs thinking the window is too small for
+  splitting or needing to patch split-window-right.
+- Fixed a possible issue where multiple windows displaying the same
+  buffer would inherit smaller-than-suitable text body widths.
+
+* Version 1.5.1
+
+- Adds advice to split-window-right to workaround changes in
+  window-min-size introduced in Emacs 25.1 that return erronously large
+  minimum window widths when using large margins. n.b. This is planned
+  as a temporary measure until the Emacs maintainers fix the problems
+  with window-min-size and will hopefully be removed. See
+  http://debbugs.gnu.org/24193. (#12)
+
+* Version 1.5.0
+
+- Olivetti now uses [lexical binding][1]
+- Addition of olivetti-mode-map (key bindings were previously
+  hard-coded)
+- C-c \ to interactively set text width
+- Change the lighter with olivetti-lighter
+- Added function quoting for betting byte compilation
+
+[1]: https://www.gnu.org/software/emacs/manual/html_node/elisp/Lexical-Binding.html
+
+* Version 1.4.0
+
+- Added a feature by @larstvei to more easily use olivetti-shrink and
+  olivetti-expand by pressing [ or ] in succession:
+
+    olivetti-shrink C-c [ [ [ ...
+    olivetti-expand C-c ] ] ] ...
+
+* Version 1.3.0
+
+- Olivetti now acts uniformly on all windows displaying the current
+  buffer.
+- Olivetti now has a keymap. Interactively change olivetti-body-width
+  with:
+
+    olivetti-shrink C-c [
+    olivetti-expand C-c ]
+    and olivetti-set-width
+
+- Optionally remember the state of visual-line-mode on entry and recall
+  its state on exit.
+- Fixes some bad behaviour when exiting (ref #7).
+- Added some missing docs.
+
+* Version 1.2.0
+
+- Added integration with text-scale-mode (#5)
+
+* Version 1.1.1
+
+- Fixed #3
+- Allow olivetti-set-width to accept any number
+
+* Version 1.1.0
+
+- Made olivetti-body-width a buffer-local variable, so buffers can have
+  different text body widths
+- Added olivetti-set-width to interactively change the text body width
+- Added olivetti-expand and olivetti-shrink to change the text body
+  width incrementally
+- Always checks that the text body width is "safe"
+- Hard-coded visual-line-mode and removed mode hook bug
+
+* Version 1.0.1
+
+- Fixes #1
+
+* Version 1.0.0
+
+- Set a desired text body width to automatically resize window margins
+  to keep the text comfortably in the middle of the window
+- Text body width can be the number of characters (an integer) or a
+  fraction of the window width (a float between 0.0 and 1.0)
+- Optionally hide the modeline for distraction-free writing
