@@ -19,10 +19,10 @@ INIT		= '(progn \
 all: check compile clean
 
 check:
-	$(EMACS) -Q --eval $(INIT) --batch -f package-lint-batch-and-exit *.el
+	emacs -Q --eval $(INIT) --batch -f package-lint-batch-and-exit $(LISP_FILE)
 
 compile: clean
-	$(EMACS) -Q --eval $(INIT) -L . --batch -f batch-byte-compile *.el
+	emacs -Q --eval $(INIT) -L . --batch -f batch-byte-compile $(LISP_FILE)
 
 tag-release: check compile
 	sed -i~ '1 s/.*/* $(VERS)/' $(NEWS_FILE)
