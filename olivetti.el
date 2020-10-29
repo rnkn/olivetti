@@ -1,14 +1,14 @@
 ;;; olivetti.el --- Minor mode for a nice writing environment -*- lexical-binding: t; -*-
 
-;; Copyright (c) 2014-2019  Paul Wiliam Rankin
+;; Copyright (c) 2014-2019  Paul W. Rankin
 ;; Copyright (c) 2019       Free Software Foundation, Inc.
-;; Copyright (c) 2019-2020  Paul Wiliam Rankin
+;; Copyright (c) 2019-2020  Paul W. Rankin
 
-;; Author: William Rankin <william@bydasein.com>
+;; Author: Paul W. Rankin <pwr@skeletons.cc>
 ;; Keywords: wp, text
 ;; Version: 1.11.1
-;; Package-Requires: ((emacs "24.5"))
-;; URL: https://github.com/rnkn/olivetti
+;; Package-Requires: ((emacs "24.4"))
+;; URL: https://git.skeletons.cc/olivetti
 
 ;; This file is not part of GNU Emacs.
 
