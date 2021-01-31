@@ -2,13 +2,13 @@
 
 ;; Copyright (c) 2014-2019  Paul W. Rankin
 ;; Copyright (c) 2019       Free Software Foundation, Inc.
-;; Copyright (c) 2019-2020  Paul W. Rankin
+;; Copyright (c) 2019-2021  Paul W. Rankin
 
-;; Author: Paul W. Rankin <pwr@skeletons.cc>
+;; Author: Paul W. Rankin <pwr@bydasein.com>
 ;; Keywords: wp, text
-;; Version: 1.11.1
+;; Version: 1.11.2
 ;; Package-Requires: ((emacs "24.4"))
-;; URL: https://git.skeletons.cc/olivetti
+;; URL: https://github.com/rnkn/olivetti
 
 ;; This file is not part of GNU Emacs.
 
