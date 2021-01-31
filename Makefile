@@ -4,7 +4,7 @@ LISP_FILE	= $(PROGRAM).el
 DEPS		= seq package-lint
 NEWS_FILE	= NEWS
 VERS		= $(shell grep -oE -m1 'Version:[ 0-9.]+' $(LISP_FILE) | tr -d :)
-TAG			= $(shell echo $(VERS) | sed -E 's/Version:? ([0-9.]+)/v\1/')
+TAG		= $(shell echo $(VERS) | sed -E 's/Version:? ([0-9.]+)/v\1/')
 INIT		= '(progn \
   (require (quote package)) \
   (push (cons "melpa" "https://melpa.org/packages/") package-archives) \

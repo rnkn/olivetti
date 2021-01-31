@@ -1,3 +1,7 @@
+* current
+
+- Update copyright, email, URLs
+
 * Version 1.11.2
 
 - Make set-transient-map a little more safe
