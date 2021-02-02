@@ -36,7 +36,7 @@ larger scope, I recommend writeroom-mode:
 Requirements
 ------------
 
- - Emacs 24.5
+ - Emacs 24.4
  - seq 2.20 (part of Emacs 25 and later)
 
 
