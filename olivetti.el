@@ -6,7 +6,7 @@
 
 ;; Author: Paul W. Rankin <pwr@bydasein.com>
 ;; Keywords: wp, text
-;; Version: 1.11.3
+;; Version: 1.11.4
 ;; Package-Requires: ((emacs "24.4"))
 ;; URL: https://github.com/rnkn/olivetti
 
@@ -427,7 +427,9 @@ body width set with `olivetti-body-width'."
                  #'olivetti-set-window t)
     (olivetti-set-buffer-windows)
     (when olivetti-recall-visual-line-mode-entry-state
-      (visual-line-mode (if olivetti--visual-line-mode 1 0)))
+	  (if olivetti--visual-line-mode
+		  (when (not visual-line-mode) (visual-line-mode 1))
+		(when visual-line-mode (visual-line-mode 0))))
     (mapc #'kill-local-variable '(split-window-preferred-function
                                   olivetti--visual-line-mode
                                   olivetti--min-margins))))
