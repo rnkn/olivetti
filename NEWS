@@ -1,4 +1,4 @@
-* current
+* Version 1.11.4
 
 - On quit, only activate visual-line-mode if it was enabled before and
   not now; only deactivate visual-line-mode if it was disabled before
