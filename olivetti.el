@@ -6,7 +6,7 @@
 
 ;; Author: Paul W. Rankin <pwr@bydasein.com>
 ;; Keywords: wp, text
-;; Version: 1.11.4
+;; Version: 1.11.5
 ;; Package-Requires: ((emacs "24.4"))
 ;; URL: https://github.com/rnkn/olivetti
 
@@ -375,6 +375,8 @@ If prefixed with ARG, incrementally increase."
     (define-key map (kbd "C-c {") #'olivetti-shrink)
     (define-key map (kbd "C-c |") #'olivetti-set-width)
     (define-key map (kbd "C-c \\") #'olivetti-set-width)
+	(define-key map [left-margin mouse-1] 'mouse-set-point)
+	(define-key map [right-margin mouse-1] 'mouse-set-point)
     ;; This code is taken from https://github.com/joostkremers/visual-fill-column
     (when (bound-and-true-p mouse-wheel-mode)
       (define-key map (vector 'left-margin mouse-wheel-down-event) 'mwheel-scroll)
