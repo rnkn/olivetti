@@ -1,3 +1,8 @@
+* current
+
+- Call mouse-set-point to move point when clicking in margins (rather
+  than error)
+
 * Version 1.11.4
 
 - On quit, only activate visual-line-mode if it was enabled before and
