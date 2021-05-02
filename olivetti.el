@@ -218,6 +218,16 @@ exiting."
   :type 'boolean
   :safe 'booleanp)
 
+(defcustom olivetti-enable-borders
+  t
+  "If non-nil, colorize fringes to give a border-like effect to
+`olivetti-mode' enabled buffers."
+  :type 'boolean)
+
+(defface olivetti-borders-face
+  '((t :inherit vertical-border))
+  "Face for `olivetti-set-borders'")
+
 
 ;;; Set Windows
 
@@ -321,6 +331,15 @@ Cycle through all windows in all visible frames displaying the
 current buffer, and call `olivetti-set-window'."
   (mapc #'olivetti-set-window (get-buffer-window-list nil nil 'visible)))
 
+(defun olivetti-set-borders ()
+  "If `olivetti-enable-borders' is non-nil, colorize fringes to give a
+border-like effect to `olivetti-mode' enabled buffers. Does not
+affect buffers that has non-nil value of `fringes-outside-margins'."
+  (unless fringes-outside-margins
+    (if (and olivetti-enable-borders olivetti-mode)
+        (face-remap-add-relative 'fringe 'olivetti-borders-face)
+      (face-remap-remove-relative (cons 'fringe 'olivetti-borders-face)))))
+
 
 ;;; Width Interaction
 
@@ -420,7 +439,8 @@ body width set with `olivetti-body-width'."
         (setq-local split-window-preferred-function
                     #'olivetti-split-window-sensibly)
         (setq olivetti--visual-line-mode visual-line-mode)
-        (olivetti-set-buffer-windows))
+        (olivetti-set-buffer-windows)
+        (olivetti-set-borders))
     (remove-hook 'window-configuration-change-hook
                  #'olivetti-set-buffer-windows t)
     (remove-hook 'window-size-change-functions
@@ -428,6 +448,7 @@ body width set with `olivetti-body-width'."
     (remove-hook 'text-scale-mode-hook
                  #'olivetti-set-window t)
     (olivetti-set-buffer-windows)
+    (olivetti-set-borders)
     (when olivetti-recall-visual-line-mode-entry-state
 	  (if olivetti--visual-line-mode
 		  (when (not visual-line-mode) (visual-line-mode 1))
