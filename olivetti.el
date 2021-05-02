@@ -218,6 +218,40 @@ exiting."
   :type 'boolean
   :safe 'booleanp)
 
+(defcustom olivetti-excluded-buffer-regexps
+  '("\\` " "\\`\\*helm" "\\`\\*ivy" "\\`\\*dashboard\\*")
+  "Regexp list that match excluded buffers for `global-olivetti-mode'.
+`olivetti-mode' will not be enabled on buffers matching these
+regular expressions. This variable has no effect when enabling
+`olivetti-mode' manually."
+  :type '(repeat regexp))
+
+(defcustom olivetti-exclude-buffer-predicates
+  '(olivetti-excluded-buffer-p olivetti-window-not-full-span-p)
+  "Predicate function list that used to decide if
+`global-olivetti-mode' should enable `olivetti-mode' on the
+selected window. Default values are good for centering wide
+windows automatically. This variable has no effect when enabling
+`olivetti-mode' manually."
+  :type '(repeat function))
+
+
+;;; Exclude Buffer Predicates
+
+(defun olivetti-excluded-buffer-p ()
+  "Return t if current buffer-name matches at least one of
+`olivetti-excluded-buffer-regexps'"
+  (catch 'found
+    (dolist (regexp olivetti-excluded-buffer-regexps)
+      (when (string-match-p regexp (buffer-name))
+        (throw 'found t)))))
+
+(defun olivetti-window-not-full-span-p ()
+  "Return t if current window spans full width of current frame."
+  (let ((margin-width (+ (or (car (window-margins)) 0)
+                         (or (cdr (window-margins)) 0))))
+    (not (= (+ (window-width) margin-width) (frame-width)))))
+
 
 ;;; Set Windows
 
@@ -320,6 +354,17 @@ care that the maximum size is 0."
 Cycle through all windows in all visible frames displaying the
 current buffer, and call `olivetti-set-window'."
   (mapc #'olivetti-set-window (get-buffer-window-list nil nil 'visible)))
+
+(defun olivetti-global-set-windows ()
+  "Enable `olivetti-mode' for windows that pass all
+`olivetti-exclude-buffer-predicates' or disable it if fail at
+least one of them."
+  (dolist (window (window-list nil 'no-minibuf))
+    (unless (member (window-buffer window) olivetti--manually-enabled-buffers)
+      (with-selected-window window
+        (if (run-hook-with-args-until-success 'olivetti-exclude-buffer-predicates)
+            (olivetti-mode -1)
+          (olivetti-mode 1))))))
 
 
 ;;; Width Interaction
@@ -435,6 +480,19 @@ body width set with `olivetti-body-width'."
     (mapc #'kill-local-variable '(split-window-preferred-function
                                   olivetti--visual-line-mode
                                   olivetti--min-margins))))
+
+;;;###autoload
+(define-minor-mode global-olivetti-mode
+  "Enable `olivetti-mode' on windows that pass
+`olivetti-exclude-buffer-predicates' automatically."
+  :global t
+  (if global-olivetti-mode
+      (progn
+        (olivetti-global-set-windows)
+        (add-hook 'window-configuration-change-hook 'olivetti-global-set-windows))
+    (remove-hook 'window-configuration-change-hook 'olivetti-global-set-windows)
+    (olivetti-mode -1)
+    (olivetti-reset-all-windows)))
 
 
 
