@@ -338,7 +338,8 @@ affect buffers that has non-nil value of `fringes-outside-margins'."
   (unless fringes-outside-margins
     (if (and olivetti-enable-borders olivetti-mode)
         (face-remap-add-relative 'fringe 'olivetti-borders-face)
-      (face-remap-remove-relative (cons 'fringe 'olivetti-borders-face)))))
+      (when (fboundp 'face-remap-remove-relative)
+        (face-remap-remove-relative (cons 'fringe 'olivetti-borders-face))))))
 
 
 ;;; Width Interaction
