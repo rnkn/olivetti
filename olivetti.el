@@ -238,6 +238,8 @@ windows automatically. This variable has no effect when enabling
 
 ;;; Exclude Buffer Predicates
 
+(defvar olivetti--manually-enabled-buffers nil)
+
 (defun olivetti-excluded-buffer-p ()
   "Return t if current buffer-name matches at least one of
 `olivetti-excluded-buffer-regexps'"
@@ -465,6 +467,8 @@ body width set with `olivetti-body-width'."
         (setq-local split-window-preferred-function
                     #'olivetti-split-window-sensibly)
         (setq olivetti--visual-line-mode visual-line-mode)
+        (when (called-interactively-p 'any)
+          (add-to-list 'olivetti--manually-enabled-buffers (current-buffer)))
         (olivetti-set-buffer-windows))
     (remove-hook 'window-configuration-change-hook
                  #'olivetti-set-buffer-windows t)
@@ -472,6 +476,8 @@ body width set with `olivetti-body-width'."
                  #'olivetti-set-window t)
     (remove-hook 'text-scale-mode-hook
                  #'olivetti-set-window t)
+    (when (called-interactively-p 'any)
+      (add-to-list 'olivetti--manually-enabled-buffers (current-buffer)))
     (olivetti-set-buffer-windows)
     (when olivetti-recall-visual-line-mode-entry-state
 	  (if olivetti--visual-line-mode
@@ -492,7 +498,8 @@ body width set with `olivetti-body-width'."
         (add-hook 'window-configuration-change-hook 'olivetti-global-set-windows))
     (remove-hook 'window-configuration-change-hook 'olivetti-global-set-windows)
     (olivetti-mode -1)
-    (olivetti-reset-all-windows)))
+    (olivetti-reset-all-windows)
+    (setq olivetti--manually-enabled-buffers nil)))
 
 
 
