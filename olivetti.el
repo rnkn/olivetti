@@ -447,4 +447,5 @@ body width set with `olivetti-body-width'."
 ;; fill-column: 80
 ;; require-final-newline: t
 ;; sentence-end-double-space: nil
+;; indent-tabs-mode: nil
 ;; End:
