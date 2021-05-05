@@ -140,6 +140,11 @@
   nil
   "Value of `visual-line-mode' when when `olivetti-mode' is enabled.")
 
+(defvar-local olivetti--split-window-preferred-function
+  nil
+  "Value of `split-window-preferred-function' when when
+  `olivetti-mode' is enabled.")
+
 (defvar-local olivetti--min-margins
   '(0 . 0)
   "Cons cell of minimum width in columns for left and right margins.
@@ -277,7 +282,7 @@ Pass SIZE, SIDE and PIXELWISE unchanged."
   "Like `olivetti-split-window' but call `split-window-sensibly'.
 Pass WINDOW unchanged."
   (olivetti-reset-all-windows)
-  (split-window-sensibly window))
+  (funcall olivetti--split-window-preferred-function window))
 
 (defun olivetti-set-window (window-or-frame)
   "Balance window margins displaying current buffer.
@@ -419,9 +424,14 @@ body width set with `olivetti-body-width'."
                   #'olivetti-reset-all-windows nil t)
         (add-hook 'text-scale-mode-hook
                   #'olivetti-set-buffer-windows t t)
+        (unless (bound-and-true-p olivetti--visual-line-mode)
+          (setq olivetti--visual-line-mode
+                visual-line-mode))
+        (unless (bound-and-true-p olivetti--split-window-preferred-function)
+          (setq olivetti--split-window-preferred-function
+                split-window-preferred-function))
         (setq-local split-window-preferred-function
                     #'olivetti-split-window-sensibly)
-        (setq olivetti--visual-line-mode visual-line-mode)
         (olivetti-set-buffer-windows))
     (remove-hook 'window-configuration-change-hook
                  #'olivetti-set-buffer-windows t)
@@ -436,6 +446,7 @@ body width set with `olivetti-body-width'."
 		(when visual-line-mode (visual-line-mode 0))))
     (mapc #'kill-local-variable '(split-window-preferred-function
                                   olivetti--visual-line-mode
+                                  olivetti--split-window-preferred-function
                                   olivetti--min-margins))))
 
 

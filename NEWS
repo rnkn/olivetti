@@ -1,5 +1,6 @@
 * current
 
+- Avoid overriding split-window-preferred-function
 - Call mouse-set-point to move point when clicking in margins (rather
   than error)
 
