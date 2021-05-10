@@ -276,8 +276,6 @@ Pass SIZE, SIDE and PIXELWISE unchanged."
   (olivetti-reset-all-windows)
   (split-window window size side pixelwise))
 
-;; FIXME: rather than override, funcall user's original value of
-;; `split-window-preferred-function'
 (defun olivetti-split-window-sensibly (&optional window)
   "Like `olivetti-split-window' but call `split-window-sensibly'.
 Pass WINDOW unchanged."
