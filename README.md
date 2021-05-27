@@ -6,7 +6,7 @@ Olivetti
 
 A simple Emacs minor mode for a nice writing environment.
 
-![olivetti screenshot](screenshots/01.png)
+![olivetti screenshot](screenshot.png)
 
 
 Features
