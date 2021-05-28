@@ -132,7 +132,7 @@
   :group 'text)
 
 
-;;; Variables
+;;; Internal Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (eval-when-compile
   (require 'lisp-mnt)
@@ -151,13 +151,12 @@
 (defvar-local olivetti--min-margins
   '(0 . 0)
   "Cons cell of minimum width in columns for left and right margins.
-
 The `min-margins' window parameter is set to this value, which is
 only used when splitting windows and has no effect on interactive
 operation.")
 
 
-;;; Options
+;;; Options ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defcustom olivetti-mode-on-hook
   '(visual-line-mode)
@@ -169,7 +168,6 @@ operation.")
 (defcustom olivetti-body-width
   70
   "Text body width to which to adjust relative margin width.
-
 If an integer, set text body width to that integer in columns; if
 a floating point between 0.0 and 1.0, set text body width to
 that fraction of the total window width.
@@ -219,7 +217,6 @@ Setting this option automatically adds or removes
 (defcustom olivetti-recall-visual-line-mode-entry-state
   t
   "Recall the state of `visual-line-mode' upon exiting.
-
 When non-nil, remember if `visual-line-mode' was enabled or not
 upon activating `olivetti-mode' and restore that state upon
 exiting."
@@ -227,11 +224,10 @@ exiting."
   :safe 'booleanp)
 
 
-;;; Set Windows
+;;; Set Windows ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun olivetti-safe-width (width window)
   "Parse WIDTH to a safe value for `olivetti-body-width' for WINDOW.
-
 May return a float with many digits of precision."
   (let ((window-width (window-total-width window))
         (fringes (window-fringes window))
@@ -287,7 +283,6 @@ Pass WINDOW unchanged."
 
 (defun olivetti-set-window (window-or-frame)
   "Balance window margins displaying current buffer.
-
 If WINDOW-OR-FRAME is a frame, cycle through windows displaying
 current buffer in that frame, otherwise only work on the selected
 window.
@@ -324,7 +319,6 @@ care that the maximum size is 0."
 
 (defun olivetti-set-buffer-windows ()
   "Balance window margins in all windows displaying current buffer.
-
 Cycle through all windows in all visible frames displaying the
 current buffer, and call `olivetti-set-window'."
   (mapc #'olivetti-set-window (get-buffer-window-list nil nil 'visible)))
@@ -347,7 +341,6 @@ fraction of the window width."
 
 (defun olivetti-expand (&optional arg)
   "Incrementally increase the value of `olivetti-body-width'.
-
 If prefixed with ARG, incrementally decrease."
   (interactive "P")
   (let* ((p (if arg -1 1))
@@ -368,14 +361,13 @@ If prefixed with ARG, incrementally decrease."
 
 (defun olivetti-shrink (&optional arg)
   "Incrementally decrease the value of `olivetti-body-width'.
-
 If prefixed with ARG, incrementally increase."
   (interactive "P")
   (let ((p (unless arg t)))
     (olivetti-expand p)))
 
 
-;;; Keymap
+;;; Keymap ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defvar olivetti-mode-map
   (let ((map (make-sparse-keymap)))
@@ -395,7 +387,7 @@ If prefixed with ARG, incrementally increase."
   "Mode map for `olivetti-mode'.")
 
 
-;;; Mode Definition
+;;; Mode Definition ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-obsolete-function-alias 'turn-on-olivetti-mode
   #'olivetti-mode "1.7.0")
@@ -403,7 +395,6 @@ If prefixed with ARG, incrementally increase."
 ;;;###autoload
 (define-minor-mode olivetti-mode
   "Olivetti provides a nice writing environment.
-
 Window margins are set to relative widths to accomodate a text
 body width set with `olivetti-body-width'."
   :init-value nil
