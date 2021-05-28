@@ -184,9 +184,9 @@ This option does not affect file contents."
   :safe 'numberp)
 (make-variable-buffer-local 'olivetti-body-width)
 
-(defcustom olivetti-minimum-body-width
+(defcustom olivetti-min-body-width
   40
-  "Minimum width in columns that text body width may be set."
+  "Minimum width in columns of text body."
   :type 'integer
   :safe 'integerp)
 
@@ -239,8 +239,8 @@ Only has any effect when `olivetti-style' is non-nil."
 May return a float with many digits of precision."
   (let ((window-width (window-total-width window))
         (fringes (window-fringes window))
-        (min-width (+ olivetti-minimum-body-width
-                      (% olivetti-minimum-body-width 2))))
+        (min-width (+ olivetti-min-body-width
+                      (% olivetti-min-body-width 2))))
     (setq window-width
           (- window-width
              (/ (* (max (car fringes) (cadr fringes)) 2)
