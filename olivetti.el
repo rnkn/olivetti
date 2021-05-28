@@ -350,18 +350,17 @@ current buffer, and call `olivetti-set-window'."
   (mapc #'olivetti-set-window (get-buffer-window-list nil nil 'visible)))
 
 
-;;; Width Interaction
+;;; Width Interaction ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun olivetti-set-width (n)
-  "Set text body width to N with relative margins.
-
-N may be an integer specifying columns or a float specifying a
-fraction of the window width."
+(defun olivetti-set-width (width)
+  "Set text body width to WIDTH with relative margins.
+WIDTH may be an integer specifying columns or a float specifying
+a fraction of the window width."
   (interactive
    (list (or current-prefix-arg
              (read-number "Set text body width (integer or float): "
                           olivetti-body-width))))
-  (setq olivetti-body-width n)
+  (setq olivetti-body-width width)
   (olivetti-set-buffer-windows)
   (message "Text body width set to %s" olivetti-body-width))
 
