@@ -467,6 +467,7 @@ body width set with `olivetti-body-width'."
 		  (when (not visual-line-mode) (visual-line-mode 1))
 		(when visual-line-mode (visual-line-mode 0))))
     (mapc #'kill-local-variable '(split-window-preferred-function
+                                  olivetti-body-width
                                   olivetti--visual-line-mode
                                   olivetti--split-window-preferred-function
                                   olivetti--min-margins))))
