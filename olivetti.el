@@ -42,7 +42,7 @@
 ;;  - Interactively change body width with:
 ;;    olivetti-shrink C-c { { { ...
 ;;    olivetti-expand C-c } } } ...
-;;    olivetti-set-width C-c \
+;;    olivetti-set-width C-c |
 ;;  - If olivetti-body-width is an integer, the text body width will
 ;;    scale with use of text-scale-mode, whereas if a fraction (float) then
 ;;    the text body width will remain at that fraction.
@@ -50,17 +50,13 @@
 ;;    recall its state on exit.
 
 ;; Olivetti keeps everything it does buffer-local, so you can write prose
-;; in one buffer and code in another, side-by-side in the same frame. For
-;; those looking for a hardcore distraction-free writing mode with a much
-;; larger scope, I recommend writeroom-mode:
-;; <https://github.com/joostkremers/writeroom-mode>.
+;; in one buffer and code in another, side-by-side in the same frame.
 
 
 ;; Requirements
 ;; ------------
 
 ;;  - Emacs 24.4
-;;  - seq 2.20 (part of Emacs 25 and later)
 
 
 ;; Installation
@@ -117,10 +113,17 @@
 ;; See (info "(emacs) File Variables")
 
 
+;; Alternatives
+;; ------------
+
+;; For those looking for a hardcore distraction-free writing mode with a much
+;; larger scope, I recommend writeroom-mode:
+;; <https://github.com/joostkremers/writeroom-mode>.
+
+
 ;; [1]: https://stable.melpa.org/#/olivetti
 ;; [2]: https://melpa.org/#/olivetti
 
-
 ;;; Code:
 
 (defgroup olivetti ()
