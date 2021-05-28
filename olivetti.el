@@ -155,6 +155,11 @@ The `min-margins' window parameter is set to this value, which is
 only used when splitting windows and has no effect on interactive
 operation.")
 
+(defvar-local olivetti--face-remap
+  nil
+  "Saved cookie from `face-remap-add-relative' when
+`olivetti-mode' is enabled.")
+
 
 ;;; Options ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -451,6 +456,8 @@ body width set with `olivetti-body-width'."
                 split-window-preferred-function))
         (setq-local split-window-preferred-function
                     #'olivetti-split-window-sensibly)
+        (setq olivetti--face-remap
+              (face-remap-add-relative 'fringe 'olivetti-fringe))
         (olivetti-set-buffer-windows))
     (remove-hook 'window-configuration-change-hook
                  #'olivetti-set-buffer-windows t)
@@ -459,13 +466,16 @@ body width set with `olivetti-body-width'."
     (remove-hook 'text-scale-mode-hook
                  #'olivetti-set-window t)
     (olivetti-set-buffer-windows)
+    (when olivetti--face-remap
+      (face-remap-remove-relative olivetti--face-remap))
     (when olivetti-recall-visual-line-mode-entry-state
-	  (if olivetti--visual-line-mode
-		  (when (not visual-line-mode) (visual-line-mode 1))
-		(when visual-line-mode (visual-line-mode 0))))
+      (if olivetti--visual-line-mode
+          (when (not visual-line-mode) (visual-line-mode 1))
+        (when visual-line-mode (visual-line-mode 0))))
     (mapc #'kill-local-variable '(split-window-preferred-function
                                   olivetti-body-width
                                   olivetti--visual-line-mode
+                                  olivetti--face-remap
                                   olivetti--split-window-preferred-function
                                   olivetti--min-margins))))
 
