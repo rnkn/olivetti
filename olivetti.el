@@ -196,23 +196,6 @@ This option does not affect file contents."
   :type '(choice (const :tag "No lighter" "") string)
   :safe 'stringp)
 
-(make-obsolete-variable 'olivetti-enable-visual-line-mode
-                        'olivetti-mode-on-hook "1.11.0" 'set)
-
-(defcustom olivetti-enable-visual-line-mode
-  t
-  "When non-nil, `visual-line-mode' is enabled with `olivetti-mode'.
-
-This option is obsolete; use `olivetti-mode-on-hook' instead.
-Setting this option automatically adds or removes
-`visual-line-mode' to that hook."
-  :type 'boolean
-  :set (lambda (symbol value)
-         (set-default symbol value)
-         (if value
-             (add-hook 'olivetti-mode-on-hook 'visual-line-mode)
-           (remove-hook 'olivetti-mode-on-hook 'visual-line-mode))))
-
 (defcustom olivetti-recall-visual-line-mode-entry-state
   t
   "Recall the state of `visual-line-mode' upon exiting.
