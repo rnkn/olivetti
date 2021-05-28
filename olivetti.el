@@ -251,20 +251,18 @@ May return a float with many digits of precision."
           ((floatp width)
            (max (/ min-width window-width) (min width 1.0)))
           (t
-           (message "`olivetti-body-width' must be an integer or a float")
-           (eval (car (get 'olivetti-body-width 'standard-value)))))))
+           (user-error "`olivetti-body-width' must be an integer or a float")))))
 
-(defun olivetti-scale-width (n)
-  "Scale N in accordance with the face height.
-
+(defun olivetti-scale-width (width)
+  "Scale WIDTH in accordance with the face height.
 For compatibility with `text-scale-mode', if
 `face-remapping-alist' includes a :height property on the default
-face, scale N by that factor if it is a fraction, by (height/100)
-if it is an integer, and otherwise scale by 1 (i.e. return N)."
+face, scale WIDTH by that factor if it is a fraction, by (height/100)
+if it is an integer, and otherwise return WIDTH."
   (let ((height (plist-get (cadr (assq 'default face-remapping-alist)) :height)))
-    (cond ((integerp height) (* n (/ height 100.0)))
-          ((floatp height)   (* n height))
-          (t                 (* n 1)))))
+    (when (integerp height)
+      (setq height (/ height 100.0)))
+    (round (* width (or height 1)))))
 
 (defun olivetti-reset-window (window)
   "Remove Olivetti's parameters and margins from WINDOW."
