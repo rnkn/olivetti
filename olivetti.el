@@ -166,7 +166,7 @@ operation.")
   :safe 'hook)
 
 (defcustom olivetti-body-width
-  70
+  72
   "Text body width to which to adjust relative margin width.
 If an integer, set text body width to that integer in columns; if
 a floating point between 0.0 and 1.0, set text body width to
@@ -177,11 +177,10 @@ constant, while a floating point is best if you want text body
 width to change with window width.
 
 The floating point can anything between 0.0 and 1.0 (exclusive),
-but it's better to use a value between about 0.33 and 0.9 for
-best effect.
+but use a value between about 0.33 and 0.9 for best effect.
 
 This option does not affect file contents."
-  :type '(choice (integer 70) (float 0.5))
+  :type '(choice (integer 72) (float 0.5))
   :safe 'numberp)
 (make-variable-buffer-local 'olivetti-body-width)
 
