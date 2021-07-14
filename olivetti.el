@@ -243,25 +243,6 @@ Only has any effect when `olivetti-style' is non-nil."
 
 ;;; Set Windows ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun olivetti-safe-width (width window)
-  "Parse WIDTH to a safe value for `olivetti-body-width' for WINDOW.
-May return a float with many digits of precision."
-  (let ((window-width (window-total-width window))
-        (fringes (window-fringes window))
-        (min-width (+ olivetti-min-body-width
-                      (% olivetti-min-body-width 2))))
-    (setq window-width
-          (- window-width
-             (/ (* (max (car fringes) (cadr fringes)) 2)
-                (float (frame-char-width (window-frame window))))
-             (% window-width 2)))
-    (cond ((integerp width)
-           (max min-width (min width (floor window-width))))
-          ((floatp width)
-           (max (/ min-width window-width) (min width 1.0)))
-          (t
-           (user-error "`olivetti-body-width' must be an integer or a float")))))
-
 (defun olivetti-scale-width (width)
   "Scale WIDTH in accordance with the face height.
 For compatibility with `text-scale-mode', if
