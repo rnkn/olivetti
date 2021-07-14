@@ -171,11 +171,12 @@ operation.")
   :safe 'hook)
 
 (defcustom olivetti-body-width
-  72
+  nil
   "Text body width to which to adjust relative margin width.
 If an integer, set text body width to that integer in columns; if
-a floating point between 0.0 and 1.0, set text body width to
-that fraction of the total window width.
+a floating point between 0.0 and 1.0, set text body width to that
+fraction of the total window width. If nil (the default), use the
+value of `fill-column' + 2.
 
 An integer is best if you want text body width to remain
 constant, while a floating point is best if you want text body
@@ -185,8 +186,11 @@ The floating point can anything between 0.0 and 1.0 (exclusive),
 but use a value between about 0.33 and 0.9 for best effect.
 
 This option does not affect file contents."
-  :type '(choice (integer 72) (float 0.5))
-  :safe 'numberp)
+  :type '(choice (const :tag "Value of fill-column + 2" nil)
+                 (integer 72)
+                 (float 0.5))
+  :safe (lambda (value)
+          (or (numberp value) (null value))))
 (make-variable-buffer-local 'olivetti-body-width)
 
 (defcustom olivetti-min-body-width
@@ -309,44 +313,46 @@ care that the maximum size is 0."
     (with-selected-window window-or-frame
       (olivetti-reset-window window-or-frame)
       (when olivetti-mode
-        (let ((frame        (window-frame window-or-frame))
-              (body-width   (olivetti-safe-width olivetti-body-width window-or-frame))
-              (window-width (window-total-width window-or-frame))
-              current-fringes left-fringe right-fringe
-              margin-total left-margin right-margin)
-          ;; First ensure we have BODY-WIDTH in columns
-          (cond ((integerp body-width)
-                 (setq body-width (olivetti-scale-width body-width)))
-                ((floatp body-width)
-                 (setq body-width (* window-width body-width))))
-          ;; Fringes are calculated in pixels
-          (when olivetti-style
-            (let (fringe-total fringe)
-              (setq fringe-total (- (window-pixel-width window-or-frame)
-                                    (* body-width (frame-char-width frame))))
+        ;; If `olivetti-body-width' is nil, we need to calculate from
+        ;; `fill-column'
+        (when (null olivetti-body-width)
+          (setq olivetti-body-width (+ fill-column 2)))
+        (let ((frame            (window-frame window-or-frame))
+              (char-width-pix   (frame-char-width (window-frame window-or-frame)))
+              (window-width-pix (window-body-width window-or-frame t))
+              (safe-width-pix   (olivetti-normalize-width
+                                 olivetti-body-width window-or-frame)))
+          ;; Handle possible display of fringes
+          (when (and window-system olivetti-style)
+            (let ((fringe-total (- (window-pixel-width window-or-frame)
+                                   safe-width-pix))
+                  fringe)
+              ;; Account for `olivetti-margin-width'
               (unless (eq olivetti-style 'fringes)
                 (setq fringe-total
-                      (- fringe-total (* 2 olivetti-margin-width
-                                         (frame-char-width frame)))))
-              (setq fringe (max (round (/ fringe-total 2)) 0))
-              ;; Set fringes when we have positive values
-              (when (< 0 fringe)
-                (set-window-fringes window-or-frame fringe fringe t))))
-          (setq current-fringes (window-fringes window-or-frame))
-          ;; Margins are calculated in columns, so set (LEFT|RIGHT)-FRINGE as
-          ;; column widths
-          (setq margin-total (/ (float (- window-width body-width)) 2)
-                left-fringe  (round (/ (float (car current-fringes))
-                                       (frame-char-width frame)))
-                right-fringe (round (/ (float (cadr current-fringes))
-                                       (frame-char-width frame)))
-                left-margin  (max (round (- margin-total left-fringe))  0)
-                right-margin (max (round (- margin-total right-fringe)) 0))
-          (set-window-margins window-or-frame left-margin right-margin))
-        (set-window-parameter window-or-frame 'split-window 'olivetti-split-window)
-        (set-window-parameter window-or-frame 'min-margins
-                              (cons (max (car olivetti--min-margins) 0)
-                                    (max (cdr olivetti--min-margins) 0)))))))
+                      (- fringe-total
+                         (* olivetti-margin-width char-width-pix 2))))
+              (setq fringe (max (round (/ (float fringe-total) 2)) 0))
+              ;; Set the fringes
+              (set-window-fringes window-or-frame fringe fringe t)))
+          ;; Calculate margins widths as body pixel width less fringes
+            (let ((fringes (window-fringes window-or-frame))
+                  (margin-total-pix (/ (- window-width-pix safe-width-pix) 2))
+                  left-margin right-margin)
+              (unless (eq olivetti-style 'fringes)
+                ;; Convert to character cell columns
+                (setq left-margin   (max (round (/ (- margin-total-pix
+                                                      (car fringes))
+                                                   char-width-pix))
+                                         0)
+                      right-margin  (max (round (/ (- margin-total-pix
+                                                      (cadr fringes))
+                                                   char-width-pix))
+                                         0)))
+              ;; Finally set the margins
+              (set-window-margins window-or-frame left-margin right-margin)))
+        ;; Set remaining window parameters
+        (set-window-parameter window-or-frame 'split-window 'olivetti-split-window)))))
 
 (defun olivetti-set-buffer-windows ()
   "Balance window margins in all windows displaying current buffer.
