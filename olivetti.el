@@ -299,14 +299,10 @@ Pass WINDOW unchanged."
   "Balance window margins displaying current buffer.
 If WINDOW-OR-FRAME is a frame, cycle through windows displaying
 current buffer in that frame, otherwise only work on the selected
-window.
-
-First find the `olivetti-safe-width' to which to set
-`olivetti-body-width', then find the appropriate margin size
-relative to each window. Finally set the window margins, taking
-care that the maximum size is 0."
+window."
   (if (framep window-or-frame)
-      (mapc #'olivetti-set-window (get-buffer-window-list nil nil window-or-frame))
+      (mapc #'olivetti-set-window
+            (get-buffer-window-list nil nil window-or-frame))
     ;; WINDOW-OR-FRAME passed below *must* be a window
     (with-selected-window window-or-frame
       (olivetti-reset-window window-or-frame)
