@@ -164,12 +164,12 @@ operation.")
   :safe 'hook)
 
 (defcustom olivetti-body-width
-  70
+  'fill-column
   "Text body width to which to adjust relative margin width.
 
 If an integer, set text body width to that integer in columns; if
 a floating point between 0.0 and 1.0, set text body width to
-that fraction of the total window width.
+that fraction of the total window width; if a symbol 'fill-column, reuse value of fill-column variable
 
 An integer is best if you want text body width to remain
 constant, while a floating point is best if you want text body
@@ -180,8 +180,8 @@ but it's better to use a value between about 0.33 and 0.9 for
 best effect.
 
 This option does not affect file contents."
-  :type '(choice (integer 70) (float 0.5))
-  :safe 'numberp)
+  :type '(choice (integer 70) (float 0.5) fill-column)
+  :safe 'olivetti--body-width-p)
 (make-variable-buffer-local 'olivetti-body-width)
 
 (defcustom olivetti-minimum-body-width
@@ -189,6 +189,10 @@ This option does not affect file contents."
   "Minimum width in columns that text body width may be set."
   :type 'integer
   :safe 'integerp)
+
+(defun olivetti--body-width-p (width)
+  (or (numberp width)
+    (equal width 'fill-column)))
 
 (defcustom olivetti-lighter
   " Olv"
@@ -243,6 +247,8 @@ May return a float with many digits of precision."
            (max min-width (min width (floor window-width))))
           ((floatp width)
            (max (/ min-width window-width) (min width 1.0)))
+          ((equal width 'fill-column)
+            (max min-width (min fill-column (floor window-width))))
           (t
            (message "`olivetti-body-width' must be an integer or a float")
            (eval (car (get 'olivetti-body-width 'standard-value)))))))
@@ -337,10 +343,18 @@ fraction of the window width."
   (interactive
    (list (or current-prefix-arg
              (read-number "Set text body width (integer or float): "
-                          olivetti-body-width))))
-  (setq olivetti-body-width n)
-  (olivetti-set-buffer-windows)
-  (message "Text body width set to %s" olivetti-body-width))
+               (if (equal olivetti-body-width 'fill-column)
+                 fill-column
+                 olivetti-body-width)
+               ))))
+  (if (equal olivetti-body-width 'fill-column)
+    (progn
+      (set-fill-column n)
+      (olivetti-set-buffer-windows)
+      (message "Text body width set to %s" fill-column))
+    (setq olivetti-body-width n)
+    (olivetti-set-buffer-windows)
+    (message "Text body width set to %s" olivetti-body-width)))
 
 (defun olivetti-expand (&optional arg)
   "Incrementally increase the value of `olivetti-body-width'.
