@@ -226,7 +226,11 @@ Valid options are:
 n.b. Fringes are only available on a graphical display."
   :type '(choice (const :tag "Margins" nil)
                  (const :tag "Fringes" fringes)
-                 (const :tag "Fringes and Margins" t)))
+                 (const :tag "Fringes and Margins" t))
+  :set (lambda (symbol value)
+         (set-default symbol value)
+         (when (featurep 'olivetti)
+           (olivetti-reset-all-windows))))
 
 (defcustom olivetti-margin-width
   12
