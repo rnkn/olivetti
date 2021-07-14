@@ -362,9 +362,10 @@ current buffer, and call `olivetti-set-window'."
 WIDTH may be an integer specifying columns or a float specifying
 a fraction of the window width."
   (interactive
-   (list (or current-prefix-arg
-             (read-number "Set text body width (integer or float): "
-                          olivetti-body-width))))
+   (list (if current-prefix-arg
+             (prefix-numeric-value current-prefix-arg)
+           (read-number "Set text body width (integer or float): "
+                        olivetti-body-width))))
   (setq olivetti-body-width width)
   (olivetti-set-buffer-windows)
   (message "Text body width set to %s" olivetti-body-width))
