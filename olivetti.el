@@ -420,9 +420,6 @@ If prefixed with ARG, incrementally increase."
 
 ;;; Mode Definition ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-obsolete-function-alias 'turn-on-olivetti-mode
-  #'olivetti-mode "1.7.0")
-
 ;;;###autoload
 (define-minor-mode olivetti-mode
   "Olivetti provides a nice writing environment.
