@@ -235,7 +235,8 @@ n.b. Fringes are only available on a graphical display."
 (defcustom olivetti-margin-width
   12
   "Width in columns for margins between text body and fringes.
-Only has any effect when `olivetti-style' is non-nil."
+Only has any effect when `olivetti-style' is non-nil and not
+`fringes'."
   :type 'integer
   :safe 'integerp)
 
