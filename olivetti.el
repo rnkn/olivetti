@@ -272,7 +272,6 @@ if it is an integer, and otherwise return WIDTH."
   (when (eq (window-parameter window 'split-window) 'olivetti-split-window)
     (set-window-parameter window 'split-window nil))
   (set-window-fringes window fringe-mode fringe-mode)
-  (set-window-parameter window 'min-margins nil)
   (set-window-margins window nil))
 
 (defun olivetti-reset-all-windows ()
