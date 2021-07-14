@@ -379,7 +379,7 @@ If prefixed with ARG, incrementally decrease."
                    (+ olivetti-body-width (* 2 p)))
                   ((floatp olivetti-body-width)
                    (+ olivetti-body-width (* 0.01 p))))))
-    (setq olivetti-body-width (olivetti-safe-width n (selected-window))))
+    (setq olivetti-body-width n))
   (olivetti-set-buffer-windows)
   (message "Text body width set to %s" olivetti-body-width)
   (unless overriding-terminal-local-map
