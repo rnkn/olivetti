@@ -254,6 +254,19 @@ if it is an integer, and otherwise return WIDTH."
       (setq height (/ height 100.0)))
     (round (* width (or height 1)))))
 
+(defun olivetti-normalize-width (width window)
+  "Parse WIDTH to a safe pixel value for `olivetti-body-width' for WINDOW."
+  (let ((char-width (frame-char-width (window-frame window)))
+        (window-width-pix (window-body-width window t))
+        width-pix min-width-pix)
+    (setq min-width-pix (* char-width
+                           (+ olivetti-min-body-width
+                              (% olivetti-min-body-width 2))))
+    (olivetti-scale-width
+     (if (floatp width)
+         (floor (max min-width-pix (* window-width-pix (min width 1.0))))
+       (max min-width-pix (min (* width char-width) window-width-pix))))))
+
 (defun olivetti-reset-window (window)
   "Remove Olivetti's parameters and margins from WINDOW."
   (when (eq (window-parameter window 'split-window) 'olivetti-split-window)
