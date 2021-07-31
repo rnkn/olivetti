@@ -37,8 +37,9 @@
 
 ;;  - Set a desired text body width to automatically resize window margins
 ;;    to keep the text comfortably in the middle of the window.
-;;  - Text body width can be the number of characters (an integer) or a
-;;    fraction of the window width (a float between 0.0 and 1.0).
+;;  - Text body width can be the number of characters (an integer), a fraction of
+;;    the window width (a float between 0.0 and 1.0), or nil which uses the value
+;;    of fill-column +2.
 ;;  - Interactively change body width with:
 ;;    olivetti-shrink C-c { { { ...
 ;;    olivetti-expand C-c } } } ...
@@ -46,6 +47,9 @@
 ;;  - If olivetti-body-width is an integer, the text body width will
 ;;    scale with use of text-scale-mode, whereas if a fraction (float) then
 ;;    the text body width will remain at that fraction.
+;;  - Change the way the text body margins look with option olivetti-style: use
+;;    margins, fringes, or a combination to create a "page" look.
+;;  - Customize olivetti-fringe face to affect only Olivetti buffers.
 ;;  - Optionally remember the state of visual-line-mode on entry and
 ;;    recall its state on exit.
 
@@ -117,8 +121,7 @@
 ;; ------------
 
 ;; For those looking for a hardcore distraction-free writing mode with a much
-;; larger scope, I recommend writeroom-mode:
-;; <https://github.com/joostkremers/writeroom-mode>.
+;; larger scope, I recommend [Writeroom Mode](https://github.com/joostkremers/writeroom-mode).
 
 
 ;; [1]: https://stable.melpa.org/#/olivetti
