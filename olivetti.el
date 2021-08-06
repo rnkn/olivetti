@@ -288,8 +288,8 @@ if it is an integer, and otherwise return WIDTH."
   (set-window-margins window nil))
 
 (defun olivetti-reset-all-windows ()
-  "Call `olivetti-reset-windows' on all windows in current frame."
-  (mapc #'olivetti-reset-window (window-list nil 'no-minibuf)))
+  "Call `olivetti-reset-window' on all windows."
+  (walk-windows #'olivetti-reset-window nil t))
 
 (defun olivetti-split-window (&optional window size side pixelwise)
   "Call `split-window' after resetting WINDOW.
