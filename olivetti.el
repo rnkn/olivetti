@@ -196,7 +196,7 @@ This option does not affect file contents."
           (or (numberp value) (null value))))
 (make-variable-buffer-local 'olivetti-body-width)
 
-(defcustom olivetti-min-body-width
+(defcustom olivetti-minimun-body-width
   40
   "Minimum width in columns of text body."
   :type 'integer
@@ -223,13 +223,14 @@ exiting."
 Valid options are:
 
     nil         use margins (default)
-    fringes     use fringes
-    t           use both fringes and margins (with fringes outside)
+    t           use fringes
+    fancy       use both margins with fringes outside
 
-n.b. Fringes are only available on a graphical display."
+n.b. Fringes are only available on a graphical window system and
+will fall back to margins on console."
   :type '(choice (const :tag "Margins" nil)
-                 (const :tag "Fringes" fringes)
-                 (const :tag "Fringes and Margins" t))
+                 (const :tag "Fringes" t)
+                 (const :tag "Fringes and Margins" fancy))
   :set (lambda (symbol value)
          (set-default symbol value)
          (when (featurep 'olivetti)
@@ -268,8 +269,8 @@ if it is an integer, and otherwise return WIDTH."
         (window-width-pix (window-body-width window t))
         width-pix min-width-pix)
     (setq min-width-pix (* char-width
-                           (+ olivetti-min-body-width
-                              (% olivetti-min-body-width 2))))
+                           (+ olivetti-minimun-body-width
+                              (% olivetti-minimun-body-width 2))))
     (olivetti-scale-width
      (if (floatp width)
          (floor (max min-width-pix (* window-width-pix (min width 1.0))))
@@ -324,32 +325,33 @@ window."
             (let ((fringe-total (- (window-pixel-width window-or-frame)
                                    safe-width-pix))
                   fringe)
-              ;; Account for `olivetti-margin-width'
-              (unless (eq olivetti-style 'fringes)
+              ;; Account for fancy display
+              (when (eq olivetti-style 'fancy)
                 (setq fringe-total
                       (- fringe-total
                          (* olivetti-margin-width char-width-pix 2))))
-              (setq fringe (max (round (/ (float fringe-total) 2)) 0))
+              ;; Calculate a single fringe width
+              (setq fringe (max (round (/ fringe-total 2.0)) 0))
               ;; Set the fringes
               (set-window-fringes window-or-frame fringe fringe t)))
           ;; Calculate margins widths as body pixel width less fringes
-            (let ((fringes (window-fringes window-or-frame))
-                  (margin-total-pix (/ (- window-width-pix safe-width-pix) 2))
-                  left-margin right-margin)
-              (unless (eq olivetti-style 'fringes)
-                ;; Convert to character cell columns
-                (setq left-margin   (max (round (/ (- margin-total-pix
-                                                      (car fringes))
-                                                   char-width-pix))
-                                         0)
-                      right-margin  (max (round (/ (- margin-total-pix
-                                                      (cadr fringes))
-                                                   char-width-pix))
-                                         0)))
-              ;; Finally set the margins
-              (set-window-margins window-or-frame left-margin right-margin)))
+          (let ((fringes (window-fringes window-or-frame))
+                (margin-total-pix (/ (- window-width-pix safe-width-pix) 2.0))
+                left-margin right-margin)
+            ;; Convert to character cell columns
+            (setq left-margin  (max (round (/ (- margin-total-pix
+                                                 (car fringes))
+                                              char-width-pix))
+                                    0)
+                  right-margin (max (round (/ (- margin-total-pix
+                                                 (cadr fringes))
+                                              char-width-pix))
+                                    0))
+            ;; Finally set the margins
+            (set-window-margins window-or-frame left-margin right-margin)))
         ;; Set remaining window parameters
-        (set-window-parameter window-or-frame 'split-window 'olivetti-split-window)))))
+        (set-window-parameter window-or-frame 'split-window
+                              'olivetti-split-window)))))
 
 (defun olivetti-set-buffer-windows ()
   "Balance window margins in all windows displaying current buffer.
