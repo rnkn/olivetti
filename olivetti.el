@@ -271,7 +271,7 @@ if it is an integer, and otherwise return WIDTH."
   "Parse WIDTH to a safe pixel value for `olivetti-body-width' for WINDOW."
   (let ((char-width (frame-char-width (window-frame window)))
         (window-width-pix (window-body-width window t))
-        width-pix min-width-pix)
+        min-width-pix)
     (setq min-width-pix (* char-width
                            (+ olivetti-minimun-body-width
                               (% olivetti-minimun-body-width 2))))
@@ -319,8 +319,7 @@ window."
         ;; `fill-column'
         (when (null olivetti-body-width)
           (setq olivetti-body-width (+ fill-column 2)))
-        (let ((frame            (window-frame window-or-frame))
-              (char-width-pix   (frame-char-width (window-frame window-or-frame)))
+        (let ((char-width-pix   (frame-char-width (window-frame window-or-frame)))
               (window-width-pix (window-body-width window-or-frame t))
               (safe-width-pix   (olivetti-normalize-width
                                  olivetti-body-width window-or-frame)))
