@@ -237,12 +237,16 @@ will fall back to margins on console."
            (olivetti-reset-all-windows))))
 
 (defcustom olivetti-margin-width
-  12
-  "Width in columns for margins between text body and fringes.
-Only has any effect when `olivetti-style' is non-nil and not
-`fringes'."
-  :type 'integer
-  :safe 'integerp)
+  10
+  "Width in columns of margin between text body and fringes.
+Only has any effect when `olivetti-style' is set to 'fancy."
+  :type '(choice (const :tag "None" nil)
+                 (integer :tag "Columns" 10))
+  :safe 'integerp
+  :set (lambda (symbol value)
+         (set-default symbol value)
+         (when (featurep 'olivetti)
+           (olivetti-reset-all-windows))))
 
 (defface olivetti-fringe
   '((t (:inherit fringe)))
