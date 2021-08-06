@@ -151,13 +151,6 @@
   "Value of `split-window-preferred-function' when when
   `olivetti-mode' is enabled.")
 
-(defvar-local olivetti--min-margins
-  '(0 . 0)
-  "Cons cell of minimum width in columns for left and right margins.
-The `min-margins' window parameter is set to this value, which is
-only used when splitting windows and has no effect on interactive
-operation.")
-
 (defvar-local olivetti--face-remap
   nil
   "Saved cookie from `face-remap-add-relative' when
@@ -482,8 +475,7 @@ body width set with `olivetti-body-width'."
                                   olivetti-body-width
                                   olivetti--visual-line-mode
                                   olivetti--face-remap
-                                  olivetti--split-window-preferred-function
-                                  olivetti--min-margins))))
+                                  olivetti--split-window-preferred-function))))
 
 
 
