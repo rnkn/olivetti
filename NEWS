@@ -1,8 +1,29 @@
-* current
+* Version 2.0.0
 
+- New option olivetti-style allows a choice of window elements to
+  balance text body:
+
+    nil     margins (default)
+    t       fringes
+    fancy   fringes and margins (fringes outside)
+
+- Add olivetti-fringe face, remapped in olivetti buffers
+- Change default value of olivetti-body-width to nil, which calculates
+  to fill-column +2
+- Rewrite internals to use pixels
 - Avoid overriding split-window-preferred-function
-- Call mouse-set-point to move point when clicking in margins (rather
-  than error)
+- Call mouse-set-point to move point when clicking in margins and
+  fringes
+- Fix calling olivetti-set-width with prefix arg as width
+- Kill local variables on quit
+- Walk all windows when calling olivetti-reset-all-windows, not just
+  windows in the current frame
+- Remove obsolete olivetti-enable-visual-line-mode
+- Remove use of min-margins window parameter
+- Remove obsolete alias for turn-on-olivetti-mode
+- olivetti-(shrink|expand) now allow setting body width to any value, no
+  matter how stupid
+- Simplify code
 
 * Version 1.11.4
 
