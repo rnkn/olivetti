@@ -48,7 +48,7 @@
 ;;    scale with use of text-scale-mode, whereas if a fraction (float) then
 ;;    the text body width will remain at that fraction.
 ;;  - Change the way the text body margins look with option olivetti-style: use
-;;    margins, fringes, or a combination to create a "page" look.
+;;    margins, fringes, or both for a fancy "page" look.
 ;;  - Customize olivetti-fringe face to affect only Olivetti buffers.
 ;;  - Optionally remember the state of visual-line-mode on entry and
 ;;    recall its state on exit.
