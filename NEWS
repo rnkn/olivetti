@@ -1,3 +1,7 @@
+* Version 2.0.1
+
+- Fix olivetti-reset-window with cons fringe-mode value
+
 * Version 2.0.0
 
 - New option olivetti-style allows a choice of window elements to
