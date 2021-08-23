@@ -187,7 +187,7 @@ This option does not affect file contents."
           (or (numberp value) (null value))))
 (make-variable-buffer-local 'olivetti-body-width)
 
-(defcustom olivetti-minimun-body-width
+(defcustom olivetti-minimum-body-width
   40
   "Minimum width in columns of text body."
   :type 'integer
@@ -264,8 +264,8 @@ if it is an integer, and otherwise return WIDTH."
         (window-width-pix (window-body-width window t))
         min-width-pix)
     (setq min-width-pix (* char-width
-                           (+ olivetti-minimun-body-width
-                              (% olivetti-minimun-body-width 2))))
+                           (+ olivetti-minimum-body-width
+                              (% olivetti-minimum-body-width 2))))
     (olivetti-scale-width
      (if (floatp width)
          (floor (max min-width-pix (* window-width-pix (min width 1.0))))
