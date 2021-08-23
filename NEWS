@@ -1,3 +1,7 @@
+* Version 2.0.2
+
+- Fix option misspelling of olivetti-minimum-body-width
+
 * Version 2.0.1
 
 - Fix olivetti-reset-window with cons fringe-mode value
