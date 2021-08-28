@@ -275,9 +275,10 @@ if it is an integer, and otherwise return WIDTH."
   "Remove Olivetti's parameters and margins from WINDOW."
   (when (eq (window-parameter window 'split-window) 'olivetti-split-window)
     (set-window-parameter window 'split-window nil))
-  (if (consp fringe-mode)
-      (set-window-fringes window (car fringe-mode) (cdr fringe-mode))
-    (set-window-fringes window fringe-mode fringe-mode))
+  (when (featurep 'fringe)
+    (if (consp fringe-mode)
+        (set-window-fringes window (car fringe-mode) (cdr fringe-mode))
+      (set-window-fringes window fringe-mode fringe-mode)))
   (set-window-margins window nil))
 
 (defun olivetti-reset-all-windows ()
