@@ -127,6 +127,8 @@
 
 ;;; Code:
 
+(require 'fringe)
+
 (defgroup olivetti ()
   "Minor mode for a nice writing environment"
   :prefix "olivetti-"
