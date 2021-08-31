@@ -1,3 +1,7 @@
+* Version 2.0.3
+
+- Explicitly require fringe for console Emacs versions < 27
+
 * Version 2.0.2
 
 - Fix option misspelling of olivetti-minimum-body-width
