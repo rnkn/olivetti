@@ -4,7 +4,7 @@
 
 ;; Author: Paul W. Rankin <pwr@bydasein.com>
 ;; Keywords: wp, text
-;; Version: 2.0.2
+;; Version: 2.0.3
 ;; Package-Requires: ((emacs "24.4"))
 ;; URL: https://github.com/rnkn/olivetti
 
@@ -135,7 +135,7 @@
   :group 'text)
 
 
-;;; Internal Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Internal Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (eval-when-compile
   (require 'lisp-mnt)
@@ -157,7 +157,7 @@
 `olivetti-mode' is enabled.")
 
 
-;;; Options ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Options ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defcustom olivetti-mode-on-hook
   '(visual-line-mode)
@@ -247,7 +247,7 @@ Only has any effect when `olivetti-style' is set to 'fancy."
   :group 'olivetti)
 
 
-;;; Set Windows ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Set Windows ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun olivetti-scale-width (width)
   "Scale WIDTH in accordance with the face height.
@@ -358,7 +358,7 @@ current buffer, and call `olivetti-set-window'."
   (mapc #'olivetti-set-window (get-buffer-window-list nil nil 'visible)))
 
 
-;;; Width Interaction ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Width Interaction ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun olivetti-set-width (width)
   "Set text body width to WIDTH with relative margins.
@@ -401,7 +401,7 @@ If prefixed with ARG, incrementally increase."
     (olivetti-expand p)))
 
 
-;;; Keymap ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Keymap ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defvar olivetti-mode-map
   (let ((map (make-sparse-keymap)))
@@ -423,7 +423,7 @@ If prefixed with ARG, incrementally increase."
   "Mode map for `olivetti-mode'.")
 
 
-;;; Mode Definition ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Mode Definition ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;###autoload
 (define-minor-mode olivetti-mode
