@@ -166,6 +166,12 @@
   :options '(visual-line-mode)
   :safe 'hook)
 
+(defcustom olivetti-mode-off-hook
+  nil
+  "Hook for `olivetti-mode', run after the mode is deactivated."
+  :type 'hook
+  :safe 'hook)
+
 (defcustom olivetti-body-width
   nil
   "Text body width to which to adjust relative margin width.
