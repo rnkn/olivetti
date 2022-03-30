@@ -292,6 +292,13 @@ if it is an integer, and otherwise return WIDTH."
   "Call `olivetti-reset-window' on all windows."
   (walk-windows #'olivetti-reset-window nil t))
 
+;; FIXME: these split-window functions seem to be ignored by
+;; `window-toggle-side-windows'
+;; WORKAROUND:
+;; (with-eval-after-load 'olivetti
+;;   (advice-add 'window-toggle-side-windows
+;;               :before 'olivetti-reset-all-windows))
+
 (defun olivetti-split-window (&optional window size side pixelwise)
   "Call `split-window' after resetting WINDOW.
 Pass SIZE, SIDE and PIXELWISE unchanged."
