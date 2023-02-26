@@ -35,9 +35,11 @@
 
 ;;  - Set a desired text body width to automatically resize window margins
 ;;    to keep the text comfortably in the middle of the window.
-;;  - Text body width can be the number of characters (an integer), a fraction of
-;;    the window width (a float between 0.0 and 1.0), or nil which uses the value
-;;    of fill-column +2.
+;;  - Text body width can be the number of characters (a positive nonzero
+;;    integer), a fraction of the window width (a float between 0.0 and 1.0) or
+;;    a negative or zero integer, which uses the value of fill-column plus the
+;;    absolute value of that number. nil acts as -2 (so, fill-column +2) for
+;;    backwards compatibility.
 ;;  - Interactively change body width with:
 ;;    olivetti-shrink C-c { { { ...
 ;;    olivetti-expand C-c } } } ...
@@ -175,10 +177,12 @@
 (defcustom olivetti-body-width
   nil
   "Text body width to which to adjust relative margin width.
-If an integer, set text body width to that integer in columns; if
-a floating point between 0.0 and 1.0, set text body width to that
-fraction of the total window width. If nil (the default), use the
-value of `fill-column' + 2.
+If a positive nonzero integer, set text body width to that
+integer in columns; if a floating point between 0.0 and 1.0, set
+text body width to that fraction of the total window width; if a
+negative integer or zero, use the value of `fill-column' plus the
+absolute value of the integer. nil (the default) uses the value
+of `fill-column' + 2.
 
 An integer is best if you want text body width to remain
 constant, while a floating point is best if you want text body
@@ -323,10 +327,12 @@ window."
     (with-selected-window window-or-frame
       (olivetti-reset-window window-or-frame)
       (when olivetti-mode
-        ;; If `olivetti-body-width' is nil, we need to calculate from
-        ;; `fill-column'
+        ;; If `olivetti-body-width' is nil or negative, we need to calculate it
+        ;; from `fill-column'
         (when (null olivetti-body-width)
           (setq olivetti-body-width (+ fill-column 2)))
+        (when (<= olivetti-body-width 0)
+          (setq olivetti-body-width (- fill-column olivetti-body-width)))
         (let ((char-width-pix   (frame-char-width (window-frame window-or-frame)))
               (window-width-pix (window-body-width window-or-frame t))
               (safe-width-pix   (olivetti-normalize-width
@@ -375,8 +381,11 @@ current buffer, and call `olivetti-set-window'."
 
 (defun olivetti-set-width (width)
   "Set text body width to WIDTH with relative margins.
-WIDTH may be an integer specifying columns or a float specifying
-a fraction of the window width."
+WIDTH may be a positive nonzero integer specifying columns, a
+float specifying a fraction of the window width or a negative or
+zero integer specifying columns relative to `fill-column'.
+
+See `olivetti-body-width' for details on negative values."
   (interactive
    (list (if current-prefix-arg
              (prefix-numeric-value current-prefix-arg)
@@ -392,7 +401,10 @@ If prefixed with ARG, incrementally decrease."
   (interactive "P")
   (let* ((p (if arg -1 1))
          (n (cond ((integerp olivetti-body-width)
-                   (+ olivetti-body-width (* 2 p)))
+                   (let ((v (+ olivetti-body-width (* 2 p))))
+                     (if (> v 0)
+                         v
+                       2))) ;; Remain positive
                   ((floatp olivetti-body-width)
                    (+ olivetti-body-width (* 0.01 p))))))
     (setq olivetti-body-width n))

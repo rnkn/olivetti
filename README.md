@@ -14,9 +14,11 @@ Features
 
  - Set a desired text body width to automatically resize window margins
    to keep the text comfortably in the middle of the window.
- - Text body width can be the number of characters (an integer), a fraction of
-   the window width (a float between 0.0 and 1.0), or `nil` which uses the value
-   of `fill-column` +2.
+ - Text body width can be the number of characters (a positive nonzero
+   integer), a fraction of the window width (a float between 0.0 and
+   1.0) or a negative or zero integer, which uses the value of
+   `fill-column` plus the absolute value of that number. `nil` acts as -2
+   (so, `fill-column` +2) for backwards compatibility.
  - Interactively change body width with:  
    `olivetti-shrink C-c { { { ...`  
    `olivetti-expand C-c } } } ...`  
