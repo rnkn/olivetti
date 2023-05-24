@@ -4,7 +4,7 @@
 
 ;; Author: Paul W. Rankin <pwr@bydasein.com>
 ;; Keywords: wp, text
-;; Version: 2.0.4
+;; Version: 2.1.0
 ;; Package-Requires: ((emacs "24.4"))
 ;; URL: https://github.com/rnkn/olivetti
 
@@ -113,6 +113,12 @@
 ;;     M-x add-file-local-variable RET olivetti-body-width RET 66 RET
 
 ;; See (info "(emacs) File Variables")
+
+;; To automatically enable `olivetti-mode' for certain file modes, customize
+;; `auto-olivetti-enabled-modes' and activate `auto-olivetti-mode':
+
+;;     (setq-default auto-olivetti-enabled-modes '(text-mode prog-mode))
+;;     (auto-olivetti-mode)
 
 
 ;; Alternatives
@@ -495,6 +501,65 @@ body width set with `olivetti-body-width'."
 
 
 (provide 'olivetti)
+
+
+;;; Auto-Olivetti Minor Mode Definition ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defgroup auto-olivetti nil
+  "Automatically enable `olivetti-mode' in wide windows."
+  :group 'olivetti-mode
+  :prefix "auto-olivetti-")
+
+(defcustom auto-olivetti-enabled-modes '(text-mode)
+  "Modes for which `olivetti-mode' should automatically be enabled for."
+  :type '(repeat symbol))
+
+(defcustom auto-olivetti-threshold-fraction 1.3
+  "Fraction of `olivetti-body-width' at which to enable `olivetti-mode'."
+  :type 'float)
+
+(defcustom auto-olivetti-threshold-absolute 150
+  "Number of columns at which to enable `olivetti-mode'."
+  :type 'natnum)
+
+(defcustom auto-olivetti-threshold-method 'fraction
+  "How to determine if the activation threshold has been met.
+- fraction: use `auto-olivetti-threshold-fraction' * `olivetti-body-width'
+- absolute: use `auto-olivetti-threshold-absolute'"
+  :type '(choice (const fraction) (const absolute)))
+
+(defvar-local auto-olivetti--vlm-active nil
+  "Old value of `visual-line-mode' in current buffer.")
+
+(defun auto-olivetti--do-change ()
+  "Turn on or off `olivetti-mode' depending on the current window configuration."
+  (setq-local auto-olivetti--vlm-active (or olivetti--visual-line-mode
+                                            (and (not olivetti-mode) visual-line-mode)))
+  (if (and (bound-and-true-p auto-olivetti-mode)                  ; mode enabled?
+           (apply #'derived-mode-p auto-olivetti-enabled-modes)   ; in correct major-mode
+           (> (window-total-width)                                ; window big enough?
+              (if (eq auto-olivetti-threshold-method 'fraction)
+                  (* (or olivetti-body-width 80) auto-olivetti-threshold-fraction)
+                auto-olivetti-threshold-absolute)))
+      (olivetti-mode +1)
+    (when olivetti-mode
+      (olivetti-mode -1)
+      (when (bound-and-true-p auto-olivetti--vlm-active)
+        (visual-line-mode)))))
+
+;;;###autoload
+(define-minor-mode auto-olivetti-mode
+  "Automatically enable `olivetti-mode' in wide windows."
+  :global t :group 'auto-olivetti
+  (if auto-olivetti-mode
+      (add-hook 'window-configuration-change-hook 'auto-olivetti--do-change)
+    (prog2
+        (remove-hook 'window-configuration-change-hook 'auto-olivetti--do-change)
+        (olivetti-mode -1)
+      (when (bound-and-true-p auto-olivetti--vlm-active)
+        (visual-line-mode)))))
+
+(provide 'auto-olivetti)
 
 ;;; olivetti.el ends here
 
