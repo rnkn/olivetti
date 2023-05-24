@@ -507,7 +507,7 @@ body width set with `olivetti-body-width'."
 
 (defgroup auto-olivetti nil
   "Automatically enable `olivetti-mode' in wide windows."
-  :group 'olivetti-mode
+  :group 'olivetti
   :prefix "auto-olivetti-")
 
 (defcustom auto-olivetti-enabled-modes '(text-mode)

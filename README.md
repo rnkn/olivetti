@@ -94,6 +94,12 @@ Variable:
 See `(info "(emacs) File Variables")`
 
 
+To automatically enable `olivetti-mode' for certain file modes, customize
+`auto-olivetti-enabled-modes' and activate `auto-olivetti-mode':
+
+    (setq-default auto-olivetti-enabled-modes '(text-mode prog-mode))
+    (auto-olivetti-mode)
+
 Alternatives
 ------------
 
