@@ -29,6 +29,7 @@ Features
  - Customize `olivetti-fringe` face to affect only Olivetti buffers.
  - Optionally remember the state of `visual-line-mode` on entry and
    recall its state on exit.
+ - Optionally restrict to full-width windows only.
 
 Olivetti keeps everything it does buffer-local, so you can write prose
 in one buffer and code in another, side-by-side in the same frame.
@@ -82,7 +83,6 @@ ensure you can reproduce with:
 
     $ emacs -Q -l olivetti.el
 
-
 Hints
 -----
 
@@ -93,6 +93,11 @@ Variable:
 
 See `(info "(emacs) File Variables")`
 
+
+To make Olivetti only turn on when the window fills the width of the frame,
+turn on the `olivetti-only-in-full-width' variable:
+
+    (setq-default olivetti-only-in-full-width t)
 
 Alternatives
 ------------

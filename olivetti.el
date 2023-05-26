@@ -50,6 +50,7 @@
 ;;  - Customize olivetti-fringe face to affect only Olivetti buffers.
 ;;  - Optionally remember the state of visual-line-mode on entry and
 ;;    recall its state on exit.
+;;  - Optionally restrict to full-width windows only.
 
 ;; Olivetti keeps everything it does buffer-local, so you can write prose
 ;; in one buffer and code in another, side-by-side in the same frame.
@@ -113,6 +114,11 @@
 ;;     M-x add-file-local-variable RET olivetti-body-width RET 66 RET
 
 ;; See (info "(emacs) File Variables")
+
+;; To make Olivetti only turn on when the window fills the width of the frame,
+;; turn on the `olivetti-only-in-full-width' variable:
+
+;;     (setq-default olivetti-only-in-full-width t)
 
 
 ;; Alternatives
@@ -247,6 +253,13 @@ Only has any effect when `olivetti-style' is set to 'fancy."
          (when (featurep 'olivetti)
            (olivetti-reset-all-windows))))
 
+(defcustom olivetti-only-in-full-width
+  nil
+  "When true, only turn on `olivetti-mode' when the window takes up
+the entire width of the frame."
+  :type 'boolean
+  :safe 'booleanp)
+
 (defface olivetti-fringe
   '((t (:inherit fringe)))
   "Face for the fringes when `olivetti-style' is non-nil."
@@ -322,7 +335,9 @@ window."
     ;; WINDOW-OR-FRAME passed below *must* be a window
     (with-selected-window window-or-frame
       (olivetti-reset-window window-or-frame)
-      (when olivetti-mode
+      (when (and olivetti-mode
+                 (or (not olivetti-only-in-full-width)
+                     (window-full-width-p window-or-frame)))
         ;; If `olivetti-body-width' is nil, we need to calculate from
         ;; `fill-column'
         (when (null olivetti-body-width)
