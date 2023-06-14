@@ -427,7 +427,9 @@ If prefixed with ARG, incrementally increase."
     (define-key map [left-fringe mouse-1] #'mouse-set-point)
     (define-key map [right-fringe mouse-1] #'mouse-set-point)
     ;; This code is taken from https://github.com/joostkremers/visual-fill-column
-    (when (bound-and-true-p mouse-wheel-mode)
+    (when (and (bound-and-true-p mouse-wheel-mode)
+               (boundp 'mouse-wheel-down-event)
+               (boundp 'mouse-wheel-up-event))
       (define-key map (vector 'left-margin 'mouse-wheel-down-event) 'mwheel-scroll)
       (define-key map (vector 'left-margin 'mouse-wheel-up-event) 'mwheel-scroll)
       (define-key map (vector 'right-margin 'mouse-wheel-down-event) 'mwheel-scroll)
