@@ -1,8 +1,8 @@
 ;;; olivetti.el --- Minor mode for a nice writing environment -*- lexical-binding: t; -*-
 
-;; Copyright (c) 2014-2021  Paul W. Rankin
+;; Copyright (c) 2014-2023  Paul W. Rankin
 
-;; Author: Paul W. Rankin <pwr@bydasein.com>
+;; Author: Paul W. Rankin <hello@paulwrankin.com>
 ;; Keywords: wp, text
 ;; Version: 2.0.4
 ;; Package-Requires: ((emacs "24.4"))
