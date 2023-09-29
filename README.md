@@ -77,8 +77,8 @@ repository into your load-path and require as above:
 Bugs and Feature Requests
 -------------------------
 
-Send me an email (address in the package header). For bugs, please
-ensure you can reproduce with:
+Use GitHub issues or Send me an email (address in the package header).
+For bugs, please ensure you can reproduce with:
 
     $ emacs -Q -l olivetti.el
 

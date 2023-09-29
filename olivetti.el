@@ -98,8 +98,8 @@
 ;; Bugs and Feature Requests
 ;; -------------------------
 
-;; Send me an email (address in the package header). For bugs, please
-;; ensure you can reproduce with:
+;; Use GitHub issues or send me an email (address in the package header).
+;; For bugs, please ensure you can reproduce with:
 
 ;;     $ emacs -Q -l olivetti.el
 
