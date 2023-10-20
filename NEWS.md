@@ -1,20 +1,20 @@
-* Version 2.0.4
+## Version 2.0.4
 
 - Add olivetti-mode-off-hook option
 
-* Version 2.0.3
+## Version 2.0.3
 
 - Explicitly require fringe for console Emacs versions < 27
 
-* Version 2.0.2
+## Version 2.0.2
 
 - Fix option misspelling of olivetti-minimum-body-width
 
-* Version 2.0.1
+## Version 2.0.1
 
 - Fix olivetti-reset-window with cons fringe-mode value
 
-* Version 2.0.0
+## Version 2.0.0
 
 - New option olivetti-style allows a choice of window elements to
   balance text body:
@@ -41,29 +41,29 @@
   matter how stupid
 - Simplify code
 
-* Version 1.11.4
+## Version 1.11.4
 
 - On quit, only activate visual-line-mode if it was enabled before and
   not now; only deactivate visual-line-mode if it was disabled before
   and enabled. This prevents killing local variable truncate-lines.
 
-* Version 1.11.3
+## Version 1.11.3
 
 - Update copyright, email, URLs
 
-* Version 1.11.2
+## Version 1.11.2
 
 - Make set-transient-map a little more safe
 - History is now tracked in a fancy NEWS file
 
-* Version 1.11.1
+## Version 1.11.1
 
 - Fix issue when deactivating olivetti in single window with multiple
   windows with olivetti active in frame (#50)
 
 This release is not affiliated with CloudFlare DNS :)
 
-* Version 1.11.0
+## Version 1.11.0
 
 - Use olivetti-mode-on-hook to enable visual-line-mode rather than
   olivetti-enable-visual-line-mode. This option is marked obsolete and
@@ -74,47 +74,47 @@ This release is not affiliated with CloudFlare DNS :)
 
 [1] code taken from https://github.com/joostkremers/visual-fill-column
 
-* Version 1.10.0
+## Version 1.10.0
 
 - Use tradition coding style for mode map to allow for user override
   (#44)
 - Add olivetti-enable-visual-line-mode user option (defaults to true) to
   make visual lines optional (#46)
 
-* Version 1.9.5
+## Version 1.9.5
 
 - Fix an issue where calling some commands after olivetti-expand would
   break the transient keymap (#36)
 
-* Version 1.9.4
+## Version 1.9.4
 
 - Run olivetti-set-margins when changing text-scale (#37)
 
-* Version 1.9.3
+## Version 1.9.3
 
 - Add file-local variables (only affects hacking the package itself)
 
-* Version 1.9.2
+## Version 1.9.2
 
 - Fixes an edge case where rebinding olivetti-expand would break
   everything
 - Removes seq requirement and thus can run on Emacs 24.5 again
 
-* Version 1.9.1
+## Version 1.9.1
 
 - Fix compilation warnings
 
-* Version 1.9.0
+## Version 1.9.0
 
 - Allow custom key binding on olivetti-(expand|shrink)
 - Add olivetti-mode-hook as user option
 - olivetti now requires Emacs 25.3
 
-* Version 1.8.1
+## Version 1.8.1
 
 Documentation fixes
 
-* Version 1.8.0
+## Version 1.8.0
 
 - Change key bindings to match Emacs builtin commands for
   shrinking/exapanding window:
@@ -124,7 +124,7 @@ Documentation fixes
 
 - Update copyright to reflect move away from GNU ELPA
 
-* Version 1.7.1
+## Version 1.7.1
 
 - Fix for when olivetti-scale-width incorrectly assumes face height is
   always a fraction
@@ -137,13 +137,13 @@ Documentation fixes
 - Explicitly require Emacs 24.5
 - Remove olivetti-hide-mode-line -- out of scope
 
-* Version 1.6.1
+## Version 1.6.1
 
 - Change top-level customization group wp -> text
 - Change default body width to 70
 - Style refactoring
 
-* Version 1.6.0
+## Version 1.6.0
 
 - Use both post-command-hook and window-configuration-change-hook
 - Added safe custom variable properties (to ease use of file local
@@ -151,31 +151,31 @@ Documentation fixes
 - Improved dealing with fringes
 - Improvements to finding safe body width value and setting environment
 
-* Version 1.5.9
+## Version 1.5.9
 
 - Fixed an issue where environment would not be set on all frames
 - Now take into account size of window fringes #20
 
-* Version 1.5.8
+## Version 1.5.8
 
 - Adds workaround for pointless stupid changes in Emacs 26.1.
 
-* Version 1.5.7
+## Version 1.5.7
 
 - Only reset window parameter split-window if it's already
   olivetti-split-window
 
-* Version 1.5.6
+## Version 1.5.6
 
 - Fixed an issue when calling whitespace-toggle-options attempts to
   split window causing max-specpdl-size to be exceeded
 
-* Version 1.5.5
+## Version 1.5.5
 
 - Fixed multiple problems with splitting windows, but it should all work
   now
 
-* Version 1.5.3
+## Version 1.5.3
 
 Olivetti now works nicely with the improved window splitting functions
 in Emacs 25.1 without resorting to patching functions or using kludge
@@ -187,7 +187,7 @@ Also
   windows would always split horizontally).
 - Hiding the mode line is now compatible with global-eldoc-mode.
 
-* Version 1.5.2
+## Version 1.5.2
 
 - Use the newly introduce min-margins window parameter introduced in
   Emacs 25.1 to avoid Emacs thinking the window is too small for
@@ -195,7 +195,7 @@ Also
 - Fixed a possible issue where multiple windows displaying the same
   buffer would inherit smaller-than-suitable text body widths.
 
-* Version 1.5.1
+## Version 1.5.1
 
 - Adds advice to split-window-right to workaround changes in
   window-min-size introduced in Emacs 25.1 that return erronously large
@@ -204,7 +204,7 @@ Also
   with window-min-size and will hopefully be removed. See
   http://debbugs.gnu.org/24193. (#12)
 
-* Version 1.5.0
+## Version 1.5.0
 
 - Olivetti now uses [lexical binding][1]
 - Addition of olivetti-mode-map (key bindings were previously
@@ -215,7 +215,7 @@ Also
 
 [1]: https://www.gnu.org/software/emacs/manual/html_node/elisp/Lexical-Binding.html
 
-* Version 1.4.0
+## Version 1.4.0
 
 - Added a feature by @larstvei to more easily use olivetti-shrink and
   olivetti-expand by pressing [ or ] in succession:
@@ -223,7 +223,7 @@ Also
     olivetti-shrink C-c [ [ [ ...
     olivetti-expand C-c ] ] ] ...
 
-* Version 1.3.0
+## Version 1.3.0
 
 - Olivetti now acts uniformly on all windows displaying the current
   buffer.
@@ -239,16 +239,16 @@ Also
 - Fixes some bad behaviour when exiting (ref #7).
 - Added some missing docs.
 
-* Version 1.2.0
+## Version 1.2.0
 
 - Added integration with text-scale-mode (#5)
 
-* Version 1.1.1
+## Version 1.1.1
 
 - Fixed #3
 - Allow olivetti-set-width to accept any number
 
-* Version 1.1.0
+## Version 1.1.0
 
 - Made olivetti-body-width a buffer-local variable, so buffers can have
   different text body widths
@@ -258,11 +258,11 @@ Also
 - Always checks that the text body width is "safe"
 - Hard-coded visual-line-mode and removed mode hook bug
 
-* Version 1.0.1
+## Version 1.0.1
 
 - Fixes #1
 
-* Version 1.0.0
+## Version 1.0.0
 
 - Set a desired text body width to automatically resize window margins
   to keep the text comfortably in the middle of the window
