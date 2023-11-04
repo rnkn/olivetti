@@ -438,6 +438,8 @@ If prefixed with ARG, incrementally increase."
 
 ;;; Mode Definition ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(require 'face-remap)
+
 ;;;###autoload
 (define-minor-mode olivetti-mode
   "Olivetti provides a nice writing environment.
