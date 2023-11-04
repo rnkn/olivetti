@@ -21,10 +21,10 @@ INIT		= \
 all: check compile clean
 
 check:
-	emacs -Q --eval '${INIT}' --batch -f package-lint-batch-and-exit ${LISP_FILE}
+	@emacs -Q --eval '${INIT}' --batch -f package-lint-batch-and-exit ${LISP_FILE}
 
 compile: clean
-	emacs -Q --eval '${INIT}' -L . --batch -f batch-byte-compile ${LISP_FILE}
+	@emacs -Q --eval '${INIT}' -L . --batch -f batch-byte-compile ${LISP_FILE}
 
 tag-release: check compile
 	printf '%s\n' '/^## master/ s/master/${VERS}/' . w | ed -s ${NEWS_FILE}
