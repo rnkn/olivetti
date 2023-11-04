@@ -1,6 +1,6 @@
 # News
 
-## master
+## Version 2.0.5
 
 - Prevent initialize failure in console Emacs (#71).
 - Quote mouse wheel events.
