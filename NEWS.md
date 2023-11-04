@@ -2,8 +2,9 @@
 
 ## master
 
-- Prevent initialize failure in console Emacs (#71)
-- Quote mouse wheel events
+- Prevent initialize failure in console Emacs (#71).
+- Quote mouse wheel events.
+- Require `face-remap`.
 
 ## Version 2.0.4
 
