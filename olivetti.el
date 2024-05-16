@@ -284,7 +284,7 @@ if it is an integer, and otherwise return WIDTH."
   (if (consp fringe-mode)
       (set-window-fringes window (car fringe-mode) (cdr fringe-mode))
     (set-window-fringes window fringe-mode fringe-mode))
-  (set-window-margins window left-margin-width right-margin-width))
+  (set-window-margins window nil))
 
 (defun olivetti-reset-all-windows ()
   "Call `olivetti-reset-window' on all windows."
