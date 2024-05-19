@@ -482,6 +482,7 @@ body width set with `olivetti-body-width'."
     (remove-hook 'text-scale-mode-hook
                  #'olivetti-set-window t)
     (olivetti-set-buffer-windows)
+    (set-window-margins window left-margin-width right-margin-width)
     (when olivetti--face-remap
       (face-remap-remove-relative olivetti--face-remap))
     (when olivetti-recall-visual-line-mode-entry-state
