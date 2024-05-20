@@ -1,5 +1,9 @@
 # News
 
+## master
+
+- Reset window margins upon exit.
+
 ## Version 2.0.5
 
 - Prevent initialize failure in console Emacs (#71).
