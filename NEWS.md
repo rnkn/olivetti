@@ -1,6 +1,6 @@
 # News
 
-## master
+## Version 2.0.6
 
 - Reset window margins upon exit.
 
