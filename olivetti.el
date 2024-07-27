@@ -4,7 +4,7 @@
 
 ;; Author: Paul W. Rankin <rnkn@rnkn.xyz>
 ;; Keywords: wp, text
-;; Version: 2.0.5
+;; Version: 2.0.6
 ;; Package-Requires: ((emacs "24.4"))
 ;; URL: https://github.com/rnkn/olivetti
 
