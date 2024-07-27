@@ -1,8 +1,8 @@
-;;; olivetti.el --- Minor mode for a nice writing environment -*- lexical-binding: t; -*-
+;;; olivetti.el --- Minor mode to automatically balance window margins -*- lexical-binding: t; -*-
 
-;; Copyright (c) 2014-2023  Paul W. Rankin
+;; Copyright (c) 2014-2024  Paul W. Rankin
 
-;; Author: Paul W. Rankin <hello@paulwrankin.com>
+;; Author: Paul W. Rankin <rnkn@rnkn.xyz>
 ;; Keywords: wp, text
 ;; Version: 2.0.5
 ;; Package-Requires: ((emacs "24.4"))
