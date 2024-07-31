@@ -259,7 +259,7 @@ For compatibility with `text-scale-mode', if
 `face-remapping-alist' includes a :height property on the default
 face, scale WIDTH by that factor if it is a fraction, by (height/100)
 if it is an integer, and otherwise return WIDTH."
-  (let ((height (plist-get (cadr (assq 'default face-remapping-alist)) :height)))
+  (let ((height (face-attribute 'default :height nil t)))
     (when (integerp height)
       (setq height (/ height 100.0)))
     (round (* width (or height 1)))))
