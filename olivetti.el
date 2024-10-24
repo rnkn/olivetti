@@ -272,10 +272,10 @@ if it is an integer, and otherwise return WIDTH."
     (setq min-width-pix (* char-width
                            (+ olivetti-minimum-body-width
                               (% olivetti-minimum-body-width 2))))
-    (olivetti-scale-width
      (if (floatp width)
          (floor (max min-width-pix (* window-width-pix (min width 1.0))))
-       (max min-width-pix (min (* width char-width) window-width-pix))))))
+       (olivetti-scale-width
+        (max min-width-pix (min (* width char-width) window-width-pix))))))
 
 (defun olivetti-reset-window (window)
   "Remove Olivetti's parameters and margins from WINDOW."
