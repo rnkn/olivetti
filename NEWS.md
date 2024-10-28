@@ -1,5 +1,9 @@
 # News
 
+## Version 2.0.7
+
+- Only scale body width with `text-scale-mode` for integer body width
+
 ## Version 2.0.6
 
 - Reset window margins upon exit.
