@@ -496,6 +496,10 @@ body width set with `olivetti-body-width'."
 
 
 
+(with-eval-after-load 'polymode
+  (add-to-list 'polymode-move-these-minor-modes-from-old-buffer 'olivetti-mode)
+  (add-to-list 'polymode-move-these-vars-from-old-buffer 'olivetti-body-width))
+
 (provide 'olivetti)
 
 ;;; olivetti.el ends here
