@@ -263,20 +263,23 @@ if it is an integer, and otherwise return WIDTH."
       (setq height (/ height 100.0)))
     (round (* width (or height 1)))))
 
+(defun olivetti-window-width (window)
+  "Return the pixel width of WINDOW, including default margins."
+  (+ (window-body-width window t)
+     (* (frame-char-width (window-frame window))
+        (+ left-margin-width right-margin-width))))
+
 (defun olivetti-normalize-width (width window)
   "Parse WIDTH to a safe pixel value for `olivetti-body-width' for WINDOW."
   (let* ((char-width (frame-char-width (window-frame window)))
-         (window-width-pix (+ (window-body-width window t)
-                              (* char-width
-                                 (+ left-margin-width right-margin-width))))
-         min-width-pix)
-    (setq min-width-pix (* char-width
+         (window-width-pix (olivetti-window-width window))
+         (min-width-pix (* char-width
                            (+ olivetti-minimum-body-width
-                              (% olivetti-minimum-body-width 2))))
-     (if (floatp width)
-         (floor (max min-width-pix (* window-width-pix (min width 1.0))))
-       (olivetti-scale-width
-        (max min-width-pix (min (* width char-width) window-width-pix))))))
+                              (% olivetti-minimum-body-width 2)))))
+    (if (floatp width)
+        (floor (max min-width-pix (* window-width-pix (min width 1.0))))
+      (olivetti-scale-width
+       (max min-width-pix (min (* width char-width) window-width-pix))))))
 
 (defun olivetti-reset-window (window)
   "Remove Olivetti's parameters and margins from WINDOW."
@@ -327,9 +330,7 @@ window."
         (when (null olivetti-body-width)
           (setq olivetti-body-width (+ fill-column 2)))
         (let* ((char-width-pix   (frame-char-width (window-frame window-or-frame)))
-               (window-width-pix (+ (window-body-width window-or-frame t)
-                                    (* char-width-pix
-                                       (+ left-margin-width right-margin-width))))
+               (window-width-pix (olivetti-window-width window-or-frame))
                (safe-width-pix   (olivetti-normalize-width
                                   olivetti-body-width window-or-frame)))
           ;; Handle possible display of fringes
